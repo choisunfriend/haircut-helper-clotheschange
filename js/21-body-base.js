@@ -6,6 +6,10 @@
    지금: 몸은 MakeHuman 표준 인체(base.obj · CC0) 하나로 고정하고,
          그 위에 의상 메쉬만 얹었다 벗겼다 한다.
 
+   옷은 원본이 아니라 assets/fitted/의 conform 사본을 쓴다 — 기증받은 MakeClothes 에셋은
+   만든 사람의 체형에 물려 있어서 우리 표준 체형에서는 팔·배가 옷을 뚫고 나왔다.
+   tools/conform.py가 반입 단계에서 파고든 자리만 밀어내 맞춰 둔다(업체 옷도 같은 길로).
+
    좌표계 — assets의 MakeHuman 의상(suit3 · suit_dinner_jacket · fem_suit2 ·
    mens_elv_jeans2slf · mycenaean_tunic)은 전부 MakeClothes가 이 베이스 메쉬에
    맞춰 뽑은 것이라 배율 1 · 이동 0으로 그대로 맞는다. 옷을 더 넣을 때도
@@ -23,8 +27,9 @@ const BODY_BASE = {
   'neckBandUnits': 0.25,                       // 목 중심(x·z)을 잴 띠 두께 — 절단선 위쪽
                                                // (0.3을 넘기면 턱이 딸려 들어와 몸이 뒤로 밀린다)
   'skinHex': '#C2A489',
-  'clothOffset': 0.055,                        // 겉옷을 법선으로 띄우는 양(1단위=10cm)
-  'underOffset': 0.02,                         // 속/아래 겹(바지 등)
+  'clothOffset': 0.004,                        // z-파이팅만 막는 값(1단위=10cm).
+                                               // 실제 여유는 반입 때 tools/conform.py가 이미 넣었다.
+  'underOffset': 0.002,                        // 속/아래 겹(바지 등)
   'rack': true                                 // 3D 화면에 옷장 버튼을 띄운다
 };
 
@@ -32,16 +37,16 @@ const BODY_BASE = {
 /* parts: 아래에서 위 순서. under:true면 덜 띄운다(위에 겹쳐 입는 것). */
 const BODY_GARMENTS = [
   { 'id': 'bg-suit', 'name': '슈트', 'colorHex': '#2A262A',
-    'parts': [{ 'url': './assets/suit3.obj' }] },
+    'parts': [{ 'url': './assets/fitted/suit3.fitted.obj' }] },
   { 'id': 'bg-dinner', 'name': '재킷', 'colorHex': '#3A3A42',
-    'parts': [{ 'url': './assets/suit_dinner_jacket.obj' }] },
+    'parts': [{ 'url': './assets/fitted/suit_dinner_jacket.fitted.obj' }] },
   { 'id': 'bg-slim', 'name': '슬림 슈트', 'colorHex': '#4A3F46',
-    'parts': [{ 'url': './assets/fem_suit2.obj' }] },
+    'parts': [{ 'url': './assets/fitted/fem_suit2.fitted.obj' }] },
   { 'id': 'bg-tunic', 'name': '튜닉 + 청바지', 'colorHex': '#8C7A55',
-    'parts': [{ 'url': './assets/mens_elv_jeans2slf.obj', 'under': true, 'colorHex': '#3E4E6B' },
-              { 'url': './assets/mycenaean_tunic.obj' }] },
+    'parts': [{ 'url': './assets/fitted/mens_elv_jeans2slf.fitted.obj', 'under': true, 'colorHex': '#3E4E6B' },
+              { 'url': './assets/fitted/mycenaean_tunic.fitted.obj' }] },
   { 'id': 'bg-jeans', 'name': '청바지', 'colorHex': '#3E4E6B',
-    'parts': [{ 'url': './assets/mens_elv_jeans2slf.obj' }] },
+    'parts': [{ 'url': './assets/fitted/mens_elv_jeans2slf.fitted.obj' }] },
   { 'id': 'bg-none', 'name': '맨몸', 'colorHex': null, 'parts': [] }
 ];
 
