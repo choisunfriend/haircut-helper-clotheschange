@@ -407,3 +407,13 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .soft-stage:not(.stage-dark) .view-zoom{ background:rgba(20,17,15,0.72); }
 .soft-stage:not(.stage-dark) .view-zoom span{ color:var(--accent-soft); }
 .soft-stage:not(.stage-dark) .model3d-hint{ background:rgba(20,17,15,0.62) !important; color:#E7DDD0 !important; }
+
+/* 3D 화면 옷장 — 몸은 그대로 두고 옷만 갈아입는다 (21-body-base.js) */
+.bb-rack{position:absolute;left:10px;top:44px;z-index:6;display:flex;flex-direction:column;
+  gap:4px;max-width:46%;max-height:calc(100% - 96px);overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.bb-rack button{background:rgba(27,24,22,0.78);backdrop-filter:blur(4px);border:1px solid var(--line);
+  border-left:6px solid var(--line);color:var(--accent-soft);font-size:11px;line-height:1;
+  padding:6px 9px;border-radius:8px;cursor:pointer;text-align:left;white-space:nowrap;font-family:inherit;}
+.bb-rack button:hover{border-color:var(--accent);}
+.bb-rack button.on{background:var(--accent);color:#1B1816;border-color:var(--accent);font-weight:700;}
+.soft-stage:not(.stage-dark) .bb-rack button{background:rgba(27,24,22,0.88);}
