@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>결 · 바디랩 — 몸/옷 분리 테스트</title>
+<style>
+  :root{
+    --bg:#181410; --panel:#221D18; --panel2:#2B251E; --line:#3A332B;
+    --ink:#EDE4D8; --ink2:#A89886; --accent:#E8C39E; --warn:#C2685A; --ok:#7FA07A;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+    font-family:Inter,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;font-size:13px}
+  #wrap{display:flex;height:100%}
+  #stage{flex:1;position:relative;min-width:0}
+  #stage canvas{display:block}
+  #panel{width:330px;flex:none;background:var(--panel);border-left:1px solid var(--line);
+    overflow-y:auto;padding:14px 14px 40px}
+  h1{font-size:15px;margin:0 0 2px;letter-spacing:-.01em}
+  h1 b{color:var(--accent)}
+  .sub{color:var(--ink2);font-size:11px;margin-bottom:14px;line-height:1.5}
+  .grp{border:1px solid var(--line);border-radius:8px;padding:10px;margin-bottom:10px;background:var(--panel2)}
+  .grp>.t{font-size:12px;color:var(--accent);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+  .grp>.t span.n{color:var(--ink2);font-weight:400}
+  label.row{display:block;margin:7px 0}
+  label.row .lb{display:flex;justify-content:space-between;color:var(--ink2);font-size:11px;margin-bottom:3px}
+  label.row .lb b{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+  input[type=range]{width:100%;accent-color:var(--accent);height:16px}
+  button{background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:6px;
+    padding:7px 9px;font-size:12px;cursor:pointer;font-family:inherit}
+  button:hover{border-color:var(--accent)}
+  button.on{background:var(--accent);color:#231C14;border-color:var(--accent)}
+  button.wide{width:100%;margin-top:6px}
+  .btns{display:flex;gap:6px;flex-wrap:wrap}
+  .file{display:block;margin:6px 0;font-size:11px;color:var(--ink2)}
+  input[type=file]{width:100%;font-size:11px;color:var(--ink2);margin-top:3px}
+  select{width:100%;background:var(--panel);color:var(--ink);border:1px solid var(--line);
+    border-radius:6px;padding:6px;font-size:12px;font-family:inherit}
+  #log{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;line-height:1.55;color:var(--ink2);
+    max-height:150px;overflow-y:auto;white-space:pre-wrap}
+  #log .e{color:var(--warn)} #log .k{color:var(--ok)}
+  #hud{position:absolute;left:12px;top:12px;font-family:ui-monospace,monospace;font-size:11px;
+    color:var(--ink2);background:rgba(24,20,16,.72);border:1px solid var(--line);
+    border-radius:6px;padding:8px 10px;line-height:1.6;pointer-events:none}
+  #hud b{color:var(--accent);font-weight:500}
+  .note{font-size:10.5px;color:var(--ink2);line-height:1.5;margin-top:6px}
+  @media(max-width:820px){#wrap{flex-direction:column}#panel{width:100%;border-left:0;border-top:1px solid var(--line);height:52%}#stage{height:48%}}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="stage"><div id="hud"></div></div>
+  <div id="panel">
+    <h1>결 · <b>바디랩</b></h1>
+    <div class="sub">몸과 옷을 분리해서 각각 바꾸는 구조를 시험하는 곳입니다. 옷은 몸 표면에 묶이고, 체형을 바꾸면 따라옵니다.</div>
+
+    <div class="grp">
+      <div class="t">몸 <span class="n" id="bodySrc">파라메트릭</span></div>
+      <div id="paramBody">
+        <label class="row"><span class="lb">키 <b id="v_h">175 cm</b></span><input type="range" id="s_h" min="145" max="200" value="175"></label>
+        <label class="row"><span class="lb">어깨너비 <b id="v_sh">100%</b></span><input type="range" id="s_sh" min="80" max="125" value="100"></label>
+        <label class="row"><span class="lb">가슴둘레 <b id="v_ch">100%</b></span><input type="range" id="s_ch" min="78" max="135" value="100"></label>
+        <label class="row"><span class="lb">허리둘레 <b id="v_wa">100%</b></span><input type="range" id="s_wa" min="70" max="150" value="100"></label>
+        <label class="row"><span class="lb">엉덩이둘레 <b id="v_hp">100%</b></span><input type="range" id="s_hp" min="80" max="135" value="100"></label>
+        <label class="row"><span class="lb">팔 굵기 <b id="v_ar">100%</b></span><input type="range" id="s_ar" min="70" max="150" value="100"></label>
+        <label class="row"><span class="lb">목 길이 <b id="v_nk">100%</b></span><input type="range" id="s_nk" min="70" max="140" value="100"></label>
+        <label class="row"><span class="lb">몸통 두께(앞뒤) <b id="v_dp">100%</b></span><input type="range" id="s_dp" min="70" max="150" value="100"></label>
+      </div>
+      <div id="morphBody"></div>
+      <div class="btns" style="margin-top:8px">
+        <button id="btnReset">기본값</button>
+        <button id="btnBodyWire">몸 와이어</button>
+        <button id="btnBodyHide">몸 숨김</button>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="t">몸 파일 불러오기</div>
+      <label class="file">베이스 메시 (OBJ / GLB) — MakeHuman에서 내보낸 기본 체형
+        <input type="file" id="f_base" accept=".obj,.glb,.gltf"></label>
+      <label class="file">모프 타깃 (OBJ, 여러 개 선택 가능) — 같은 토폴로지의 변형 체형
+        <input type="file" id="f_morph" accept=".obj" multiple></label>
+      <button class="wide" id="btnBackParam">파라메트릭 몸으로 되돌리기</button>
+      <div class="note">모프 타깃은 베이스와 정점 개수가 같아야 합니다. MakeHuman에서 같은 프록시·같은 설정으로 내보내면 순서가 유지됩니다.</div>
+    </div>
+
+    <div class="grp">
+      <div class="t">옷 <span class="n" id="garmentCount">0벌</span></div>
+      <select id="sel_outfit"><option value="">— 없음 —</option></select>
+      <label class="file">옷 파일 추가 (OBJ / GLB, 여러 개 가능)
+        <input type="file" id="f_cloth" accept=".obj,.glb,.gltf" multiple></label>
+      <label class="row"><span class="lb">크기 <b id="v_gs">100%</b></span><input type="range" id="s_gs" min="60" max="160" value="100"></label>
+      <label class="row"><span class="lb">위아래 <b id="v_gy">0.0 cm</b></span><input type="range" id="s_gy" min="-300" max="300" value="0"></label>
+      <label class="row"><span class="lb">앞뒤 <b id="v_gz">0.0 cm</b></span><input type="range" id="s_gz" min="-150" max="150" value="0"></label>
+      <label class="row"><span class="lb">여유(옷과 몸 사이) <b id="v_cl">0.4 cm</b></span><input type="range" id="s_cl" min="0" max="40" value="4"></label>
+      <div class="btns" style="margin-bottom:6px">
+        <span style="font-size:11px;color:var(--ink2);align-self:center">묶을 부위</span>
+        <button id="pt0" class="on">몸통</button>
+        <button id="pt1" class="on">팔</button>
+        <button id="pt2">다리</button>
+        <button id="pt3">머리</button>
+      </div>
+      <div class="btns">
+        <button id="btnAutoFit">자동 맞춤</button>
+        <button id="btnBind">다시 묶기</button>
+        <button id="btnFollow" class="on">체형 따라가기</button>
+      </div>
+      <div class="note">소매 없는 상의는 “팔”을 꺼두면 옷이 팔에 끌려가지 않습니다. “자동 맞춤”은 옷 폭을 어깨너비에 맞춘 뒤 어깨 높이에 겁니다. 그 다음 “다시 묶기”로 몸 표면에 고정됩니다.</div>
+    </div>
+
+    <div class="grp">
+      <div class="t">보기</div>
+      <div class="btns">
+        <button id="btnGrid" class="on">바닥</button>
+        <button id="btnHead" class="on">머리</button>
+        <button id="btnFront">정면</button>
+        <button id="btnSide">측면</button>
+        <button id="btnShot">화면 저장</button>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="t">기록</div>
+      <div id="log"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script>
+/* =========================================================================
+   결 바디랩 — 몸(파라메트릭 또는 MakeHuman 메시) + 옷(별도 메시) 분리 시험대
+   핵심: 옷의 각 정점을 몸 삼각형에 바리센트릭+국소프레임으로 묶어두고,
+         몸이 변형되면 그 프레임을 다시 계산해 옷을 따라오게 한다.
+   ========================================================================= */
+
+const LOG = document.getElementById('log');
+function log(msg, cls){
+  const d = document.createElement('div');
+  if (cls) d.className = cls;
+  d.textContent = msg;
+  LOG.appendChild(d); LOG.scrollTop = LOG.scrollHeight;
+  if (LOG.childNodes.length > 200) LOG.removeChild(LOG.firstChild);
+}
+
+/* ---------------------------------------------------------------- 씬 */
+const stage = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({antialias:true, preserveDrawingBuffer:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setClearColor(0x181410, 1);
+stage.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(32, 1, 0.05, 50);
+camera.position.set(0.9, 1.15, 3.1);
+
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.target.set(0, 1.0, 0);
+controls.enableDamping = true; controls.dampingFactor = 0.08;
+
+scene.add(new THREE.HemisphereLight(0xEFE2D2, 0x2A231C, 0.85));
+const key = new THREE.DirectionalLight(0xFFF3E4, 0.95); key.position.set(1.4, 2.2, 2.0); scene.add(key);
+const rim = new THREE.DirectionalLight(0x9FB6C9, 0.45); rim.position.set(-1.8, 1.4, -2.0); scene.add(rim);
+
+const grid = new THREE.GridHelper(4, 16, 0x3A332B, 0x2A241D);
+grid.position.y = 0; scene.add(grid);
+
+function resize(){
+  const w = stage.clientWidth, h = stage.clientHeight;
+  renderer.setSize(w, h);
+  camera.aspect = w / Math.max(1, h); camera.updateProjectionMatrix();
+}
+addEventListener('resize', resize);
+
+/* ------------------------------------------------- 파라메트릭 몸 만들기 */
+const SEG = 28;                 // 몸통 단면 분할
+const TORSO_RINGS = 26;         // 몸통 링 개수 (엉덩이 → 목 위)
+const ARM_RINGS = 9, ARM_SEG = 12;
+const LEG_RINGS = 9, LEG_SEG = 14;
+const HEAD_LAT = 14, HEAD_LON = 18;
+
+const P = { h:175, sh:1, ch:1, wa:1, hp:1, ar:1, nk:1, dp:1 };
+
+// 몸통 프로필: t(0=엉덩이 아래, 1=목 위) → 반폭 / 반깊이 / 높이비율
+function torsoProfile(t, p){
+  const H = p.h / 100;                        // m
+  const hipY = 0.505*H, neckTopY = 0.845*H + (p.nk-1)*0.022*H;
+  const y = hipY + (neckTopY - hipY) * t;
+
+  // 키 구간별 기준 반폭 (성인 남성 평균 비율 기반)
+  const key = [
+    [0.00, 0.098, 0.082, p.hp],  // 엉덩이
+    [0.18, 0.090, 0.072, p.hp],  // 골반 위
+    [0.36, 0.083, 0.064, p.wa],  // 허리
+    [0.56, 0.098, 0.074, p.ch],  // 가슴 아래
+    [0.74, 0.112, 0.080, p.ch],  // 가슴
+    [0.88, 0.128, 0.078, p.sh],  // 어깨
+    [0.95, 0.062, 0.058, p.nk],  // 목 밑
+    [1.00, 0.050, 0.050, p.nk]   // 목 위
+  ];
+  let i = 0; while (i < key.length-2 && t > key[i+1][0]) i++;
+  const a = key[i], b = key[i+1];
+  const u = (t - a[0]) / Math.max(1e-6, b[0]-a[0]);
+  const s = u*u*(3-2*u);                       // smoothstep
+  const rw = (a[1] + (b[1]-a[1])*s) * H * (a[3] + (b[3]-a[3])*s);
+  const rd = (a[2] + (b[2]-a[2])*s) * H * (a[3] + (b[3]-a[3])*s) * p.dp;
+  return {y, rw, rd};
+}
+
+function ringPts(cx, y, cz, rw, rd, seg, out){
+  for (let i = 0; i < seg; i++){
+    const a = i / seg * Math.PI * 2;
+    out.push(cx + Math.cos(a)*rw, y, cz + Math.sin(a)*rd);
+  }
+}
+
+// 토폴로지는 고정, 위치만 다시 계산한다 → 옷 바인딩이 유지된다
+let BODY_TOPO = null;           // {indices, parts}
+function buildParamBodyPositions(p){
+  const pos = [];
+  // 1) 몸통
+  for (let r = 0; r < TORSO_RINGS; r++){
+    const t = r / (TORSO_RINGS - 1);
+    const pr = torsoProfile(t, p);
+    ringPts(0, pr.y, 0, pr.rw, pr.rd, SEG, pos);
+  }
+  const H = p.h / 100;
+  // 2) 팔 (어깨 → 손목)
+  const shPr = torsoProfile(0.88, p);
+  for (const side of [-1, 1]){
+    const x0 = side * shPr.rw * 0.88, y0 = shPr.y - 0.012*H;
+    const x1 = side * (shPr.rw * 0.88 + 0.055*H), y1 = 0.395*H;
+    for (let r = 0; r < ARM_RINGS; r++){
+      const t = r / (ARM_RINGS - 1);
+      const s = t*t*(3-2*t);
+      const cx = x0 + (x1-x0)*s, cy = y0 + (y1-y0)*t;
+      const rad = (0.040 - 0.017*t) * H * p.ar;
+      ringPts(cx, cy, 0, rad, rad*0.95, ARM_SEG, pos);
+    }
+  }
+  // 3) 다리 (엉덩이 → 발목)
+  const hpPr = torsoProfile(0.04, p);
+  for (const side of [-1, 1]){
+    const x0 = side * hpPr.rw * 0.46, x1 = side * hpPr.rw * 0.42;
+    for (let r = 0; r < LEG_RINGS; r++){
+      const t = r / (LEG_RINGS - 1);
+      const cy = hpPr.y - (hpPr.y - 0.045*H) * t;
+      const rad = (0.062 - 0.030*t) * H * (0.55 + 0.45*p.hp);
+      ringPts(x0 + (x1-x0)*t, cy, 0, rad, rad*1.05, LEG_SEG, pos);
+    }
+  }
+  // 4) 머리 (목 위에 얹힌 타원체)
+  const nkPr = torsoProfile(1.0, p);
+  const cy = nkPr.y + 0.072*H, rx = 0.074*H, ry = 0.100*H, rz = 0.090*H;
+  for (let a = 0; a <= HEAD_LAT; a++){
+    const th = a / HEAD_LAT * Math.PI;
+    for (let b = 0; b < HEAD_LON; b++){
+      const ph = b / HEAD_LON * Math.PI * 2;
+      pos.push(Math.sin(th)*Math.cos(ph)*rx, cy + Math.cos(th)*ry, Math.sin(th)*Math.sin(ph)*rz);
+    }
+  }
+  return new Float32Array(pos);
+}
+
+const PART = {TORSO:0, ARM:1, LEG:2, HEAD:3};
+let triPart = null;                      // 삼각형별 신체 부위 (파라메트릭 몸에서만)
+function buildParamBodyTopology(){
+  const idx = [];
+  const part = [];
+  let base = 0;
+  const tube = (rings, seg, pid) => {
+    for (let r = 0; r < rings-1; r++){
+      for (let i = 0; i < seg; i++){
+        const a = base + r*seg + i, b = base + r*seg + (i+1)%seg;
+        const c = a + seg, d = b + seg;
+        idx.push(a, c, b, b, c, d); part.push(pid, pid);
+      }
+    }
+    base += rings * seg;
+  };
+  tube(TORSO_RINGS, SEG, PART.TORSO);
+  tube(ARM_RINGS, ARM_SEG, PART.ARM); tube(ARM_RINGS, ARM_SEG, PART.ARM);
+  tube(LEG_RINGS, LEG_SEG, PART.LEG); tube(LEG_RINGS, LEG_SEG, PART.LEG);
+  const headStart = base;
+  for (let a = 0; a < HEAD_LAT; a++){
+    for (let b = 0; b < HEAD_LON; b++){
+      const p0 = headStart + a*HEAD_LON + b, p1 = headStart + a*HEAD_LON + (b+1)%HEAD_LON;
+      const p2 = p0 + HEAD_LON, p3 = p1 + HEAD_LON;
+      idx.push(p0, p2, p1, p1, p2, p3); part.push(PART.HEAD, PART.HEAD);
+    }
+  }
+  const headCount = (HEAD_LAT+1) * HEAD_LON;
+  return {indices: idx, headStart, headCount, part: Uint8Array.from(part)};
+}
+
+/* ------------------------------------------------------------- 몸 객체 */
+const bodyMat = new THREE.MeshStandardMaterial({
+  color:0xD9B892, roughness:0.82, metalness:0.0, side:THREE.DoubleSide, flatShading:false});
+const bodyWireMat = new THREE.MeshBasicMaterial({color:0x7A6A56, wireframe:true});
+let bodyMesh = null, bodyIsParam = true, headStart = 0, headCount = 0;
+let morphBase = null, morphTargets = [];   // 파일로 불러온 몸의 모프
+
+function setParamBody(){
+  const topo = buildParamBodyTopology();
+  headStart = topo.headStart; headCount = topo.headCount; triPart = topo.part;
+  const pos = buildParamBodyPositions(P);
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  g.setIndex(topo.indices);
+  g.computeVertexNormals();
+  if (bodyMesh) { scene.remove(bodyMesh); bodyMesh.geometry.dispose(); }
+  bodyMesh = new THREE.Mesh(g, bodyMat);
+  scene.add(bodyMesh);
+  bodyIsParam = true; morphBase = null; morphTargets = [];
+  document.getElementById('bodySrc').textContent = '파라메트릭';
+  document.getElementById('paramBody').style.display = '';
+  renderMorphSliders();
+  log('파라메트릭 몸 생성 — 정점 ' + (pos.length/3) + '개', 'k');
+}
+
+function updateParamBody(){
+  const pos = buildParamBodyPositions(P);
+  bodyMesh.geometry.attributes.position.array.set(pos);
+  bodyMesh.geometry.attributes.position.needsUpdate = true;
+  bodyMesh.geometry.computeVertexNormals();
+  bodyMesh.geometry.computeBoundingBox();
+}
+
+/* 파일로 불러온 몸 + 모프 타깃 */
+function setFileBody(geometry, name){
+  geometry = geometry.index ? geometry.toNonIndexed().clone() : geometry;
+  // 인덱스가 없으면 그대로 쓰되, 바인딩은 삼각형 단위라 문제 없다
+  if (bodyMesh) { scene.remove(bodyMesh); bodyMesh.geometry.dispose(); }
+  geometry.computeVertexNormals(); geometry.computeBoundingBox();
+  bodyMesh = new THREE.Mesh(geometry, bodyMat);
+  scene.add(bodyMesh);
+  bodyIsParam = false; triPart = null;
+  morphBase = Float32Array.from(geometry.attributes.position.array);
+  morphTargets = [];
+  headStart = -1; headCount = 0;
+  document.getElementById('bodySrc').textContent = name;
+  document.getElementById('paramBody').style.display = 'none';
+  renderMorphSliders();
+  frameCameraToBody();
+  log('몸 불러옴: ' + name + ' — 정점 ' + (morphBase.length/3) + '개', 'k');
+}
+
+function renderMorphSliders(){
+  const box = document.getElementById('morphBody');
+  box.innerHTML = '';
+  morphTargets.forEach((t, i) => {
+    const l = document.createElement('label'); l.className = 'row';
+    l.innerHTML = '<span class="lb">' + t.name + ' <b id="mv' + i + '">0%</b></span>' +
+                  '<input type="range" id="ms' + i + '" min="-100" max="100" value="0">';
+    box.appendChild(l);
+    l.querySelector('input').addEventListener('input', e => {
+      t.w = e.target.value / 100;
+      document.getElementById('mv' + i).textContent = e.target.value + '%';
+      applyMorphs();
+    });
+  });
+}
+
+function applyMorphs(){
+  if (!morphBase) return;
+  const arr = bodyMesh.geometry.attributes.position.array;
+  arr.set(morphBase);
+  for (const t of morphTargets){
+    if (!t.w) continue;
+    const d = t.delta;
+    for (let i = 0; i < arr.length; i++) arr[i] += d[i] * t.w;
+  }
+  bodyMesh.geometry.attributes.position.needsUpdate = true;
+  bodyMesh.geometry.computeVertexNormals();
+  bodyMesh.geometry.computeBoundingBox();
+  if (follow) deformGarment();
+  updateHud();
+}
+
+/* ----------------------------------------------- 옷: 바인딩과 따라가기 */
+const garments = [];        // {name, mesh, rest:Float32Array, bind:null}
+let activeGarment = null;
+let follow = true;
+let clearance = 0.004;
+
+const garmentMat = () => new THREE.MeshStandardMaterial({
+  color:0x8C94A0, roughness:0.72, metalness:0.02, side:THREE.DoubleSide});
+
+/* 몸 삼각형 목록과 공간 격자 — 가장 가까운 삼각형을 빨리 찾기 위한 것 */
+const bindParts = {0:true, 1:true, 2:false, 3:false};   // 기본: 몸통 + 팔
+function partAllowed(t){
+  if (!triPart) return true;                            // 불러온 메시는 부위를 모른다
+  return !!bindParts[triPart[t]];
+}
+function buildBodyTriIndex(){
+  const g = bodyMesh.geometry;
+  const pos = g.attributes.position.array;
+  const idx = g.index ? g.index.array : null;
+  const triCount = idx ? idx.length/3 : pos.length/9;
+  const tris = new Uint32Array(triCount*3);
+  for (let t = 0; t < triCount; t++){
+    if (idx){ tris[t*3] = idx[t*3]; tris[t*3+1] = idx[t*3+1]; tris[t*3+2] = idx[t*3+2]; }
+    else { tris[t*3] = t*3; tris[t*3+1] = t*3+1; tris[t*3+2] = t*3+2; }
+  }
+  // 격자
+  g.computeBoundingBox();
+  const bb = g.boundingBox;
+  const size = new THREE.Vector3(); bb.getSize(size);
+  const cell = Math.max(0.02, Math.max(size.x, size.y, size.z) / 48);
+  const map = new Map();
+  const ci = (x,y,z) => Math.floor(x/cell) + ',' + Math.floor(y/cell) + ',' + Math.floor(z/cell);
+  for (let t = 0; t < triCount; t++){
+    if (!partAllowed(t)) continue;
+    const a = tris[t*3]*3, b = tris[t*3+1]*3, c = tris[t*3+2]*3;
+    const cx = (pos[a]+pos[b]+pos[c])/3, cy = (pos[a+1]+pos[b+1]+pos[c+1])/3, cz = (pos[a+2]+pos[b+2]+pos[c+2])/3;
+    const k = ci(cx,cy,cz);
+    let L = map.get(k); if (!L) { L = []; map.set(k, L); }
+    L.push(t);
+  }
+  return {tris, triCount, map, cell, pos};
+}
+
+const _v = {a:new THREE.Vector3(), b:new THREE.Vector3(), c:new THREE.Vector3(),
+            p:new THREE.Vector3(), q:new THREE.Vector3(), best:new THREE.Vector3(),
+            e1:new THREE.Vector3(), e2:new THREE.Vector3(), n:new THREE.Vector3(), d:new THREE.Vector3()};
+
+const _ab = new THREE.Vector3(), _ac = new THREE.Vector3(), _ap = new THREE.Vector3(),
+      _bp = new THREE.Vector3(), _cp = new THREE.Vector3(), _bc = new THREE.Vector3();
+function closestOnTriangle(p, a, b, c, out){
+  // Ericson, Real-Time Collision Detection
+  const ab = _ab.subVectors(b,a), ac = _ac.subVectors(c,a);
+  const ap = _ap.subVectors(p,a);
+  const d1 = ab.dot(ap), d2 = ac.dot(ap);
+  if (d1 <= 0 && d2 <= 0){ out.copy(a); return [1,0,0]; }
+  const bp = _bp.subVectors(p,b);
+  const d3 = ab.dot(bp), d4 = ac.dot(bp);
+  if (d3 >= 0 && d4 <= d3){ out.copy(b); return [0,1,0]; }
+  const vc = d1*d4 - d3*d2;
+  if (vc <= 0 && d1 >= 0 && d3 <= 0){ const v = d1/(d1-d3); out.copy(a).addScaledVector(ab, v); return [1-v, v, 0]; }
+  const cp = _cp.subVectors(p,c);
+  const d5 = ab.dot(cp), d6 = ac.dot(cp);
+  if (d6 >= 0 && d5 <= d6){ out.copy(c); return [0,0,1]; }
+  const vb = d5*d2 - d1*d6;
+  if (vb <= 0 && d2 >= 0 && d6 <= 0){ const w = d2/(d2-d6); out.copy(a).addScaledVector(ac, w); return [1-w, 0, w]; }
+  const va = d3*d6 - d5*d4;
+  if (va <= 0 && (d4-d3) >= 0 && (d5-d6) >= 0){
+    const w = (d4-d3)/((d4-d3)+(d5-d6));
+    out.copy(b).addScaledVector(_bc.subVectors(c,b), w); return [0, 1-w, w];
+  }
+  const den = 1/(va+vb+vc), v = vb*den, w = vc*den;
+  out.copy(a).addScaledVector(ab, v).addScaledVector(ac, w);
+  return [1-v-w, v, w];
+}
+
+function triFrame(pos, ia, ib, ic){
+  _v.a.fromArray(pos, ia*3); _v.b.fromArray(pos, ib*3); _v.c.fromArray(pos, ic*3);
+  _v.e1.subVectors(_v.b, _v.a);
+  _v.e2.subVectors(_v.c, _v.a);
+  _v.n.crossVectors(_v.e1, _v.e2);
+  const area2 = _v.n.length();
+  _v.n.divideScalar(area2 || 1);
+  const e1 = _v.e1.clone().normalize();
+  const e2 = new THREE.Vector3().crossVectors(_v.n, e1);
+  return {e1, e2, n: _v.n.clone(), area2};
+}
+
+const BIND_K = 4;           // 정점 하나를 몸 삼각형 몇 개에 나눠 묶을지
+
+function bindGarment(g){
+  if (!bodyMesh) return;
+  const bi = buildBodyTriIndex();
+  if (!bi.map.size){ log('묶을 몸 부위가 없습니다 — 부위 버튼을 확인하세요', 'e'); return; }
+  g.mesh.updateMatrix();
+  const m = g.mesh.matrix.clone();            // 현재 배치(스케일·이동)를 반영해서 묶는다
+  const gp = g.mesh.geometry.attributes.position.array;
+  const n = gp.length/3;
+  const K = BIND_K;
+  const bind = {
+    K, tri:new Uint32Array(n*K), bary:new Float32Array(n*K*3),
+    loc:new Float32Array(n*K*3), area:new Float32Array(n*K), w:new Float32Array(n*K)
+  };
+  const p = new THREE.Vector3(), q = new THREE.Vector3();
+  const cell = bi.cell;
+  let unmatched = 0, farCount = 0;
+  const near = [];                            // {t, d, bary, q}
+
+  for (let i = 0; i < n; i++){
+    p.set(gp[i*3], gp[i*3+1], gp[i*3+2]).applyMatrix4(m);
+    let cand = null, R = 1;
+    while (R <= 8){
+      cand = [];
+      const bx = Math.floor(p.x/cell), by = Math.floor(p.y/cell), bz = Math.floor(p.z/cell);
+      for (let x = bx-R; x <= bx+R; x++)
+        for (let y = by-R; y <= by+R; y++)
+          for (let z = bz-R; z <= bz+R; z++){
+            const L = bi.map.get(x+','+y+','+z);
+            if (L) for (const t of L) cand.push(t);
+          }
+      if (cand.length >= K*4) break;
+      R++;
+    }
+    if (!cand || !cand.length){ unmatched++; continue; }
+
+    near.length = 0;
+    for (const t of cand){
+      const ia = bi.tris[t*3], ib = bi.tris[t*3+1], ic = bi.tris[t*3+2];
+      _v.a.fromArray(bi.pos, ia*3); _v.b.fromArray(bi.pos, ib*3); _v.c.fromArray(bi.pos, ic*3);
+      const bary = closestOnTriangle(p, _v.a, _v.b, _v.c, q);
+      const d = p.distanceTo(q);
+      if (near.length < K){ near.push({t, d, bary, q: q.clone()}); near.sort((x,y) => x.d - y.d); }
+      else if (d < near[K-1].d){ near[K-1] = {t, d, bary, q: q.clone()}; near.sort((x,y) => x.d - y.d); }
+    }
+    if (near[0].d > 0.25) farCount++;
+
+    // 가까울수록 크게 — 거리 역수 가중
+    let wsum = 0;
+    const ws = near.map(o => { const w = 1/(o.d*o.d + 1e-4); wsum += w; return w; });
+    for (let k = 0; k < near.length; k++){
+      const o = near[k], j = i*K + k;
+      const ia = bi.tris[o.t*3], ib = bi.tris[o.t*3+1], ic = bi.tris[o.t*3+2];
+      const f = triFrame(bi.pos, ia, ib, ic);
+      _v.d.subVectors(p, o.q);
+      bind.tri[j] = o.t;
+      bind.bary[j*3] = o.bary[0]; bind.bary[j*3+1] = o.bary[1]; bind.bary[j*3+2] = o.bary[2];
+      bind.loc[j*3]   = _v.d.dot(f.e1);
+      bind.loc[j*3+1] = _v.d.dot(f.e2);
+      bind.loc[j*3+2] = _v.d.dot(f.n);
+      bind.area[j] = Math.sqrt(f.area2) || 1;
+      bind.w[j] = ws[k] / wsum;
+    }
+    for (let k = near.length; k < K; k++) bind.w[i*K + k] = 0;
+  }
+  bind.tris = bi.tris;
+  bind.triCount = bi.triCount;
+  g.bind = bind;
+
+  // 묶은 뒤에는 옷을 월드 좌표로 다루므로 변환은 초기화한다
+  const rest = new Float32Array(gp.length);
+  for (let i = 0; i < n; i++){
+    p.set(gp[i*3], gp[i*3+1], gp[i*3+2]).applyMatrix4(m);
+    rest[i*3] = p.x; rest[i*3+1] = p.y; rest[i*3+2] = p.z;
+  }
+  g.mesh.position.set(0,0,0); g.mesh.scale.set(1,1,1); g.mesh.rotation.set(0,0,0);
+  g.mesh.updateMatrix();
+  g.mesh.geometry.attributes.position.array.set(rest);
+  g.mesh.geometry.attributes.position.needsUpdate = true;
+  g.rest = rest;
+  g._us = 1; g._uy = 0; g._uz = 0;
+
+  let msg = '묶기 완료: ' + g.name + ' — 정점 ' + n + '개';
+  if (unmatched) msg += ', 실패 ' + unmatched;
+  if (farCount) msg += ', 몸에서 25cm 넘게 뜬 정점 ' + farCount + '개';
+  log(msg, (unmatched || farCount) ? 'e' : 'k');
+  deformGarment();
+}
+
+const _dq = new THREE.Vector3(), _de2 = new THREE.Vector3(), _dacc = new THREE.Vector3();
+function deformGarment(){
+  const g = activeGarment;
+  if (!g || !g.bind || !bodyMesh) return;
+  const bpos = bodyMesh.geometry.attributes.position.array;
+  const arr = g.mesh.geometry.attributes.position.array;
+  const b = g.bind, tris = b.tris, K = b.K;
+  if (tris.length/3 !== b.triCount) return;
+  const n = arr.length/3;
+  const q = _dq, e2 = _de2, acc = _dacc;
+  for (let i = 0; i < n; i++){
+    acc.set(0,0,0);
+    let wsum = 0;
+    for (let k = 0; k < K; k++){
+      const j = i*K + k, w = b.w[j];
+      if (w <= 0) continue;
+      const t = b.tri[j];
+      const ia = tris[t*3], ib = tris[t*3+1], ic = tris[t*3+2];
+      _v.a.fromArray(bpos, ia*3); _v.b.fromArray(bpos, ib*3); _v.c.fromArray(bpos, ic*3);
+      const bu = b.bary[j*3], bv = b.bary[j*3+1], bw = b.bary[j*3+2];
+      q.set(_v.a.x*bu + _v.b.x*bv + _v.c.x*bw,
+            _v.a.y*bu + _v.b.y*bv + _v.c.y*bw,
+            _v.a.z*bu + _v.b.z*bv + _v.c.z*bw);
+      _v.e1.subVectors(_v.b, _v.a); _v.e2.subVectors(_v.c, _v.a);
+      _v.n.crossVectors(_v.e1, _v.e2);
+      const area2 = _v.n.length() || 1;
+      _v.n.divideScalar(area2);
+      const e1 = _v.e1.normalize();
+      e2.crossVectors(_v.n, e1);
+      // 삼각형이 커지면 옷도 그만큼 벌어지게 — 단 과하게 끌려가지 않도록 제한
+      let sc = Math.sqrt(area2) / (b.area[j] || 1);
+      sc = Math.max(0.7, Math.min(1.5, sc));
+      const lx = b.loc[j*3]*sc, ly = b.loc[j*3+1]*sc, lz = b.loc[j*3+2]*sc + clearance;
+      acc.x += w * (q.x + e1.x*lx + e2.x*ly + _v.n.x*lz);
+      acc.y += w * (q.y + e1.y*lx + e2.y*ly + _v.n.y*lz);
+      acc.z += w * (q.z + e1.z*lx + e2.z*ly + _v.n.z*lz);
+      wsum += w;
+    }
+    if (wsum <= 0) continue;
+    arr[i*3] = acc.x/wsum; arr[i*3+1] = acc.y/wsum; arr[i*3+2] = acc.z/wsum;
+  }
+  g.mesh.geometry.attributes.position.needsUpdate = true;
+  g.mesh.geometry.computeVertexNormals();
+}
+
+/* --------------------------------------------------------- 옷 자동 맞춤 */
+function bodyLandmarks(){
+  bodyMesh.geometry.computeBoundingBox();
+  const bb = bodyMesh.geometry.boundingBox;
+  if (bodyIsParam){
+    const sh = torsoProfile(0.88, P), hp = torsoProfile(0.04, P);
+    return {shoulderY: sh.y, shoulderHalf: sh.rw, hipY: hp.y, top: bb.max.y, bottom: bb.min.y};
+  }
+  // 불러온 메시: 높이 비율로 추정
+  const h = bb.max.y - bb.min.y;
+  return {shoulderY: bb.min.y + h*0.82, shoulderHalf: (bb.max.x-bb.min.x)*0.5*0.92,
+          hipY: bb.min.y + h*0.52, top: bb.max.y, bottom: bb.min.y};
+}
+
+function autoFitGarment(){
+  const g = activeGarment; if (!g || !bodyMesh) return;
+  const sc = placeGarment();
+  g.mesh.updateMatrix();
+  log('자동 맞춤: ' + g.name + ' — 배율 ×' + (sc || 1).toFixed(3));
+  bindGarment(g);
+}
+
+function applyUserOffsets(){
+  const g = activeGarment; if (!g) return;
+  const us = +document.getElementById('s_gs').value / 100;
+  const uy = +document.getElementById('s_gy').value / 1000;
+  const uz = +document.getElementById('s_gz').value / 1000;
+  g.mesh.scale.multiplyScalar(us / (g._us || 1));
+  g._us = us;
+  g.mesh.position.y += uy - (g._uy || 0); g._uy = uy;
+  g.mesh.position.z += uz - (g._uz || 0); g._uz = uz;
+  g.mesh.updateMatrix();
+}
+
+/* ------------------------------------------------------------ 파일 읽기 */
+function geometriesFromObject3D(obj){
+  const geos = [];
+  obj.traverse(o => { if (o.isMesh && o.geometry) {
+    const gg = o.geometry.clone();
+    o.updateWorldMatrix(true, false);
+    gg.applyMatrix4(o.matrixWorld);
+    geos.push(gg);
+  }});
+  if (!geos.length) return null;
+  if (geos.length === 1) return geos[0];
+  // 여러 메시면 위치만 이어붙인다 (비인덱스로 통일)
+  const parts = geos.map(g => g.index ? g.toNonIndexed() : g);
+  let total = 0; for (const g of parts) total += g.attributes.position.count;
+  const pos = new Float32Array(total*3);
+  let o = 0;
+  for (const g of parts){ pos.set(g.attributes.position.array, o); o += g.attributes.position.array.length; }
+  const out = new THREE.BufferGeometry();
+  out.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  return out;
+}
+
+function loadFile(file){
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file);
+    const ext = file.name.toLowerCase().split('.').pop();
+    const done = obj => { URL.revokeObjectURL(url); const g = geometriesFromObject3D(obj);
+                          g ? res(g) : rej(new Error('메시를 찾지 못했습니다')); };
+    if (ext === 'obj') new THREE.OBJLoader().load(url, done, null, e => {URL.revokeObjectURL(url); rej(e);});
+    else new THREE.GLTFLoader().load(url, gl => done(gl.scene), null, e => {URL.revokeObjectURL(url); rej(e);});
+  });
+}
+
+function loadUrl(url, name){
+  return new Promise((res, rej) => {
+    url = encodeURI(url);
+    const ext = url.toLowerCase().split('?')[0].split('.').pop();
+    const done = obj => { const g = geometriesFromObject3D(obj); g ? res(g) : rej(new Error('메시 없음')); };
+    if (ext === 'obj') new THREE.OBJLoader().load(url, done, null, rej);
+    else new THREE.GLTFLoader().load(url, gl => done(gl.scene), null, rej);
+  });
+}
+
+function addGarment(geometry, name){
+  geometry = geometry.index ? geometry.toNonIndexed() : geometry;
+  geometry.computeVertexNormals();
+  const mesh = new THREE.Mesh(geometry, garmentMat());
+  mesh.matrixAutoUpdate = true;
+  scene.add(mesh); mesh.visible = false;
+  const g = {name, mesh, bind:null, origin: Float32Array.from(geometry.attributes.position.array),
+             _us:1, _uy:0, _uz:0};
+  garments.push(g);
+  const sel = document.getElementById('sel_outfit');
+  const opt = document.createElement('option');
+  opt.value = String(garments.length-1); opt.textContent = name;
+  sel.appendChild(opt);
+  document.getElementById('garmentCount').textContent = garments.length + '벌';
+  log('옷 추가: ' + name + ' — 정점 ' + (geometry.attributes.position.count) + '개');
+  return g;
+}
+
+function selectGarment(i){
+  garments.forEach(g => g.mesh.visible = false);
+  activeGarment = (i >= 0 && garments[i]) ? garments[i] : null;
+  if (!activeGarment) return;
+  activeGarment.mesh.visible = true;
+  document.getElementById('s_gs').value = 100; document.getElementById('v_gs').textContent = '100%';
+  document.getElementById('s_gy').value = 0;   document.getElementById('v_gy').textContent = '0.0 cm';
+  document.getElementById('s_gz').value = 0;   document.getElementById('v_gz').textContent = '0.0 cm';
+  activeGarment._us = 1; activeGarment._uy = 0; activeGarment._uz = 0;
+  autoFitGarment();
+}
+
+/* ------------------------------------------------------------------ HUD */
+function updateHud(){
+  const L = bodyLandmarks();
+  const h = (L.top - L.bottom) * 100;
+  let chest = '—', waist = '—';
+  if (bodyIsParam){
+    const c = torsoProfile(0.74, P), w = torsoProfile(0.36, P);
+    const per = (a,b) => Math.PI * (3*(a+b) - Math.sqrt((3*a+b)*(a+3*b)));
+    chest = (per(c.rw, c.rd)*100).toFixed(0);
+    waist = (per(w.rw, w.rd)*100).toFixed(0);
+  }
+  document.getElementById('hud').innerHTML =
+    '키 <b>' + h.toFixed(1) + '</b> cm<br>' +
+    '어깨 <b>' + (L.shoulderHalf*200).toFixed(1) + '</b> cm<br>' +
+    '가슴 <b>' + chest + '</b> cm · 허리 <b>' + waist + '</b> cm<br>' +
+    '옷 <b>' + (activeGarment ? activeGarment.name : '없음') + '</b>';
+}
+
+/* ----------------------------------------------------------------- 조작 */
+const bindSlider = (id, vid, fmt, set) => {
+  const el = document.getElementById(id);
+  el.addEventListener('input', () => {
+    document.getElementById(vid).textContent = fmt(+el.value);
+    set(+el.value);
+    if (bodyIsParam){ updateParamBody(); if (follow) deformGarment(); }
+    updateHud();
+  });
+};
+bindSlider('s_h','v_h', v => v + ' cm', v => P.h = v);
+bindSlider('s_sh','v_sh', v => v + '%', v => P.sh = v/100);
+bindSlider('s_ch','v_ch', v => v + '%', v => P.ch = v/100);
+bindSlider('s_wa','v_wa', v => v + '%', v => P.wa = v/100);
+bindSlider('s_hp','v_hp', v => v + '%', v => P.hp = v/100);
+bindSlider('s_ar','v_ar', v => v + '%', v => P.ar = v/100);
+bindSlider('s_nk','v_nk', v => v + '%', v => P.nk = v/100);
+bindSlider('s_dp','v_dp', v => v + '%', v => P.dp = v/100);
+
+function placeGarment(){
+  const g = activeGarment; if (!g || !bodyMesh) return;
+  g.mesh.geometry.attributes.position.array.set(g.origin);
+  g.mesh.geometry.attributes.position.needsUpdate = true;
+  g.mesh.scale.set(1,1,1); g.mesh.position.set(0,0,0); g.mesh.rotation.set(0,0,0);
+  g._us = 1; g._uy = 0; g._uz = 0;
+  g.mesh.geometry.computeBoundingBox();
+  const gb = g.mesh.geometry.boundingBox, L = bodyLandmarks();
+  const s = (L.shoulderHalf*2*1.08) / Math.max(1e-6, gb.max.x - gb.min.x);
+  g.mesh.scale.set(s, s, s);
+  g.mesh.position.set(-(gb.min.x+gb.max.x)*0.5*s,
+                      L.shoulderY - gb.max.y*s + 0.015,
+                      -(gb.min.z+gb.max.z)*0.5*s);
+  applyUserOffsets();
+  return s;
+}
+
+['s_gs','s_gy','s_gz'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('input', () => {
+    const v = +el.value;
+    if (id === 's_gs') document.getElementById('v_gs').textContent = v + '%';
+    if (id === 's_gy') document.getElementById('v_gy').textContent = (v/10).toFixed(1) + ' cm';
+    if (id === 's_gz') document.getElementById('v_gz').textContent = (v/10).toFixed(1) + ' cm';
+    placeGarment();                       // 끄는 동안은 배치만 — 가볍게
+  });
+  el.addEventListener('change', () => {   // 손을 떼면 몸에 다시 묶는다
+    if (activeGarment) bindGarment(activeGarment);
+  });
+});
+
+document.getElementById('s_cl').addEventListener('input', e => {
+  clearance = +e.target.value / 1000;
+  document.getElementById('v_cl').textContent = (clearance*100).toFixed(1) + ' cm';
+  deformGarment();
+});
+
+document.getElementById('btnReset').addEventListener('click', () => {
+  Object.assign(P, {h:175, sh:1, ch:1, wa:1, hp:1, ar:1, nk:1, dp:1});
+  const d = {s_h:175, s_sh:100, s_ch:100, s_wa:100, s_hp:100, s_ar:100, s_nk:100, s_dp:100};
+  for (const k in d){ document.getElementById(k).value = d[k];
+    document.getElementById('v_' + k.slice(2)).textContent = k === 's_h' ? '175 cm' : '100%'; }
+  if (bodyIsParam){ updateParamBody(); if (follow) deformGarment(); }
+  updateHud();
+});
+
+document.getElementById('btnBodyWire').addEventListener('click', e => {
+  e.target.classList.toggle('on');
+  bodyMesh.material = e.target.classList.contains('on') ? bodyWireMat : bodyMat;
+});
+document.getElementById('btnBodyHide').addEventListener('click', e => {
+  e.target.classList.toggle('on');
+  bodyMesh.visible = !e.target.classList.contains('on');
+});
+document.getElementById('btnGrid').addEventListener('click', e => {
+  e.target.classList.toggle('on'); grid.visible = e.target.classList.contains('on');
+});
+document.getElementById('btnHead').addEventListener('click', e => {
+  e.target.classList.toggle('on');
+  const show = e.target.classList.contains('on');
+  if (!bodyIsParam || headStart < 0) return;
+  const g = bodyMesh.geometry;
+  g.setDrawRange(0, show ? g.index.count : g.index.count - HEAD_LAT*HEAD_LON*6);
+});
+document.getElementById('btnFollow').addEventListener('click', e => {
+  e.target.classList.toggle('on'); follow = e.target.classList.contains('on');
+  if (follow) deformGarment();
+});
+[0,1,2,3].forEach(i => {
+  document.getElementById('pt' + i).addEventListener('click', e => {
+    e.target.classList.toggle('on');
+    bindParts[i] = e.target.classList.contains('on');
+    if (activeGarment) bindGarment(activeGarment);
+  });
+});
+document.getElementById('btnBind').addEventListener('click', () => { if (activeGarment) bindGarment(activeGarment); });
+document.getElementById('btnAutoFit').addEventListener('click', autoFitGarment);
+document.getElementById('btnFront').addEventListener('click', () => {
+  camera.position.set(0, 1.05, 3.2); controls.target.set(0, 1.0, 0);
+});
+document.getElementById('btnSide').addEventListener('click', () => {
+  camera.position.set(3.2, 1.05, 0); controls.target.set(0, 1.0, 0);
+});
+document.getElementById('btnShot').addEventListener('click', () => {
+  renderer.render(scene, camera);
+  const a = document.createElement('a');
+  a.download = 'bodylab.png'; a.href = renderer.domElement.toDataURL('image/png'); a.click();
+});
+document.getElementById('sel_outfit').addEventListener('change', e => {
+  selectGarment(e.target.value === '' ? -1 : +e.target.value);
+  updateHud();
+});
+document.getElementById('btnBackParam').addEventListener('click', () => {
+  setParamBody(); if (activeGarment) autoFitGarment(); updateHud();
+});
+
+document.getElementById('f_base').addEventListener('change', async e => {
+  const f = e.target.files[0]; if (!f) return;
+  try { setFileBody(await loadFile(f), f.name); if (activeGarment) autoFitGarment(); updateHud(); }
+  catch (err) { log('몸 불러오기 실패: ' + err.message, 'e'); }
+});
+
+document.getElementById('f_morph').addEventListener('change', async e => {
+  if (!morphBase){ log('먼저 베이스 메시를 불러오세요', 'e'); return; }
+  for (const f of e.target.files){
+    try {
+      const g = await loadFile(f);
+      const p = g.index ? g.toNonIndexed().attributes.position.array : g.attributes.position.array;
+      if (p.length !== morphBase.length){
+        log('건너뜀 ' + f.name + ' — 정점 수가 다릅니다 (' + (p.length/3) + ' vs ' + (morphBase.length/3) + ')', 'e');
+        continue;
+      }
+      const delta = new Float32Array(p.length);
+      for (let i = 0; i < p.length; i++) delta[i] = p[i] - morphBase[i];
+      morphTargets.push({name: f.name.replace(/\.obj$/i,''), delta, w:0});
+      log('모프 추가: ' + f.name, 'k');
+    } catch (err) { log('모프 실패 ' + f.name + ': ' + err.message, 'e'); }
+  }
+  renderMorphSliders();
+});
+
+document.getElementById('f_cloth').addEventListener('change', async e => {
+  for (const f of e.target.files){
+    try { addGarment(await loadFile(f), f.name.replace(/\.(obj|glb|gltf)$/i,'')); }
+    catch (err) { log('옷 실패 ' + f.name + ': ' + err.message, 'e'); }
+  }
+  const sel = document.getElementById('sel_outfit');
+  sel.value = String(garments.length-1); selectGarment(garments.length-1); updateHud();
+});
+
+function frameCameraToBody(){
+  bodyMesh.geometry.computeBoundingBox();
+  const bb = bodyMesh.geometry.boundingBox;
+  const c = new THREE.Vector3(); bb.getCenter(c);
+  const s = new THREE.Vector3(); bb.getSize(s);
+  const d = Math.max(s.x, s.y, s.z) * 2.1;
+  controls.target.copy(c);
+  camera.position.set(c.x + d*0.28, c.y + d*0.06, c.z + d);
+}
+
+/* ------------------------------------------------------------------ 시작 */
+setParamBody();
+resize();
+updateHud();
+
+// 저장소에 이미 있는 옷만 있는 메시를 기본으로 시도한다
+(async () => {
+  const seeds = [
+    ['./assets/T Shirt by Nour - oZOt671DyI.glb', '티셔츠'],
+    ['./assets/Jacket by Polygonal Mind - eeKk3ObCbf.glb', '재킷']
+  ];
+  for (const [url, name] of seeds){
+    try { addGarment(await loadUrl(url, name), name); }
+    catch (e) { log('기본 옷 없음: ' + name, 'e'); }
+  }
+  if (garments.length){
+    document.getElementById('sel_outfit').value = '0';
+    selectGarment(0); updateHud();
+  } else {
+    log('assets 폴더의 옷을 찾지 못했습니다 — 파일로 직접 올려주세요');
+  }
+})();
+
+(function loop(){
+  requestAnimationFrame(loop);
+  controls.update();
+  renderer.render(scene, camera);
+})();
+</script>
+</body>
+</html>
