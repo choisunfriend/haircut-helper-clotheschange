@@ -16,9 +16,13 @@
 const CURL_BUNDLE = {
   on: true,
   rodK: 1.0,         // 번들 폭 = 로드 지름 × rodK (1.0 = 로드 실치수)
-  microAmp: 0.02,    // 번들 안에서 가닥별 진폭 흔들림 (0이면 완전 판때기)
-  microPhase: 0.03,  // 번들 안에서 가닥별 위상 흔들림 (rad)
-  phaseStep: 0.55,   // 이웃 번들끼리 벌어지는 위상 (rad) — 판이 갈라져 보이는 정도
+  // 나선 크기. 1 모델단위 = 180mm(두상 반폭 0.417단위 ≈ 75mm 기준).
+  // rodR 0.02~0.07단위 = 로드 반경 3.6~12.6mm = 지름 7~25mm — 실제 로드와 맞다.
+  // 코일 반경은 감긴 로드의 반경을 넘을 수 없으므로 rodScale은 1을 넘기면 안 된다.
+  // 호길이 10.6cm 기준 기하학적 바퀴수 = 106mm / (π×지름) = 1.3~4.7바퀴.
+  rodScale: 1.0,     // 나선반경 배율 (≤1 유지)
+  pitchScale: 0.3,   // 피치 배율 — 이걸 낮춰야 바퀴수가 기하학적 상한에 붙는다
+phaseStep: 0.55,   // 이웃 번들끼리 벌어지는 위상 (rad) — 판이 갈라져 보이는 정도
   phaseJitter: 0.35, // 번들 위상에 섞는 난수 폭 (rad)
   ramp: 0.12,        // 뿌리 쪽에서 진폭이 0→1 되는 구간 (스파인 길이 비율)
   minSamples: 24,
@@ -28,7 +32,7 @@ const CURL_BUNDLE = {
 
 const _curlBundleCache = new Map();
 let _curlBundleGen = -1;
-let _curlBundleStats = { bundles: 0, strands: 0 };
+let _curlBundleStats = { bundles: 0, strands: 0, R: 0, pitch: 0, turnSum: 0, turnN: 0 };
 
 function _cbGen() {
   try { return (typeof ADJ_CACHE !== 'undefined' && ADJ_CACHE.gen) | 0; } catch (e) { return 0; }
@@ -81,7 +85,7 @@ function curlBundleField(root, pts, curl, waveNorm, curlDir) {
   if (gen !== _curlBundleGen) {
     _curlBundleCache.clear();
     _curlBundleGen = gen;
-    _curlBundleStats = { bundles: 0, strands: 0 };
+    _curlBundleStats = { bundles: 0, strands: 0, R: 0, pitch: 0, turnSum: 0, turnN: 0 };
   }
   const id = cell.i + '|' + cell.j + '|' + curl.toFixed(1) + '|' + waveNorm.toFixed(3) + '|' + (curlDir | 0);
   const hit = _curlBundleCache.get(id);
@@ -89,8 +93,8 @@ function curlBundleField(root, pts, curl, waveNorm, curlDir) {
   if (hit) return hit;
 
   const amp01 = Math.pow(Math.max(0, Math.min(100, curl)) / 100, CURL3D_FIX.ampGamma);
-  const R = rodR * Math.pow(amp01, CURL3D_FIX.radiusGamma);
-  const pitch = rodR * (2.6 - 2.28 * amp01);
+  const R = rodR * Math.pow(amp01, CURL3D_FIX.radiusGamma) * CURL_BUNDLE.rodScale;
+  const pitch = rodR * (2.6 - 2.28 * amp01) * CURL_BUNDLE.pitchScale;
   const turnLen = Math.sqrt(R * R + pitch * pitch) || 1e-4;
   if (!(R > 1e-9) || !(pitch > 1e-9)) return null;
 
@@ -127,9 +131,9 @@ function curlBundleField(root, pts, curl, waveNorm, curlDir) {
   const refSpine = refArc * (pitch / turnLen);
 
   const field = { cell, R, pitch, turnLen, u, v, phase, rampLen: Math.max(1e-6, refSpine * CURL_BUNDLE.ramp) };
-  if (_curlBundleCache.size > 20000) { _curlBundleCache.clear(); _curlBundleStats = { bundles: 0, strands: 0 }; }
+  if (_curlBundleCache.size > 20000) { _curlBundleCache.clear(); _curlBundleStats = { bundles: 0, strands: 0, R: 0, pitch: 0, turnSum: 0, turnN: 0 }; }
   _curlBundleCache.set(id, field);
-  _curlBundleStats.bundles++;
+  _curlBundleStats.bundles++, _curlBundleStats.R = R, _curlBundleStats.pitch = pitch;
   return field;
 }
 
@@ -151,6 +155,7 @@ curlStrand3D = function (pts, curl, waveNorm, curlDir) {
   const spineLen = arc * (f.pitch / f.turnLen);
   const totalAngle = arc / f.turnLen;
   const turns = totalAngle / (2 * Math.PI);
+  _curlBundleStats.turnSum += turns, _curlBundleStats.turnN++;
   const N = Math.max(CURL_BUNDLE.minSamples, Math.min(CURL_BUNDLE.maxSamples, Math.ceil(turns * 14) + 2));
 
   // 가닥 자신의 호길이 테이블
@@ -179,12 +184,29 @@ curlStrand3D = function (pts, curl, waveNorm, curlDir) {
 };
 
 function curlBundleHarness() {
-  const n = state && state.hair3Dneutral && state.hair3Dneutral.strands;
-  console.log('[펌·번들] ' + (CURL_BUNDLE.on ? 'ON' : 'OFF')
-    + ' · 번들 ' + _curlBundleStats.bundles + '개 / 가닥 ' + _curlBundleStats.strands + '개'
-    + ' · 번들당 평균 ' + (_curlBundleStats.bundles ? (_curlBundleStats.strands / _curlBundleStats.bundles).toFixed(1) : 0) + '가닥'
-    + '\n  번들당 1~2가닥이면 로드가 너무 작은 것입니다 — 웨이브 폭(로드 사이즈)을 올리거나 CURL_BUNDLE.rodK를 키우십시오.'
-    + '\n  끄고 비교: CURL_BUNDLE.on=false 후 슬라이더를 살짝 움직이면 다시 그립니다.'
-    + (n ? '' : '\n  (중립 모델 없음 — 조정 화면까지 진행한 뒤 부르십시오.)'));
-  return _curlBundleStats;
+  const st = _curlBundleStats;
+  let a = 0;
+  try { a = getHeadEllipsoid().a; } catch (e) {}
+  const pctR = a > 0 ? (st.R / a * 100) : 0;
+  const turns = st.turnN ? st.turnSum / st.turnN : 0;
+  const perBundle = st.bundles ? st.strands / st.bundles : 0;
+
+  const lines = [];
+  lines.push('[펌·번들] ' + (CURL_BUNDLE.on ? 'ON' : 'OFF')
+    + ' · 번들 ' + st.bundles + '개 / 가닥 ' + st.strands + '개'
+    + ' · 번들당 평균 ' + perBundle.toFixed(1) + '가닥');
+  lines.push('  나선반경 <b>' + pctR.toFixed(0) + '%</b> (두상 반폭 대비) · 가닥당 <b>' + turns.toFixed(2) + '바퀴</b>'
+    + ' · 배율 rodScale ' + CURL_BUNDLE.rodScale + ' / pitchScale ' + CURL_BUNDLE.pitchScale);
+  lines.push('  읽는 법 — 반경은 로드 굵기(웨이브 폭 슬라이더), 바퀴수는 <b>호길이 ÷ 로드 둘레</b>로 정해집니다.'
+    + ' 머리가 짧으면 큰 로드로는 바퀴수가 안 나옵니다 — 그때는 웨이브 폭을 <b>낮춰야</b> 합니다.');
+  if (!st.bundles) lines.push('  ⚠ 컬이 걸린 섹션이 없습니다(전부 curl 0) — 컬 슬라이더를 올리고 다시 부르십시오.');
+  else {
+    if (pctR < 5) lines.push('  ⚠ 반경이 5% 미만이라 직모와 구분이 안 됩니다 — 컬을 올리거나 웨이브 폭을 키우십시오(rodScale은 1을 넘기지 말 것: 코일이 로드보다 굵어집니다).');
+    if (turns < 1) lines.push('  ⚠ 가닥당 1바퀴 미만이라 웨이브가 아니라 한 번 꺾인 선으로 보입니다 — 웨이브 폭을 낮추거나 CURL_BUNDLE.pitchScale을 낮추십시오.');
+    if (turns > 5) lines.push('  ⚠ 너무 촘촘해서 뭉개집니다 — 웨이브 폭을 키우거나 pitchScale을 올리십시오.');
+    if (perBundle < 2) lines.push('  ⚠ 번들당 1~2가닥이면 묶임 효과가 없습니다 — 웨이브 폭(로드 사이즈)이나 CURL_BUNDLE.rodK를 키우십시오.');
+  }
+  lines.push('  끄고 비교: CURL_BUNDLE.on=false 후 슬라이더를 살짝 움직이면 다시 그립니다.');
+  console.log(lines.join('\\n'));
+  return { bundles: st.bundles, perBundle: +perBundle.toFixed(1), radiusPct: +pctR.toFixed(1), turns: +turns.toFixed(2) };
 }
