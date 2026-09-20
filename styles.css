@@ -180,7 +180,7 @@ main{flex:1;position:relative;overflow:hidden;}
 #devMini3DClose{background:none;border:none;color:var(--accent-soft);font-size:13px;cursor:pointer;padding:0 2px;line-height:1;}
 #devMini3DClose:hover{color:var(--accent);}
 /* 미리보기를 끄면 그 구석에 앉는 켜기 딱지 — #devMini3D와 같은 자리다. */
-#devMini3DOpen{display:none;position:absolute;right:8px;bottom:8px;z-index:60;
+#devMini3DOpen{display:none;position:absolute;right:8px;bottom:48px;z-index:80;
   background:rgba(74,70,62,0.95);border:1px solid #6b6252;border-radius:10px;
   color:var(--accent-soft);font-size:11px;font-weight:600;padding:7px 11px;cursor:pointer;
   box-shadow:0 4px 16px rgba(0,0,0,0.4);}
