@@ -29,41 +29,46 @@
   var SB = G.STYLE_BASE = G.STYLE_BASE || {};
   SB.on = true;
   SB.LEN_EXT = 200;          // 길이 실제 값 상한 (예전 100)
-  // 3D 명암(깊이 차폐·밝기 상한·결 하이라이트) — 미용 기법이 아니라 그리는 품질이라 막대 없이 모든 스타일에 켭니다.
-  SB.shade = { ao: 0.42, lumCap: 1.3, spec: 0.22, specPow: 60 };
   /* _volHash 부호 버그 수정 범위
    *  원래 식 h ^= h>>>16 뒤 h/2^32 가 음수가 되어 0~1 대신 −0.5~0.5 를 돌려줍니다.
    *  → 볼륨 노이즈 배수 평균 0.55(최소 0.1), 삐침머리 판정(h<0.25)이 ~75% 가닥에 걸려 끝을 안으로 당김.
    *  false = 프로필이 걸린 스타일에서만 고침(다른 스타일은 지금 보이는 그대로)
    *  true  = 모든 스타일에서 고침(다른 스타일도 볼륨이 커집니다 — 확인 후 켜세요) */
-  SB.fixVolHashAll = true;   // 막대만으로 모양을 만들려면 모든 스타일에서 고쳐져 있어야 합니다
-  SB.PARAM_KEYS = ['length', 'elevation', 'texture', 'density', 'overdirection', 'line', 'curl', 'wave', 'curlDir',
-    'base', 'define', 'volShare', 'volPoint', 'weight'];
+  SB.fixVolHashAll = false;
+  SB.PARAM_KEYS = ['length', 'elevation', 'texture', 'density', 'overdirection', 'line', 'curl', 'wave', 'curlDir'];
 
   /* 스타일별 엔진 프로필 — 키는 STYLE_SPECS 의 id (또는 커스텀 스타일의 profileId) */
   SB.profiles = {
     wavy_bob_seethrough: {
       label: 'Wavy bob · See-through bangs · Chunky curls',
-      // 막대로 옮긴 값(베이스 폭·컬 정리감·부피감·볼륨 위치·처짐·로드 굵기)은 여기서 빼고 스펙에 섹션별로 넣었습니다.
-      // 여기 남은 건 막대가 없는 엔진 설정뿐입니다.
       config: {
+        // 굴곡: 가는 전화선 코일 → 덩어리로 같이 움직이는 굵은 S웨이브
         CURL_BUNDLE: {
+          clumpPull: 0.7,      // 0.3 → 번들로 뭉침
+          phaseJitter: 0.45,   // 1.2 → 번들 안 가닥이 같은 위상
           microAmp: 0.04,      // 잔곱슬 줄임
           microPhase: 0.15,
-          relax: 1.2,          // 코일 반경 약간 줄임 (늘어난 용수철 방지)
-          pitchThick: 1.4      // 굵은 로드에서 파장이 너무 길어지지 않게 (한 바퀴 ≈ 6cm)
+          relax: 1.2,          // 1.45 → 코일 반경 약간 줄임 (늘어난 용수철 방지)
+          pitchThick: 1.4,     // 3.5 → 굵은 로드에서 파장이 너무 길어지지 않게 (한 바퀴 ≈ 6cm)
+          rodK: 0.8            // 번들 칸 = 로드×0.8 ≈ 2.4cm (레퍼런스 덩어리 폭)
         },
-        CURL3D_FIX: { ampGamma: 0.7 },   // 컬 50 → 진폭 0.62
-        VOLUME3D: { AMP: 0.18 },
+        CURL3D_FIX: { ampGamma: 0.7 },   // 컬 50 → 진폭 0.62 (예전 0.5)
+        // 볼륨: 가운데(볼·귀 높이)가 제일 넓고 끝은 안으로
+        VOLUME3D: {
+          AMP: 0.18, tipHold: 0.55,
+          secK: { crown: 1.2, front: 0.6, temple: 0.9, side: 1.0, occipital: 1.0, nape: 0.5 }
+        },
+        GRAV3D: { curlK: 0.8 },          // 컬 머리는 덜 처짐 → 길이·볼륨 유지
         HAIR_FIELD3D: { maxAlign: 0.4 }, // 원래 사진(곧은 머리) 결에 덜 끌림 — 중립 재빌드 필요
         MANNEQUIN: { lenPct: 0.9 },      // 어깨 따라간 이상치 가닥 제외
         MQ_FRINGE: {
-          tipFaceFrac: -0.1,     // 앞머리 기장 막대 가운데의 기준선: 눈썹과 눈 사이
+          tipFaceFrac: -0.1,     // 앞머리 끝: 눈높이 → 눈썹과 눈 사이
           crownAllAround: false  // 크라운을 눈썹 높이에서 "한 바퀴 전부" 자르던 것 → 앞쪽만 자름
-        },
+        },                       //  (이게 켜져 있으면 크라운 길이를 아무리 늘려도 눈썹 아래로 못 내려옴)
         HAIR_DYE: { sMax: 1.3, highlightK: 0.6, glossDesat: 0.7 } // 원본 광택띠가 은색 철사로 번지는 것 억제
       },
-      volBase: 1.0,    // 볼륨 막대 50 = AMP×1.0 만큼 부풂
+      rodScale: 2.0,   // curlRodRadius × — 웨이브 50 에서 로드 ≈ 3.4cm, 코일 지름 ≈ 2.5cm
+      volBase: 1.0,    // 볼륨 슬라이더 50 = AMP×1.0 만큼 부풂
       after: { front: { curl: 20 } },   // 시스루 앞머리는 거의 곧은 C컬
       shade: { ao: 0.42, lumCap: 1.3, spec: 0.22, specPow: 60 },
       silhouette: {   // 레퍼런스 사진 실측(약 25° 돌아간 사진이라 정면 근사치)
@@ -75,18 +80,8 @@
       },
       specPatch: function (spec) {
         spec.cut.front.density = 20;
-        spec.perm.wave = 92;          // 로드 ≈ 3.4cm (굵은 로드)
+        spec.perm.wave = 50;
         spec.styling.volume = 50;
-        // 펌·세팅 섹션별 기준값 (막대 숫자 그대로)
-        var set = {
-          crown:     { base: 20, define: 70, volShare: 60, volPoint: 25, weight: 25 },
-          front:     { base: 20, define: 70, volShare: 35, volPoint: 25, weight: 25 },
-          temple:    { base: 20, define: 70, volShare: 64, volPoint: 25, weight: 25 },
-          side:      { base: 20, define: 70, volShare: 67, volPoint: 25, weight: 25 },
-          occipital: { base: 20, define: 70, volShare: 59, volPoint: 25, weight: 25 },
-          nape:      { base: 20, define: 70, volShare: 50, volPoint: 25, weight: 25 }
-        };
-        for (var sec in set) if (spec.cut[sec]) Object.assign(spec.cut[sec], set[sec]);
       }
     }
   };
@@ -310,7 +305,7 @@
    * 5. 3D 헤어 음영 (깊이 차폐 · 밝기 상한 · 결 하이라이트)
    * ---------------------------------------------------------------------- */
   function shadeHairObject(obj) {
-    var sh = (SB.active && SB.active.shade) || SB.shade;
+    var sh = SB.active && SB.active.shade;
     if (!sh || !obj || !obj.geometry) return obj;
     var g = obj.geometry, P = g.attributes.position, C = g.attributes.color;
     if (!P || !C || P.count < 4) return obj;
@@ -358,99 +353,6 @@
   }
 
   /* ------------------------------------------------------------------------
-   * 5-1. 미용 기법 막대 (섹션별)
-   *   펌   · 베이스 폭   — 로드 하나에 감는 모발 폭. 넓을수록 컬 덩어리가 큼
-   *   세팅 · 컬 정리감   — 컬크림·에센스로 결을 모은 정도
-   *        · 부피감      — 이 섹션이 두상에서 뜨는 정도
-   *        · 볼륨 위치   — 부피가 뿌리/중간/모발 끝 중 어디에 실리나
-   *        · 처짐        — 모발 무게로 내려앉는 정도
-   *   커트 · 앞머리 기장 — 앞머리 섹션의 "길이" 막대 이름을 미용 용어로 (동작은 원래 앞머리선 계산)
-   *   각 막대의 기본값은 "예전 엔진값과 똑같은 결과"가 나오는 숫자입니다 → 다른 스타일은 안 변합니다.
-   * ---------------------------------------------------------------------- */
-  var NEW_PARAMS = {
-    perm: [
-      { key: 'base', label: '베이스 폭', hint: '로드 하나에 감는 모발 폭 · 넓을수록 컬 덩어리가 큼', min: 0, max: 100, unit: '%' }
-    ],
-    set: [
-      { key: 'define',   label: '컬 정리감', hint: '컬크림·에센스로 결을 모은 정도 · 낮으면 부스스', min: 0, max: 100, unit: '%' },
-      { key: 'volShare', label: '부피감',    hint: '이 섹션이 두상에서 뜨는 정도',                 min: 0, max: 100, unit: '%' },
-      { key: 'volPoint', label: '볼륨 위치', hint: '뿌리 ↔ 모발 끝 · 끝쪽일수록 밑단이 퍼짐',      min: 0, max: 100, unit: '%' },
-      { key: 'weight',   label: '처짐',      hint: '모발 무게로 내려앉는 정도 · 낮을수록 컬이 뜸',  min: 0, max: 100, unit: '%' }
-    ]
-  };
-  // 예전 엔진값과 같은 결과가 나오는 기본 숫자
-  var NEW_DEFAULTS = { base: 55, define: 30, volShare: 50, volPoint: 50, weight: 50 };
-  var VOL_SECK0 = null;   // 섹션별 예전 부피 배수(VOLUME3D.secK)
-
-  function secVal(sec, key) {
-    var S = st(), o = S && S.sections && S.sections[sec];
-    var v = o && o[key];
-    return typeof v === 'number' && isFinite(v) ? v : NEW_DEFAULTS[key];
-  }
-  // 막대 → 엔진 값
-  SB.map = {
-    rodK:        function (b) { return 0.4 + 0.02 * b; },                  // 55 → 1.5(예전) · 20 → 0.8
-    clumpPull:   function (d) { return d / 100; },                        // 30 → 0.3(예전)
-    phaseJitter: function (d) { return Math.max(0.1, 1.6 - 1.4 * d / 100); }, // 30 → 1.18 ≈ 예전 1.2
-    secK:        function (v, sec) { return (VOL_SECK0 && VOL_SECK0[sec] != null ? VOL_SECK0[sec] : 1) * v / 50; },
-    ramp:        function (p) { return 0.3 + (p - 50) / 50 * 0.2; },      // 50 → 0.3(예전)
-    tipHold:     function (p) { return 0.8 + (p - 50) / 50 * 0.5; },      // 50 → 0.8(예전)
-    curlK:       function (w) { return 0.35 + (50 - w) / 50 * 0.9; }      // 50 → 0.35(예전) · 25 → 0.8
-  };
-
-  function withTemp(obj, vals, fn) {
-    if (!obj) return fn();
-    var old = {};
-    for (var k in vals) { old[k] = obj[k]; obj[k] = vals[k]; }
-    try { return fn(); } finally { for (var k2 in old) obj[k2] = old[k2]; }
-  }
-
-  function installParams() {
-    // 그룹·막대 정의
-    try {
-      var perm = GYEOL_GROUPS.find(function (g) { return g.id === 'perm'; });
-      NEW_PARAMS.perm.forEach(function (p) { if (perm && !perm.params.some(function (q) { return q.key === p.key; })) perm.params.push(p); });
-      if (!GYEOL_GROUPS.some(function (g) { return g.id === 'set'; })) {
-        var ci = GYEOL_GROUPS.findIndex(function (g) { return g.id === 'color'; });
-        var grp = { id: 'set', title: '세팅', sub: '드라이·제품 마무리', color: 'var(--gy-perm)', optional: true, params: NEW_PARAMS.set };
-        if (ci < 0) GYEOL_GROUPS.push(grp); else GYEOL_GROUPS.splice(ci, 0, grp);
-      }
-    } catch (e) { console.warn(TAG + ' 막대 그룹 추가 실패', e); }
-    try {
-      if (typeof GY_ALL_PARAMS !== 'undefined') {
-        if (GY_ALL_PARAMS.perm.indexOf('base') < 0) GY_ALL_PARAMS.perm.push('base');
-        GY_ALL_PARAMS.set = NEW_PARAMS.set.map(function (p) { return p.key; });
-      }
-    } catch (e) {}
-    // 조정 캐시 서명에 새 값 포함 (막대를 움직이면 다시 계산되도록)
-    try {
-      Object.keys(NEW_DEFAULTS).forEach(function (k) { if (ADJ_GEO_SECTION_KEYS.indexOf(k) < 0) ADJ_GEO_SECTION_KEYS.push(k); });
-    } catch (e) {}
-    // 섹션 기본값
-    try {
-      for (var sec in SECTIONS) {
-        var d = SECTIONS[sec].defaults || (SECTIONS[sec].defaults = {});
-        for (var k in NEW_DEFAULTS) if (typeof d[k] !== 'number') d[k] = NEW_DEFAULTS[k];
-      }
-      var S = st();
-      if (S && S.sections) for (var s2 in S.sections) for (var k3 in NEW_DEFAULTS) if (typeof S.sections[s2][k3] !== 'number') S.sections[s2][k3] = NEW_DEFAULTS[k3];
-    } catch (e) {}
-    // 영어 화면용 번역
-    try {
-      if (typeof I18N !== 'undefined') Object.assign(I18N, {
-        '세팅': 'Setting', '드라이·제품 마무리': 'Blow-dry & product finish',
-        '베이스 폭': 'Base width', '로드 하나에 감는 모발 폭 · 넓을수록 컬 덩어리가 큼': 'Hair wound per rod · wider = chunkier curls',
-        '컬 정리감': 'Curl definition', '컬크림·에센스로 결을 모은 정도 · 낮으면 부스스': 'How much product groups the curls · low = frizzy',
-        '부피감': 'Lift', '이 섹션이 두상에서 뜨는 정도': 'How far this section stands off the head',
-        '볼륨 위치': 'Volume point', '뿌리 ↔ 모발 끝 · 끝쪽일수록 밑단이 퍼짐': 'Root ↔ ends · toward ends = flared hem',
-        '처짐': 'Weight', '모발 무게로 내려앉는 정도 · 낮을수록 컬이 뜸': 'How much the hair drops under its weight',
-        '앞머리 기장': 'Fringe length', '눈썹 위 ↔ 눈 아래': 'Above brows ↔ below eyes'
-      });
-    } catch (e) {}
-    try { VOL_SECK0 = clone((CFG.VOLUME3D() || {}).secK) || null; } catch (e) {}
-  }
-
-  /* ------------------------------------------------------------------------
    * 6. 래퍼 설치
    * ---------------------------------------------------------------------- */
   function wrap(name, make) {
@@ -464,7 +366,6 @@
   }
 
   function install() {
-    installParams();
     snapshotDefaults();
     lastMqSig = sigOf(MQ_KEYS);
 
@@ -479,70 +380,12 @@
       };
     });
 
-    // 로드 굵기: 웨이브 폭 0~75 는 예전 그대로, 75~100 은 굵은 로드(최대 4cm)까지 늘림
-    SB.ROD_MAX_CM = 4.0;
+    // 컬 로드 굵기 배율
     wrap('curlRodRadius', function (f) {
-      return function (w) {
-        var r = f.apply(this, arguments);
-        if (!SB.on || !(w > 0.75)) return r;
-        var r75 = f.call(this, 0.75);
-        var cpu = (G.CURL_BUNDLE && G.CURL_BUNDLE.cmPerUnit) || 19.33;
-        var rMax = Math.max(r75, SB.ROD_MAX_CM / 2 / cpu);
-        return r75 + (Math.min(1, w) - 0.75) / 0.25 * (rMax - r75);
-      };
-    });
-
-    // 섹션을 아는 곳(adjustStrandGeom)에서 지금 섹션을 기억 → 섹션을 모르는 계산들이 막대 값을 씀
-    var CUR_SEC = null;
-    wrap('adjustStrandGeom', function (f) {
-      return function (strand) {
-        var prev = CUR_SEC; CUR_SEC = strand && strand.sec || null;
-        try { return f.apply(this, arguments); } finally { CUR_SEC = prev; }
-      };
-    });
-    SB._asSec = function (sec, fn) { var p = CUR_SEC; CUR_SEC = sec; try { return fn(); } finally { CUR_SEC = p; } };  // 점검용
-    // 펌 · 베이스 폭 / 세팅 · 컬 정리감
-    wrap('curlStrand3D', function (f) {
       return function () {
-        if (!SB.on || !CUR_SEC || !G.CURL_BUNDLE) return f.apply(this, arguments);
-        var self = this, args = arguments, b = secVal(CUR_SEC, 'base'), d = secVal(CUR_SEC, 'define');
-        return withTemp(G.CURL_BUNDLE, { rodK: SB.map.rodK(b), clumpPull: SB.map.clumpPull(d), phaseJitter: SB.map.phaseJitter(d) },
-          function () { return f.apply(self, args); });
-      };
-    });
-    // 세팅 · 처짐
-    wrap('gravityDroop3D', function (f) {
-      return function () {
-        var g = CFG.GRAV3D();
-        if (!SB.on || !CUR_SEC || !g) return f.apply(this, arguments);
-        var self = this, args = arguments;
-        return withTemp(g, { curlK: SB.map.curlK(secVal(CUR_SEC, 'weight')) }, function () { return f.apply(self, args); });
-      };
-    });
-    // 세팅 · 부피감 / 볼륨 위치
-    wrap('volumeStrand3D', function (f) {
-      return function (pts, vol, sec) {
-        var v = CFG.VOLUME3D(), sc = sec || CUR_SEC;
-        if (!SB.on || !sc || !v) return f.apply(this, arguments);
-        var self = this, args = arguments, vp = secVal(sc, 'volPoint');
-        var secK = Object.assign({}, v.secK || {}); secK[sc] = SB.map.secK(secVal(sc, 'volShare'), sc);
-        return withTemp(v, { secK: secK, RAMP: SB.map.ramp(vp), tipHold: SB.map.tipHold(vp) }, function () { return f.apply(self, args); });
-      };
-    });
-
-    // 전체 섹션 화면에 '세팅' 묶음 추가
-    wrap('buildGyAllControls', function (f) {
-      return function (host) {
         var r = f.apply(this, arguments);
-        try {
-          var grp = GYEOL_GROUPS.find(function (g) { return g.id === 'set'; });
-          if (grp && typeof gyAllGroup === 'function' && host) {
-            var el = gyAllGroup(grp, function (body) { GY_ALL_PARAMS.set.forEach(function (k) { body.appendChild(gyAllRangeCtrl(k)); }); });
-            var note = host.lastElementChild;
-            if (note && note.className === 'section-affects') host.insertBefore(el, note); else host.appendChild(el);
-          }
-        } catch (e) { console.warn(TAG + ' 전체 화면 세팅 묶음 실패', e); }
-        return r;
+        var k = SB.on && SB.active && SB.active.rodScale;
+        return k ? r * k : r;
       };
     });
 
@@ -652,11 +495,6 @@
         try {
           var S = st(), eff = S.sections[sec][def.key];
           var inp = el.querySelector('input[type=range]');
-          if (sec === 'front' && def.key === 'length') {   // 커트 · 앞머리 기장
-            var lb = el.querySelector('.gy-ctrl-label'), hn = el.querySelector('.gy-ctrl-hint');
-            if (lb) lb.textContent = '앞머리 기장';
-            if (hn) hn.textContent = '눈썹 위 ↔ 눈 아래';
-          }
           if (inp && typeof eff === 'number') inp.value = toPos(sec, def.key, eff, def);
         } catch (e) {}
         return el;
@@ -758,7 +596,7 @@
       };
     });
 
-    console.log(TAG + ' 설치 완료 — 새 막대: 펌·베이스 폭 / 세팅·컬 정리감·부피감·볼륨 위치·처짐 / 커트·앞머리 기장 · 스타일 설정 ' + Object.keys(SB.profiles).join(', ') + ' · 끄기 STYLE_BASE.on=false');
+    console.log(TAG + ' 설치 완료 — 프로필 ' + Object.keys(SB.profiles).join(', ') + ' · 길이 상한 ' + SB.LEN_EXT + ' · 끄기 STYLE_BASE.on=false');
   }
 
   SB._shade = shadeHairObject;   // 점검용
@@ -772,7 +610,7 @@
     };
   };
 
-  /* 새 스타일 프로필 추가용:  STYLE_BASE.addProfile('spec_id', { config:{...}, volBase, after, shade, specPatch }) */
+  /* 새 스타일 프로필 추가용:  STYLE_BASE.addProfile('spec_id', { config:{...}, rodScale, volBase, after, shade }) */
   SB.addProfile = function (id, prof) {
     SB.profiles[id] = prof;
     snapshotDefaults();
