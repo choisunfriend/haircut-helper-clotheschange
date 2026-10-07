@@ -418,8 +418,9 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .soft-stage:not(.stage-dark) .model3d-hint{ background:rgba(20,17,15,0.62) !important; color:#E7DDD0 !important; }
 
 /* 3D 화면 옷장 — 몸은 그대로 두고 옷만 갈아입는다 (21-body-base.js) */
-.bb-rack{position:absolute;left:10px;top:44px;z-index:6;display:flex;flex-direction:column;
-  gap:4px;max-width:46%;max-height:calc(100% - 96px);overflow-y:auto;-webkit-overflow-scrolling:touch;}
+/* (2026-10-08 합치기) 옷장을 헤어핀 막대(29-hairpin-3d.js · 왼쪽 위 top:60px, 폰에서는 두 줄) 아래로 내림 — 예전 top:44px는 헤어핀 버튼과 겹침 */
+.bb-rack{position:absolute;left:10px;top:136px;z-index:6;display:flex;flex-direction:column;
+  gap:4px;max-width:46%;max-height:calc(100% - 196px);overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .bb-rack button{background:rgba(27,24,22,0.78);backdrop-filter:blur(4px);border:1px solid var(--line);
   border-left:6px solid var(--line);color:var(--accent-soft);font-size:11px;line-height:1;
   padding:6px 9px;border-radius:8px;cursor:pointer;text-align:left;white-space:nowrap;font-family:inherit;}
