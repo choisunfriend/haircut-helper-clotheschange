@@ -145,6 +145,7 @@
     nativeCurl: 40,      // 잰 컬이 이 값 이상이면 원본 = 다시 기른 머리(42번이 결 정렬을 끄는 기준과 같은 값) · 0 = 컬과 무관하게 마네킹+표
     natResMax: 75,       // 도: 가닥이 제 결에서 벗어나 있던 각을 이만큼까지만 인정(거꾸로 간 가닥은 이 각으로 눌림)
     natLenMin: 0.25, natLenMax: 4,   // 길이 배수(스타일 길이 ÷ 제 칸 길이)의 한도
+    smallFrac: 0.25,     // (i) 몸통 가닥 수가 보통 칸(중앙값)의 이 비율 미만인 무리는 같은 쪽으로 가는 큰 이웃의 방향을 따름 · 0 = 끔
     saveComb: true,      // (h) 스타일 등록 때 빗질·넘기기(53번)를 건 가닥으로 표를 뽑음 — 넘긴 모양이 스타일에 들어감 · false = 빗기 전 모양으로(예전)
     natTail: 1.1, natTailFull: 2,    // (g) 늘릴 때: 제 칸보다 긴 가닥도 스타일 칸 길이의 natTail배까지만(배수 natTailFull 이상에서 온전히) · 0 = 안 누름
     nativeWaitMs: 25000, // 다시 기르기를 이만큼 기다려도 안 끝나면 마네킹 방식으로 겁니다
@@ -331,6 +332,39 @@
         g.d = Array.prototype.slice.call(nd); nLone++;
       });
     }
+    // (2026-10-08i) 작은 무리는 이웃을 따름 — 원본 가닥이 몇 올뿐인 칸(헤어라인 가장자리 등)의 결은 그 몇 올의 잡음인데, 마네킹은 그 칸에도 가닥을 고르게 심어서
+    //   잔머리 몇 올이 "따로 내려오는 줄"로 불어납니다(실제: 긴 직모 원본 머리에서 몸통 옆으로 나란히 내려오는 가닥 대여섯 올 · 넘기기로도 안 눕음 —
+    //   갈라지는 자리가 몸통 속이라서). 몸통 가닥 수가 보통 칸의 smallFrac 미만인 무리는, 같은 쪽으로 가는(smoothDot 이상) "작지 않은" 이웃 무리가 있으면
+    //   제 방향을 버리고 그 이웃들의 방향을 씁니다(길이는 제 것 그대로). 같은 쪽 이웃이 없는 작은 무리(성긴 앞머리 등)는 그대로 둡니다.
+    var nSmall = 0;
+    if (cfg.smallFrac > 0) {
+      var allCore = []; out.forEach(function (c) { c.cl.forEach(function (g) { allCore.push(g.core); }); });
+      var smallN = Math.max(cfg.minCell + 1, qv(allCore, 0.5) * cfg.smallFrac), sf = [];
+      out.forEach(function (c) {
+        c.cl.forEach(function (g) {
+          if (g.core >= smallN) return;
+          var grp = [], dx, dy, dz, nc, k, x;
+          for (dz = -1; dz <= 1; dz++) for (dy = -1; dy <= 1; dy++) for (dx = -1; dx <= 1; dx++) {
+            if (!dx && !dy && !dz) continue;
+            nc = cmap.get(keyOf(c.ix + dx, c.iy + dy, c.iz + dz)); if (!nc) continue;
+            for (k = 0; k < nc.cl.length; k++) { x = nc.cl[k]; if (x.core >= smallN && compat(g, x) >= cfg.smoothDot) grp.push([x, WN[Math.abs(dx) + Math.abs(dy) + Math.abs(dz)]]); }
+          }
+          if (grp.length) sf.push([g, grp]);
+        });
+      });
+      sf.forEach(function (u) {
+        var g = u[0], grp = u[1], nbn = g.nbn, nd = new Float32Array(nbn * 3), e = [0, 0, 0], e2 = [0, 0, 0], bb, o, i2, x, w, wn, last;
+        for (i2 = 0; i2 < grp.length; i2++) {
+          x = grp[i2][0]; w = Math.min(x.core, 40) * grp[i2][1];
+          for (bb = 0; bb < nbn; bb++) { o = bb * 3; last = Math.min(bb, x.nbn - 1) * 3; nd[o] += w * x.d[last]; nd[o + 1] += w * x.d[last + 1]; nd[o + 2] += w * x.d[last + 2]; }
+          e[0] += w * x.e[0]; e[1] += w * x.e[1]; e[2] += w * x.e[2]; e2[0] += w * x.e2[0]; e2[1] += w * x.e2[1]; e2[2] += w * x.e2[2];
+        }
+        for (bb = 0; bb < nbn; bb++) { o = bb * 3; wn = Math.sqrt(nd[o] * nd[o] + nd[o + 1] * nd[o + 1] + nd[o + 2] * nd[o + 2]); if (!(wn > 1e-6)) { nd[o] = g.d[o]; nd[o + 1] = g.d[o + 1]; nd[o + 2] = g.d[o + 2]; } else { nd[o] /= wn; nd[o + 1] /= wn; nd[o + 2] /= wn; } }
+        wn = Math.hypot(e[0], e[1], e[2]); if (wn > 1e-6) g.e = [e[0] / wn, e[1] / wn, e[2] / wn];
+        wn = Math.hypot(e2[0], e2[1], e2[2]); if (wn > 1e-6) g.e2 = [e2[0] / wn, e2[1] / wn, e2[2] / wn];
+        g.d = Array.prototype.slice.call(nd); nSmall++;
+      });
+    }
     for (pi = 0; pi < (cfg.smoothPasses | 0); pi++) {
       var upd = [];
       out.forEach(function (c) {
@@ -360,7 +394,7 @@
     }
     // 길이 분포(5자리)는 고른 길이 둘레의 좁은 띠로 — 가닥마다 ±lenVar만 다름
     out.forEach(function (c) { c.cl.forEach(function (g) { var v = cfg.lenVar; g.q = [g.L * (1 - v), g.L * (1 - v / 2), g.L, g.L * (1 + v / 2), g.L * (1 + v)]; }); });
-    return { cs: cs, bin: bin, nb: nb, cells: out, stats: { strands: recs.length, used: nUsed, cells: out.length, split: nSplit, skipped: nSkipCell, maxLen: maxLen, tailCells: nTail, mixed: nMixed, lone: nLone } };
+    return { cs: cs, bin: bin, nb: nb, cells: out, stats: { strands: recs.length, used: nUsed, cells: out.length, split: nSplit, skipped: nSkipCell, maxLen: maxLen, tailCells: nTail, mixed: nMixed, lone: nLone, small: nSmall } };
   }
 
   /* ------------------------------------------------------------------------------------------------------------
@@ -1061,6 +1095,7 @@
     else {
       var cm = b.cm, s = b.stats, f = b.fid;
       L.push(TAG + ' 다시 기른 가닥 ' + s.strands + '개에서 뽑음(' + b.at + ' · ' + Math.round(b.ms) + 'ms) — 두피 칸 ' + s.cells + '개(가닥이 ' + FS.minCell + '개 미만이라 뺀 칸 ' + s.skipped + ') · 그중 두 무리로 가른 칸(가르마 등) ' + s.split + ' · 두 무리가 섞여 있어 큰 무리만 쓴 칸 ' + (s.mixed || 0) + ' · 혼자 다른 쪽으로 가서 이웃을 따르게 한 칸 ' + (s.lone || 0) +
+        ' · 가닥이 적어(보통 칸의 ' + Math.round(FS.smallFrac * 100) + '% 미만) 큰 이웃의 결을 따르게 한 무리 ' + (s.small || 0) +
         ' · 표에 넣은 가닥(칸의 결과 같은 쪽으로 가는 몸통만) ' + s.used + '개(' + Math.round(s.used / Math.max(1, s.strands) * 100) + '% — 나머지는 잔머리·엇나간 가닥이라 뺌) · 혼자 길어서 누른 칸 ' + (s.tailCells || 0) +
         ' · 길이 칸 ' + b.nb + ' · 스펙에 싣는 크기 ' + Math.round(b.bytes / 1024) + 'KB');
       if (f && f.n) L.push('    표로 다시 만든 가닥 ↔ 원래 가닥(' + f.n + '개 표본 · 길이는 원래 길이로): 가닥 전체 평균 거리 ' + (f.meanMed * cm).toFixed(1) + 'cm(중앙값) · ' + (f.meanP90 * cm).toFixed(1) + 'cm(90%) | 끝 거리 ' +
