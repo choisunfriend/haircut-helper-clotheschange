@@ -176,15 +176,6 @@ main{flex:1;position:relative;overflow:hidden;}
   padding:4px 8px;font-size:11px;font-weight:600;color:var(--accent-soft);
   background:rgba(0,0,0,0.35);flex-shrink:0;}
 #devMini3DExpand{background:none;border:none;color:var(--accent-soft);font-size:14px;cursor:pointer;padding:0 2px;}
-.mini3d-btns{display:flex;align-items:center;gap:2px;}
-#devMini3DClose{background:none;border:none;color:var(--accent-soft);font-size:13px;cursor:pointer;padding:0 2px;line-height:1;}
-#devMini3DClose:hover{color:var(--accent);}
-/* 미리보기를 끄면 그 구석에 앉는 켜기 딱지 — #devMini3D와 같은 자리다. */
-#devMini3DOpen{display:none;position:absolute;right:8px;bottom:48px;z-index:80;
-  background:rgba(74,70,62,0.95);border:1px solid #6b6252;border-radius:10px;
-  color:var(--accent-soft);font-size:11px;font-weight:600;padding:7px 11px;cursor:pointer;
-  box-shadow:0 4px 16px rgba(0,0,0,0.4);}
-#devMini3DOpen:hover{border-color:var(--accent);color:var(--accent);}
 #devMini3DCanvasWrap{flex:1;position:relative;min-height:0;}
 #devMini3DCanvasWrap canvas{width:100%;height:100%;display:block;touch-action:none;}
 #devMini3DHint{font-size:9px;color:var(--text-muted);text-align:center;padding:2px;flex-shrink:0;}
@@ -196,6 +187,14 @@ main{flex:1;position:relative;overflow:hidden;}
 #devMini3D.expanded #devMini3DLegend{gap:4px 12px;padding:6px;}
 #devMini3D.expanded #devMini3DLegend .lg{font-size:11px;gap:5px;}
 #devMini3D.expanded #devMini3DLegend .sw{width:10px;height:10px;}
+.mini3d-btns{display:flex;align-items:center;gap:2px;}
+#devMini3DClose{background:none;border:none;color:var(--accent-soft);font-size:13px;cursor:pointer;padding:0 2px;line-height:1;}
+#devMini3DClose:hover{color:var(--accent);}
+#devMini3DOpen{display:none;position:absolute;right:8px;bottom:48px;z-index:80;
+  background:rgba(74,70,62,0.95);border:1px solid #6b6252;border-radius:10px;
+  color:var(--accent-soft);font-size:11px;font-weight:600;padding:7px 11px;cursor:pointer;
+  box-shadow:0 4px 16px rgba(0,0,0,0.4);}
+#devMini3DOpen:hover{border-color:var(--accent);color:var(--accent);}
 .preview-tag{
   position:absolute;top:10px;left:10px;
   background:rgba(27,24,22,0.75);backdrop-filter:blur(4px);
@@ -416,9 +415,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .soft-stage:not(.stage-dark) .view-zoom{ background:rgba(20,17,15,0.72); }
 .soft-stage:not(.stage-dark) .view-zoom span{ color:var(--accent-soft); }
 .soft-stage:not(.stage-dark) .model3d-hint{ background:rgba(20,17,15,0.62) !important; color:#E7DDD0 !important; }
-
-/* 3D 화면 옷장 — 몸은 그대로 두고 옷만 갈아입는다 (21-body-base.js) */
-/* (2026-10-08 합치기) 옷장을 헤어핀 막대(29-hairpin-3d.js · 왼쪽 위 top:60px, 폰에서는 두 줄) 아래로 내림 — 예전 top:44px는 헤어핀 버튼과 겹침 */
 .bb-rack{position:absolute;left:10px;top:136px;z-index:6;display:flex;flex-direction:column;
   gap:4px;max-width:46%;max-height:calc(100% - 196px);overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .bb-rack button{background:rgba(27,24,22,0.78);backdrop-filter:blur(4px);border:1px solid var(--line);
@@ -428,20 +424,14 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .bb-rack button.on{background:var(--accent);color:#1B1816;border-color:var(--accent);font-weight:700;}
 .soft-stage:not(.stage-dark) .bb-rack button{background:rgba(27,24,22,0.88);}
 .bb-rack button.muted{opacity:0.45;}
-
-/* 3D 화면 위 알림 (bodyToast) */
 .bb-toast{position:absolute;left:50%;bottom:52px;transform:translateX(-50%);z-index:22;
   max-width:80%;background:rgba(20,17,15,0.92);border:1px solid var(--line);
   color:var(--accent-soft);font-size:12px;line-height:1.5;padding:8px 14px;border-radius:10px;
   text-align:center;pointer-events:none;backdrop-filter:blur(4px);}
-
-/* 쇼핑몰에서 온 옷일 때 뜨는 구매 칸 */
 .bb-rack .bb-buy{display:block;background:var(--accent);color:#1B1816;border:1px solid var(--accent);
   font-size:11px;line-height:1.2;padding:6px 9px;border-radius:8px;text-decoration:none;
   font-weight:700;text-align:left;}
 .bb-rack .bb-buy:hover{filter:brightness(1.08);}
-
-/* 의상 고르기 패널 — 3D 화면 위에 덮어 띄운다 (21-body-base.js openShopPanel) */
 .bb-shop{position:absolute;left:0;top:0;right:0;bottom:0;z-index:20;display:flex;flex-direction:column;
   background:rgba(20,17,15,0.96);backdrop-filter:blur(2px);}
 .bb-shop-bar{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:8px;
