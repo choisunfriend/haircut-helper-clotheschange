@@ -37,7 +37,7 @@
   'use strict';
   var W = window, TAG = '[잔머리 정리]';
   var F = W.FLY_TRIM = Object.assign({
-    on: true, auto: true, brush: true,
+    on: true, auto: false, brush: true,   // (2026-10-10) auto 끔 — 사용자: "제한을 두면 안 돼". 결을 잡고 있어 뜨는 머리가 없으니, 몸통 밖으로 나간 컬 고리·꼬리를 저절로 자르지 않음(떨어진 타래가 잘려 나가던 것). 빗질로 쓸 때만 자름. 예전대로 FLY_TRIM.auto=true
     minCurl: 30,        // 섹션 컬 평균이 이 이상일 때만
     cell: 0.07,         // 몸통을 보는 칸(모델 단위 ≈ 1.3cm)
     minStrands: 3,      // 칸을 지나는 가닥이 이만큼은 돼야 몸통

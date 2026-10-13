@@ -37,7 +37,8 @@
       return hc >= 6;
     } catch (e) { return false; }
   }
-  var B = W.STRAND_BUDGET = Object.assign({ on: true, total: 30000, adjustLow: 10000, adjustHigh: 25000, keepAll: ['front', 'temple'] }, W.STRAND_BUDGET || {});
+  var B = W.STRAND_BUDGET = Object.assign({ on: true, total: 30000, adjustLow: 10000, adjustHigh: 20000,   // (2026-10-12n) 조정 화면만 다시 줄임(마네킹 켜고 끌 때마다 전부 다시 계산 · 폰에서 꺼짐) — 3D 결과 화면은 total 3만 그대로 · 예전(오전) 30000/30000   // (2026-10-12) 사용자: "원래 수준대로 3만 가닥 가까이" — 조정 화면도 줄이지 않음(예전 10000 / 25000)
+  keepAll: ['front', 'temple'] }, W.STRAND_BUDGET || {});
   B.highEnd = highEnd();
   if (!(B.adjust > 0)) B.adjust = B.highEnd ? B.adjustHigh : B.adjustLow;
   var S = B.stats = { lastAdjust: 0, lastFull: 0, bySec: null };

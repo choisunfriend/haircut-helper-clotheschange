@@ -49,6 +49,7 @@
   var W = window, TAG = '[원본 대조]';
   var P = W.PHOTO_CHECK = Object.assign({
     on: true,
+    exportCols: 480,    // (2026-10-10a) 내보내기에 싣는 사진 칸(머리 영역·결) — 경계를 보려고 비교 칸보다 촘촘히
     cols: 200,          // 비교 칸: 사진 가로를 이 수로 나눔(800px 사진이면 칸 4px)
     tolCm: 0.6,         // 넘침·빔으로 치지 않는 여유(윤곽선 근처의 이 두께는 같다고 봄)
     extRun: 3,          // 윤곽 끝(위/아래/좌/우)을 잴 때 그 줄에 머리 칸이 이만큼은 있어야 끝으로 침(한두 가닥은 무시)
@@ -513,6 +514,122 @@
   };
   P.refresh = function () { ver++; redraw(); };
 
+  /* ────────────────────────────────────────────────────────────────────────
+   * (2026-10-08c) 진단 데이터 내보내기 — 영상과 진단 글만으로는 "어느 가닥이 왜 따로 노는가"를 짐작으로만 고칠 수 있었습니다
+   *   (사용자: "뜬 머리가 아직 있고, 할 때마다 바뀌어"). 지금 이 손님의 머리 데이터를 파일 하나로 저장해 보내면, 같은 데이터를 그대로 돌려서 원인을 찾을 수 있습니다.
+   *   담는 것: 두상 치수 · 다시 기른 가닥(점은 하나 걸러) · 마네킹 뿌리 · 지금 걸린 결 표 · 지금 화면에 그려진 가닥 · 사진별 카메라 값과 머리 영역·결(칸 단위) · 섹션/스타일링 값 · 빗질 획 수.
+   *   안 담는 것: 사진 원본 · 얼굴(머리 영역의 윤곽과 결 방향만 칸 단위로 들어갑니다).
+   *   형식: 'GYDBG1\n' + 머리말 길이(uint32 LE) + 머리말(JSON) + 묶음들(머리말의 parts에 자리·형식). 브라우저가 되면 gzip.
+   * ────────────────────────────────────────────────────────────────────── */
+  var QS = 8192;                               // 좌표 → int16 배율(±4 모델 단위)
+  function q16(v) { v = Math.round(v * QS); return v < -32767 ? -32767 : v > 32767 ? 32767 : v; }
+  function packStrands(list, stride, secIdx) {
+    var n = list.length, cnt = new Uint16Array(n), sec = new Uint8Array(n), fl = new Uint8Array(n), tot = 0, i, k, p, m, keep;
+    for (i = 0; i < n; i++) { p = list[i] && list[i].pts; m = p ? p.length : 0; keep = m ? (stride > 1 ? Math.floor((m - 1) / stride) + 1 + ((m - 1) % stride ? 1 : 0) : m) : 0; if (keep > 65535) keep = 65535; cnt[i] = keep; tot += keep; }
+    var D = new Int16Array(tot * 3), o = 0, e, w;
+    for (i = 0; i < n; i++) {
+      e = list[i]; p = e && e.pts; if (!p) continue; m = p.length; w = 0;
+      for (k = 0; k < m && w < cnt[i]; k += stride) { D[o++] = q16(p[k].x); D[o++] = q16(p[k].y); D[o++] = q16(p[k].z); w++; }
+      if (w < cnt[i]) { D[o++] = q16(p[m - 1].x); D[o++] = q16(p[m - 1].y); D[o++] = q16(p[m - 1].z); w++; }      // 끝점은 꼭
+      sec[i] = secIdx ? secIdx(e.sec) : 255; fl[i] = (e.mannequin ? 1 : 0) | (e.fringe ? 2 : 0) | (e.regrown ? 4 : 0);
+    }
+    return { cnt: cnt, sec: sec, fl: fl, D: D.subarray(0, o) };
+  }
+  P.buildExport = function () {
+    var parts = [], bufs = [], off = 0, G = W.REGROW, FSx = W.FLOW_SPEC, C3 = W.COMB3D, env = getEnv(), cams = getCams();
+    function add(name, arr, extra) { var u = new Uint8Array(arr.buffer, arr.byteOffset, arr.byteLength); parts.push(Object.assign({ name: name, off: off, len: u.length, type: arr.constructor.name }, extra || {})); bufs.push(u); off += u.length; if (off % 2) { bufs.push(new Uint8Array(1)); off++; } }
+    var order = []; try { order = SECTION_ORDER.slice(); } catch (e) {}
+    function secIdx(s) { var i = order.indexOf(s); return i < 0 ? 255 : i; }
+    var H = { magic: 'GYDBG', v: 1, at: new Date().toISOString(), ua: (typeof navigator !== 'undefined' ? navigator.userAgent : ''), qs: QS, env: env, sections: null, styling: null, order: order, notes: [] };
+    try { H.sections = JSON.parse(JSON.stringify(state.sections)); H.styling = JSON.parse(JSON.stringify(state.stylingByView || state.styling || null)); H.fade = state.fade || null; H.view = state.currentViewAngle; } catch (e) {}
+    try { H.mq = !!MANNEQUIN.on; H.specApplied = state.specAppliedId || null; H.curl = state._globalCurl; } catch (e) {}
+    try { H.native = FSx && FSx.nativeState ? { id: FSx.nativeState.id, shaped: FSx.nativeState.shaped } : null; } catch (e) {}
+    try { H.comb = C3 ? { samples: C3.samples.length, sweeps: C3.sweeps ? C3.sweeps.length : 0, level: C3.sweepLevel } : null; } catch (e) {}
+    try { H.cfg = FSx ? JSON.parse(JSON.stringify(FSx, function (k, v) { return (typeof v === 'function' || k === 'stats' || k === '_core' || k === 'nativeState' || k === '_st') ? undefined : v; })) : null; } catch (e) {}
+    try { H.pc = { trim: P.trim, fixDir: P.fixDir }; } catch (e) {}
+    // 다시 기른 가닥(점은 하나 걸러)
+    try { if (G && G.model && G.model.strands && G.model.strands.length) { var rg = packStrands(G.model.strands, 2, secIdx); add('rg.cnt', rg.cnt); add('rg.sec', rg.sec); add('rg.pts', rg.D, { stride: 2 }); H.regrown = { n: G.model.strands.length, on: !!G.on, CY: G.model.CY }; } else H.notes.push('다시 기른 모델 없음'); } catch (e) { H.notes.push('rg: ' + e.message); }
+    // (2026-10-10a) 다시 기른 가닥마다 멈춘 이유·두피 위/밖 길이 등(42번 rg) + 걸음 기록(REGROW.trace를 켜고 기른 경우) + 사진에서 잰 뿌리 밀도
+    try {
+      if (G && G.model && G.model.strands && G.model.strands.length) {
+        var ms = G.model.strands, nm = ms.length, STOP = { mask: 1, cap: 2, tip: 3, max: 4 }, MI = new Uint8Array(nm * 4), MF = new Float32Array(nm * 8), tr = [], trIdx = [], trLen = 0, j3, g3;
+        for (j3 = 0; j3 < nm; j3++) {
+          g3 = ms[j3] && ms[j3].rg; if (!g3) continue;
+          MI[j3 * 4] = STOP[g3.stop] || 0; MI[j3 * 4 + 1] = g3.free ? 1 : 0; MI[j3 * 4 + 2] = g3.est0 | 0; MI[j3 * 4 + 3] = g3.trace ? 1 : 0;
+          MF[j3 * 8] = g3.sOn || 0; MF[j3 * 8 + 1] = g3.sFree || 0; MF[j3 * 8 + 2] = g3.cap || 0; MF[j3 * 8 + 3] = g3.stp || 0;
+          MF[j3 * 8 + 4] = g3.nEst || 0; MF[j3 * 8 + 5] = g3.nBack || 0; MF[j3 * 8 + 6] = g3.nNeck || 0; MF[j3 * 8 + 7] = typeof g3.den === 'number' ? g3.den : -1;
+          if (g3.trace && trLen < 6e6) { tr.push(g3.trace); trIdx.push(j3, g3.trace.length); trLen += g3.trace.length; }
+        }
+        var MT = new Float32Array(nm), MP = new Uint8Array(nm); for (j3 = 0; j3 < nm; j3++) { g3 = ms[j3] && ms[j3].rg; if (!g3) continue; MT[j3] = typeof g3.t === 'number' ? g3.t : -1; MP[j3] = g3.flip | 0; }
+        add('rg.mi', MI); add('rg.mf', MF); add('rg.t', MT); add('rg.flip', MP);
+        H.rgMeta = { mi: 'stop(1영역밖 2길이상한 3끝높이 4걸음상한),free,est0,traced', mf: 'sOn,sFree,cap,stp,nEst,nBack,nNeck,den', t: '뿌리 자리 두께(모델 단위)', flip: '0 안 뒤집음 1 뒤집음 2 얇아서 안 뒤집음(아래 그대로) 3 얇아서 옆으로 눕힘', traced: tr.length,
+          trace: '걸음마다 11값: 단계(0두피위 1두피밖 2곧게내림),결못읽음,쓴사진수,주로쓴사진(0..),결또렷함%,사진끼리벌어진각°,막음(1앞쏠림 2목),머리영역표,x,y,z' };
+        if (tr.length) { var TA = new Float32Array(trLen), o3 = 0; tr.forEach(function (a) { TA.set(a, o3); o3 += a.length; }); add('rg.trace', TA); add('rg.traceIdx', new Uint32Array(trIdx)); }
+        try { var cfgG = {}; Object.keys(G).forEach(function (k) { var v = G[k]; if (typeof v === 'number' || typeof v === 'boolean' || typeof v === 'string') cfgG[k] = v; }); H.regrowCfg = cfgG; } catch (e) {}
+      }
+      var ro = state._hair3Dneutral && state._hair3Dneutral.roots;
+      if (ro && ro.den) { add('roots.den', new Float32Array(ro.den)); if (ro.est) add('roots.est', new Uint8Array(ro.est)); H.roots = { NT: ro.NT, NP: ro.NP, b: ro.b }; }
+    } catch (e) { H.notes.push('rgMeta: ' + e.message); }
+    // 지금 모델(마네킹이면 마네킹 뿌리) — 뿌리만
+    try {
+      var cur = state.hair3Dneutral;
+      if (cur && cur.strands && cur.strands.length) {
+        var nR = cur.strands.length, R = new Int16Array(nR * 3), rs = new Uint8Array(nR), rf = new Uint8Array(nR), i2, s2, p0;
+        for (i2 = 0; i2 < nR; i2++) { s2 = cur.strands[i2]; p0 = s2 && s2.pts && s2.pts[0]; if (!p0) continue; R[i2 * 3] = q16(p0.x); R[i2 * 3 + 1] = q16(p0.y); R[i2 * 3 + 2] = q16(p0.z); rs[i2] = secIdx(s2.sec); rf[i2] = (s2.mannequin ? 1 : 0) | (s2.fringe ? 2 : 0) | (s2.regrown ? 4 : 0); }
+        add('cur.root', R); add('cur.sec', rs); add('cur.fl', rf); H.current = { n: nR, mannequin: !!cur.mannequin, CY: cur.CY };
+      }
+    } catch (e) { H.notes.push('cur: ' + e.message); }
+    // 지금 걸린 결 표
+    try { var fl = FSx && FSx.active ? FSx.active() : null; if (fl && fl.d) { H.flow = { v: fl.v, cs: fl.cs, bin: fl.bin, lmax: fl.lmax, n: fl.n }; var enc = new TextEncoder().encode(fl.d); add('flow.d', enc, { enc: 'base64-text' }); } else H.notes.push('걸린 결 표 없음'); } catch (e) { H.notes.push('flow: ' + e.message); }
+    // 이 손님의 다시 기른 가닥에서 뽑은 표(걸린 표와 다를 수 있음 — 다른 스타일이 걸려 있을 때)
+    try { var fo = FSx && FSx.fromRegrown ? FSx.fromRegrown() : null; if (fo && fo.d && !(H.flow && fl && fo.d === fl.d)) { H.flowOwn = { v: fo.v, cs: fo.cs, bin: fo.bin, lmax: fo.lmax, n: fo.n }; add('flowOwn.d', new TextEncoder().encode(fo.d), { enc: 'base64-text' }); } else if (fo && fo.d) H.flowOwn = 'same'; } catch (e) { H.notes.push('flowOwn: ' + e.message); }
+    try { var sp = (typeof getStyleSpec === 'function' && state.specAppliedId) ? getStyleSpec(state.specAppliedId) : null; if (sp) H.spec = { base: sp.base || null, flowBase: sp.flowBase || null, flowLen: sp.flowLen || null, tipAt: sp.tipAt || null, lenCm: sp.lenCm || null, styling: sp.styling || null, perm: sp.perm || null }; } catch (e) {}
+    // 지금 화면에 그려진 가닥(빗질·맞추기·자르기까지 한 것)
+    try { var list = computeAdjustedHair3DStrands(); if (list && list.length) { var dr = packStrands(list, 1, secIdx); add('draw.cnt', dr.cnt); add('draw.sec', dr.sec); add('draw.fl', dr.fl); add('draw.pts', dr.D); H.drawn = { n: list.length }; } } catch (e) { H.notes.push('draw: ' + e.message); }
+    // 사진별 카메라 · 머리 영역 · 결(칸 단위)
+    try {
+      H.cams = [];
+      cams.forEach(function (c, ci) {
+        var cols = Math.max(40, (P.exportCols || P.cols) | 0), cell = c.iw / cols, gw = cols, gh = Math.max(1, Math.ceil(c.ih / cell)), M = new Uint8Array(gw * gh), A = new Int8Array(gw * gh), K = new Uint8Array(gw * gh), x, y, d;
+        for (y = 0; y < gh; y++) for (x = 0; x < gw; x++) {
+          if (c.smp.at((x + 0.5) * cell, (y + 0.5) * cell) > 0) M[y * gw + x] = 1;
+          if (typeof c.dirAt === 'function') { d = c.dirAt((x + 0.5) * cell, (y + 0.5) * cell); if (d) { A[y * gw + x] = Math.max(-127, Math.min(127, Math.round(wrapHalf(d[0]) / HALF * 127))); K[y * gw + x] = Math.max(0, Math.min(255, Math.round(d[1] * 255))); } }
+        }
+        H.cams.push({ angle: c.angle, R: Array.prototype.slice.call(c.R), cx: c.cx, s: c.s, sy: c.sy, crownY: c.crownY, iw: c.iw, ih: c.ih, gw: gw, gh: gh, cell: cell, hasDir: typeof c.dirAt === 'function' });
+        add('cam' + ci + '.mask', M); add('cam' + ci + '.ang', A, { scale: 'x/127*90deg' }); add('cam' + ci + '.coh', K, { scale: 'x/255' });
+      });
+    } catch (e) { H.notes.push('cams: ' + e.message); }
+    H.parts = parts;
+    var hj = new TextEncoder().encode(JSON.stringify(H)), pad = (4 - (7 + 4 + hj.length) % 4) % 4, head = new Uint8Array(7 + 4 + hj.length + pad), total = head.length + off;
+    head.set(new TextEncoder().encode('GYDBG1\n'), 0); new DataView(head.buffer).setUint32(7, hj.length + pad, true); head.set(hj, 11);
+    for (var z = 0; z < pad; z++) head[11 + hj.length + z] = 32;
+    var out = new Uint8Array(total), o2 = head.length; out.set(head, 0);
+    bufs.forEach(function (b) { out.set(b, o2); o2 += b.length; });
+    return { bytes: out, header: H };
+  };
+  /* 파일로 저장(되면 gzip) — 돌려주는 값: Promise<{name, size, gz}> */
+  P.exportData = function () {
+    var ex = P.buildExport(), d = new Date(), pad2 = function (v) { return (v < 10 ? '0' : '') + v; };
+    var base = 'gyeol-debug-' + d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate()) + '-' + pad2(d.getHours()) + pad2(d.getMinutes());
+    function save(blob, name, gz) {
+      var a = document.createElement('a'), url = URL.createObjectURL(blob);
+      a.href = url; a.download = name; a.style.display = 'none'; document.body.appendChild(a); a.click();
+      setTimeout(function () { try { document.body.removeChild(a); URL.revokeObjectURL(url); } catch (e) {} }, 4000);
+      var info = { name: name, size: blob.size, gz: gz };
+      console.log(TAG + ' 진단 데이터 저장 — ' + name + ' · ' + (blob.size / 1048576).toFixed(1) + 'MB · 다시 기른 가닥 ' + (ex.header.regrown ? ex.header.regrown.n : 0) + ' · 그려진 가닥 ' + (ex.header.drawn ? ex.header.drawn.n : 0) + ' · 사진 ' + (ex.header.cams ? ex.header.cams.length : 0) + '장' + (ex.header.notes.length ? ' · ⚠ ' + ex.header.notes.join(' / ') : ''));
+      try { if (typeof showToast === 'function') showToast(T('저장했습니다: ' + name + ' (' + (blob.size / 1048576).toFixed(1) + 'MB) — 내려받기 폴더에서 이 파일을 보내 주세요', 'Saved: ' + name + ' (' + (blob.size / 1048576).toFixed(1) + 'MB) — send this file from your Downloads folder')); } catch (e) {}
+      return info;
+    }
+    try {
+      if (typeof CompressionStream === 'function') {
+        var cs = new Blob([ex.bytes]).stream().pipeThrough(new CompressionStream('gzip'));
+        return new Response(cs).blob().then(function (b) { return save(new Blob([b], { type: 'application/octet-stream' }), base + '.gydbg.gz', true); },
+          function () { return save(new Blob([ex.bytes], { type: 'application/octet-stream' }), base + '.gydbg', false); });
+      }
+    } catch (e) {}
+    return Promise.resolve(save(new Blob([ex.bytes], { type: 'application/octet-stream' }), base + '.gydbg', false));
+  };
+
   /* ── 화면 ── */
   var btn = null, panel = null, imgCache = {};
   function lang() { try { return uiLang === 'ko' ? 'ko' : 'en'; } catch (e) { return 'ko'; } }
@@ -595,6 +712,7 @@
         '<b style="color:#f3e9da;font-size:15px;">' + T('원본 대조', 'Compare with photos') + '</b>' +
         '<span style="font-size:12px;color:#d8cdbd;"><span style="color:#ff8a80">■</span> ' + T('넘침 — 3D에만 있는 머리', 'over — hair only in 3D') + ' &nbsp;<span style="color:#8ab4ff">■</span> ' + T('빔 — 사진에만 있는 머리', 'missing — hair only in photo') + ' &nbsp;<span style="color:#ffd63c">■</span> ' + T('결 어긋남 — 사진과 방향이 ' + P.dirWarn + '° 넘게 다른 뭉치', 'grain off by more than ' + P.dirWarn + '°') + ' &nbsp;<span style="color:#fff">▯</span> ' + T('3D 윤곽선', '3D outline') + ' · ' + T('좌/우는 사진에서 본 방향 · +는 3D가 더 나감', 'L/R as seen in the photo · + = 3D sticks out') + '</span>' +
         '<span style="flex:1"></span>' +
+        '<button id="pcExportBtn" type="button" style="border:0;border-radius:6px;padding:7px 10px;background:#2f4a66;color:#fff;font-size:12px;cursor:pointer;">' + T('진단 데이터 저장', 'Save debug data') + '</button>' +
         '<button id="pcDirBtn" type="button" style="border:0;border-radius:6px;padding:7px 10px;color:#fff;font-size:12px;cursor:pointer;"></button>' +
         '<button id="pcTrimBtn" type="button" style="border:0;border-radius:6px;padding:7px 10px;color:#fff;font-size:12px;cursor:pointer;"></button>' +
         '<button id="pcAgainBtn" type="button" style="border:0;border-radius:6px;padding:7px 10px;background:#3a322b;color:#fff;font-size:12px;cursor:pointer;">' + T('다시 대조', 'Re-run') + '</button>' +
@@ -606,6 +724,7 @@
       panel.querySelector('#pcAgainBtn').addEventListener('click', function () { render(); });
       panel.querySelector('#pcTrimBtn').addEventListener('click', function () { P.setTrim(); render(); });
       panel.querySelector('#pcDirBtn').addEventListener('click', function () { P.setFixDir(); render(); });
+      panel.querySelector('#pcExportBtn').addEventListener('click', function () { var b = this; b.disabled = true; b.textContent = T('저장하는 중…', 'Saving…'); Promise.resolve().then(function () { return P.exportData(); }).then(function () {}, function (e) { console.warn(TAG + ' 진단 데이터 저장 실패', e); }).then(function () { b.disabled = false; b.textContent = T('진단 데이터 저장', 'Save debug data'); }); });
     }
     panel.style.display = 'block';
     render();
