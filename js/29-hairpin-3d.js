@@ -1,1 +1,227 @@
-(function(){'use strict';var _0x4c80ef=window;if(typeof THREE==='undefined')return;var _0x4f77a7=_0x4c80ef['HAIRPIN_CATALOG']=[{'id':'none','name':'None'},{'id':'pearl','name':'Pearl','img':'assets/pins/pearl.png','lengthCm':0x7},{'id':'butterfly','name':'Butterfly','img':'assets/pins/butterfly.png','lengthCm':0x6}],_0x304f56=_0x4c80ef['HAIRPIN']={'id':'none','side':0x1,'up':0.38,'fwd':0.15,'tilt':0.35,'lift':0.02},_0x4b9059={};function _0x5cf471(_0x5185bd,_0x130528){if(_0x4b9059[_0x5185bd])return _0x130528(_0x4b9059[_0x5185bd]);new THREE['TextureLoader']()['load'](_0x5185bd,function(_0x278ce1){_0x278ce1['anisotropy']=0x4,_0x4b9059[_0x5185bd]=_0x278ce1,_0x130528(_0x278ce1);},void 0x0,function(){console['warn']('[헤어핀]\x20이미지\x20로드\x20실패',_0x5185bd),_0x130528(null);});}function _0x23e00e(_0x2037a5,_0x21ec17,_0x32a3ea){return new THREE['Vector3'](_0x2037a5,_0x21ec17,_0x32a3ea);}function _0x21d3fa(_0x2ef2ce,_0x4fba3b,_0x3927ad,_0x55fe90){var _0x1fd761=[],_0x438471=new THREE['Vector3']();for(var _0x51ba22=0x0;_0x51ba22<_0x2ef2ce['count'];_0x51ba22+=0x2){_0x438471['set'](_0x2ef2ce['getX'](_0x51ba22)-_0x4fba3b['x'],_0x2ef2ce['getY'](_0x51ba22)-_0x4fba3b['y'],_0x2ef2ce['getZ'](_0x51ba22)-_0x4fba3b['z']);var _0x26e2d6=_0x438471['length']();if(_0x26e2d6<0.000001)continue;if(_0x438471['dot'](_0x3927ad)/_0x26e2d6>_0x55fe90)_0x1fd761['push'](_0x26e2d6);}if(_0x1fd761['length']<0x14)return null;return _0x1fd761['sort'](function(_0x3a5214,_0x2aed08){return _0x3a5214-_0x2aed08;}),_0x1fd761[Math['floor'](_0x1fd761['length']*0.985)];}function _0xa45a9f(_0x420cb0){var _0x4977d0=state['hair3Dneutral'],_0xb07c8=_0x4977d0&&isFinite(_0x4977d0['CY'])?_0x4977d0['CY']:0x0,_0x3839c6=[],_0x3e0673=null;try{_0x3e0673=getHeadEllipsoid();}catch(_0x352439){}var _0x190fae=_0x3e0673?_0x3e0673['b']:0x1;for(var _0x437480=0x0;_0x437480<_0x420cb0['count'];_0x437480+=0x7)if(_0x420cb0['getY'](_0x437480)>_0xb07c8+0.5*_0x190fae)_0x3839c6['push'](_0x420cb0['getZ'](_0x437480));return _0x3839c6['sort'](function(_0x528be1,_0x437acd){return _0x528be1-_0x437acd;}),_0x23e00e(0x0,_0xb07c8,_0x3839c6['length']?_0x3839c6[_0x3839c6['length']>>0x1]:0x0);}function _0x432976(_0x55ed1e){var _0x221507=_0x55ed1e&&_0x55ed1e['getObjectByName']('hairpin');if(!_0x221507)return;_0x221507['parent']['remove'](_0x221507),_0x221507['traverse'](function(_0x50c103){if(_0x50c103['geometry'])_0x50c103['geometry']['dispose']();if(_0x50c103['material'])_0x50c103['material']['dispose']();});}function _0x20f056(){if(typeof model3D==='undefined'||!model3D||!model3D['headGroup'])return;var _0x54f1da=model3D['headGroup']['getObjectByName']('adjustedHair'),_0x31295c=_0x54f1da||model3D['headGroup'];_0x432976(model3D['headGroup']);var _0x464dfd=_0x4f77a7['find'](function(_0x55d2fa){return _0x55d2fa['id']===_0x304f56['id'];});if(!_0x464dfd||!_0x464dfd['img'])return;if(!_0x54f1da||!_0x54f1da['geometry']||!_0x54f1da['geometry']['attributes']['position']){console['warn']('[헤어핀]\x203D\x20헤어가\x20없어\x20핀을\x20붙이지\x20않음');return;}var _0x283491=_0x54f1da['geometry']['attributes']['position'],_0x35c9ee=typeof modelCmPerUnit==='function'&&modelCmPerUnit()||19.33;_0x5cf471(_0x464dfd['img'],function(_0x5c1516){if(!_0x5c1516||_0x304f56['id']!==_0x464dfd['id'])return;_0x432976(model3D['headGroup']);var _0x10ab41=_0xa45a9f(_0x283491),_0x148ef4=_0x23e00e(_0x304f56['side'],_0x304f56['up'],_0x304f56['fwd'])['normalize'](),_0xbfb655=_0x21d3fa(_0x283491,_0x10ab41,_0x148ef4,Math['cos'](0xa*Math['PI']/0xb4));if(!_0xbfb655){console['warn']('[헤어핀]\x20옆머리\x20표면을\x20못\x20찾음');return;}_0xbfb655*=0x1+_0x304f56['lift'];var _0x27d2a5=_0x23e00e(0x0,_0x304f56['tilt'],0x1),_0x37c37a=_0x27d2a5['sub'](_0x148ef4['clone']()['multiplyScalar'](_0x27d2a5['dot'](_0x148ef4)))['normalize'](),_0x3b77ba=new THREE['Vector3']()['crossVectors'](_0x148ef4,_0x37c37a)['normalize'](),_0x3dd9f7=_0x464dfd['lengthCm']/_0x35c9ee,_0x276625=_0x5c1516['image']&&_0x5c1516['image']['width']?_0x5c1516['image']['width']/_0x5c1516['image']['height']:0x3,_0x1f7a5b=_0x3dd9f7/_0x276625,_0x9efd3=new THREE['PlaneGeometry'](_0x3dd9f7,_0x1f7a5b,0x18,0x4),_0x4d526f=_0x9efd3['attributes']['position'],_0x5a291e=_0x10ab41['clone']()['add'](_0x148ef4['clone']()['multiplyScalar'](_0xbfb655)),_0x246eeb=new THREE['Vector3']();for(var _0x4d315e=0x0;_0x4d315e<_0x4d526f['count'];_0x4d315e++){_0x246eeb['copy'](_0x5a291e)['add'](_0x37c37a['clone']()['multiplyScalar'](_0x4d526f['getX'](_0x4d315e)))['add'](_0x3b77ba['clone']()['multiplyScalar'](_0x4d526f['getY'](_0x4d315e))),_0x246eeb['sub'](_0x10ab41)['setLength'](_0xbfb655)['add'](_0x10ab41),_0x4d526f['setXYZ'](_0x4d315e,_0x246eeb['x'],_0x246eeb['y'],_0x246eeb['z']);}_0x4d526f['needsUpdate']=!![],_0x9efd3['computeVertexNormals']();var _0x22c091=new THREE['MeshStandardMaterial']({'map':_0x5c1516,'transparent':!![],'alphaTest':0.35,'side':THREE['DoubleSide'],'roughness':0.35,'metalness':0.25}),_0x25eb7f=new THREE['Mesh'](_0x9efd3,_0x22c091);_0x25eb7f['name']='hairpin',_0x25eb7f['renderOrder']=0x2,_0x31295c['add'](_0x25eb7f);});}_0x304f56['place']=_0x20f056,_0x304f56['seams']=![];var _0x19753d={'front':[0.95,0.25,0.2],'left':[0.2,0.85,0.3],'right':[0.25,0.45,0x1],'back':[0x1,0.85,0.15]};function _0x30b456(_0x42e1cd,_0x26e0dd){var _0x2d639f=_0x42e1cd&&_0x42e1cd['getObjectByName'](_0x26e0dd);if(!_0x2d639f)return;_0x2d639f['parent']['remove'](_0x2d639f);if(_0x2d639f['geometry'])_0x2d639f['geometry']['dispose']();if(_0x2d639f['material'])_0x2d639f['material']['dispose']();}function _0x5cdc3a(){if(typeof model3D==='undefined'||!model3D||!model3D['headGroup'])return;var _0x308fa5=model3D['headGroup']['getObjectByName']('adjustedHair');_0x30b456(model3D['headGroup'],'seamView');if(_0x308fa5)_0x308fa5['visible']=!_0x304f56['seams'];if(!_0x304f56['seams']||!_0x308fa5||typeof computeAdjustedHair3DStrands!=='function')return;var _0x3c3dfc=computeAdjustedHair3DStrands();if(!_0x3c3dfc||!_0x3c3dfc['length'])return;var _0x1eed81=[],_0x507a10=[];for(var _0x4331b9=0x0;_0x4331b9<_0x3c3dfc['length'];_0x4331b9++){var _0x50b5f6=_0x3c3dfc[_0x4331b9]['pts'],_0x268cd2=_0x3c3dfc[_0x4331b9]['srcAngle']||(_0x50b5f6&&_0x50b5f6[0x0]&&typeof viewOfRoot==='function'?viewOfRoot(_0x50b5f6[0x0]):'front'),_0x206184=_0x19753d[_0x268cd2]||[0.6,0.6,0.6];if(!_0x50b5f6)continue;for(var _0x418491=0x1;_0x418491<_0x50b5f6['length'];_0x418491++){_0x1eed81['push'](_0x50b5f6[_0x418491-0x1]['x'],_0x50b5f6[_0x418491-0x1]['y'],_0x50b5f6[_0x418491-0x1]['z'],_0x50b5f6[_0x418491]['x'],_0x50b5f6[_0x418491]['y'],_0x50b5f6[_0x418491]['z']),_0x507a10['push'](_0x206184[0x0],_0x206184[0x1],_0x206184[0x2],_0x206184[0x0],_0x206184[0x1],_0x206184[0x2]);}}var _0x431bf4=new THREE['BufferGeometry']();_0x431bf4['setAttribute']('position',new THREE['Float32BufferAttribute'](_0x1eed81,0x3)),_0x431bf4['setAttribute']('color',new THREE['Float32BufferAttribute'](_0x507a10,0x3));var _0x545629=new THREE['LineSegments'](_0x431bf4,new THREE['LineBasicMaterial']({'vertexColors':!![]}));_0x545629['name']='seamView',_0x545629['position']['copy'](_0x308fa5['position']),_0x545629['rotation']['copy'](_0x308fa5['rotation']),_0x545629['scale']['copy'](_0x308fa5['scale']),_0x308fa5['parent']['add'](_0x545629);}_0x304f56['showSeams']=_0x5cdc3a,_0x304f56['roots']=![];function _0x43e099(){if(typeof model3D==='undefined'||!model3D||!model3D['headGroup'])return;_0x30b456(model3D['headGroup'],'rootView');var _0x2a8a91=model3D['headGroup']['getObjectByName']('adjustedHair');if(!_0x304f56['roots']||!_0x2a8a91)return;var _0x609d05=state['hair3Dneutral'];if(!_0x609d05||!_0x609d05['strands'])return;var _0x566f2b=[];for(var _0x59df19=0x0;_0x59df19<_0x609d05['strands']['length'];_0x59df19++){var _0x44775c=_0x609d05['strands'][_0x59df19]['pts']&&_0x609d05['strands'][_0x59df19]['pts'][0x0];if(_0x44775c)_0x566f2b['push'](_0x44775c['x'],_0x44775c['y'],_0x44775c['z']);}var _0x557723=new THREE['BufferGeometry']();_0x557723['setAttribute']('position',new THREE['Float32BufferAttribute'](_0x566f2b,0x3));var _0x2fcde0=new THREE['Points'](_0x557723,new THREE['PointsMaterial']({'color':0xffe14a,'size':2.5,'sizeAttenuation':![],'depthTest':!![]}));_0x2fcde0['name']='rootView',_0x2fcde0['position']['copy'](_0x2a8a91['position']),_0x2fcde0['rotation']['copy'](_0x2a8a91['rotation']),_0x2fcde0['scale']['copy'](_0x2a8a91['scale']),_0x2a8a91['parent']['add'](_0x2fcde0),_0x2a8a91['visible']=![];}_0x304f56['showRoots']=_0x43e099;function _0x17ee38(){var _0x342b92=document['getElementById']('model3dViewport');if(!_0x342b92||document['getElementById']('hairpinBar'))return;var _0xe4f3a8=document['createElement']('div');_0xe4f3a8['id']='hairpinBar',_0xe4f3a8['style']['cssText']='position:absolute;left:8px;top:60px;z-index:5;display:flex;gap:6px;flex-wrap:wrap;align-items:center;'+'font:600\x2012px/1\x20system-ui,sans-serif';function _0x4ca7a1(_0x454cbd,_0x3ce34,_0x5a90b9){var _0x508714=document['createElement']('button');return _0x508714['type']='button',_0x508714['textContent']=_0x454cbd,_0x508714['style']['cssText']='padding:7px\x2010px;border-radius:999px;border:1px\x20solid\x20rgba(0,0,0,.18);cursor:pointer;'+(_0x3ce34?'background:#D4924A;color:#1b1206;border-color:#D4924A;':'background:rgba(20,16,12,.72);color:#f3eadf;'),_0x508714['onclick']=_0x5a90b9,_0x508714;}function _0xb887da(){_0xe4f3a8['innerHTML']='';var _0x44b7c5=document['createElement']('span');_0x44b7c5['textContent']='Hair\x20pin',_0x44b7c5['style']['cssText']='color:#f3eadf;background:rgba(20,16,12,.72);padding:7px\x208px;border-radius:6px;',_0xe4f3a8['appendChild'](_0x44b7c5),_0x4f77a7['forEach'](function(_0x195920){_0xe4f3a8['appendChild'](_0x4ca7a1(_0x195920['name'],_0x304f56['id']===_0x195920['id'],function(){_0x304f56['id']=_0x195920['id'],_0xb887da(),_0x20f056();}));});if(_0x304f56['id']!=='none')_0xe4f3a8['appendChild'](_0x4ca7a1(_0x304f56['side']>0x0?'Side\x20◐':'Side\x20◑',![],function(){_0x304f56['side']=-_0x304f56['side'],_0xb887da(),_0x20f056();}));_0xe4f3a8['appendChild'](_0x4ca7a1(_0x304f56['seams']?'Seams\x20✓':'Seams',_0x304f56['seams'],function(){_0x304f56['seams']=!_0x304f56['seams'],_0xb887da(),_0x5cdc3a();})),_0xe4f3a8['appendChild'](_0x4ca7a1(_0x304f56['roots']?'Roots\x20✓':'Roots',_0x304f56['roots'],function(){_0x304f56['roots']=!_0x304f56['roots'],_0xb887da(),_0x5cdc3a(),_0x43e099();}));}_0xb887da(),_0x342b92['appendChild'](_0xe4f3a8);}var _0x5e22f6=_0x4c80ef['setupModel3DScreenBase'];if(typeof _0x5e22f6==='function')_0x4c80ef['setupModel3DScreenBase']=function(){_0x17ee38();var _0x4a99b7=_0x5e22f6['apply'](this,arguments),_0x1f0b68=function(){try{_0x5cdc3a();}catch(_0x5cf9a9){console['warn']('[경계보기]\x20실패',_0x5cf9a9);}try{_0x20f056();}catch(_0x3548cd){console['warn']('[헤어핀]\x20붙이기\x20실패',_0x3548cd);}};if(_0x4a99b7&&typeof _0x4a99b7['then']==='function')_0x4a99b7['then'](_0x1f0b68,_0x1f0b68);else _0x1f0b68();return _0x4a99b7;};}());
+/* ==========================================================================
+ * 29-hairpin-3d.js — 3D 결과 화면 전용 헤어핀 착용
+ *
+ * · 기본은 "없음" → 스타일 완성본 그대로. 핀을 고르면 그때만 머리 위에 얹습니다.
+ * · 3D 결과 화면(STEP 5/5)에서만 나옵니다. 조정·결과 2D 화면은 건드리지 않습니다.
+ * · 핀 = 상품 사진에서 배경을 지운 PNG를 얇은 판에 입혀 머리 표면 곡률대로 휘어 붙임.
+ * · 위치: 귀 위 옆머리(착용샷처럼). 좌/우 선택. 크기는 실제 길이(cm) → 모델 단위로 환산.
+ *
+ * 새 핀 추가: HAIRPIN_CATALOG 에 { id, name, img, lengthCm } 한 줄 + assets/pins/에 배경 없는 PNG
+ * ======================================================================== */
+(function () {
+  'use strict';
+  var G = window;
+  if (typeof THREE === 'undefined') return;
+
+  var CATALOG = G.HAIRPIN_CATALOG = [
+    { id: 'none', name: 'None' },
+    { id: 'pearl', name: 'Pearl', img: 'assets/pins/pearl.png', lengthCm: 7.0 },
+    { id: 'butterfly', name: 'Butterfly', img: 'assets/pins/butterfly.png', lengthCm: 6.0 }
+  ];
+  var HP = G.HAIRPIN = {
+    id: 'none',
+    side: 1,          // +1 = 화면 오른쪽(착용자 왼쪽), -1 = 반대쪽
+    up: 0.38,         // 귀 위 높이 (옆 방향 대비 위쪽 성분)
+    fwd: 0.15,        // 약간 앞쪽
+    tilt: 0.35,       // 핀 기울기(앞쪽이 올라가게)
+    lift: 0.02        // 머리 표면에서 띄우는 비율(파묻힘 방지)
+  };
+
+  var texCache = {};
+  function loadTex(url, cb) {
+    if (texCache[url]) return cb(texCache[url]);
+    new THREE.TextureLoader().load(url, function (t) {
+      t.anisotropy = 4;
+      texCache[url] = t; cb(t);
+    }, undefined, function () { console.warn('[헤어핀] 이미지 로드 실패', url); cb(null); });
+  }
+
+  function v3(x, y, z) { return new THREE.Vector3(x, y, z); }
+
+  /* 머리 표면 찾기 — 헤어 선분 정점 중 방향 d 근처(원뿔 ~10°)에서 바깥쪽 90% 지점 */
+  function surfaceRadius(pos, C, d, cosMin) {
+    var rs = [], v = new THREE.Vector3();
+    for (var i = 0; i < pos.count; i += 2) {
+      v.set(pos.getX(i) - C.x, pos.getY(i) - C.y, pos.getZ(i) - C.z);
+      var L = v.length(); if (L < 1e-6) continue;
+      if (v.dot(d) / L > cosMin) rs.push(L);
+    }
+    if (rs.length < 20) return null;
+    rs.sort(function (a, b) { return a - b; });
+    return rs[Math.floor(rs.length * 0.985)];   // 거의 가장 바깥 — 핀이 머리카락 위에 올라앉게
+  }
+
+  function headCenter(pos) {
+    var M = state.hair3Dneutral, cy = M && isFinite(M.CY) ? M.CY : 0, zs = [];
+    var E = null; try { E = getHeadEllipsoid(); } catch (e) {}
+    var b = E ? E.b : 1;
+    for (var i = 0; i < pos.count; i += 7) if (pos.getY(i) > cy + 0.5 * b) zs.push(pos.getZ(i));
+    zs.sort(function (a, c) { return a - c; });
+    return v3(0, cy, zs.length ? zs[zs.length >> 1] : 0);
+  }
+
+  function removePin(parent) {
+    var old = parent && parent.getObjectByName('hairpin');
+    if (!old) return;
+    old.parent.remove(old);
+    old.traverse(function (o) { if (o.geometry) o.geometry.dispose(); if (o.material) o.material.dispose(); });
+  }
+
+  function placePin() {
+    if (typeof model3D === 'undefined' || !model3D || !model3D.headGroup) return;
+    var hair = model3D.headGroup.getObjectByName('adjustedHair');
+    var parent = hair || model3D.headGroup;
+    removePin(model3D.headGroup);
+    var item = CATALOG.find(function (c) { return c.id === HP.id; });
+    if (!item || !item.img) return;
+    if (!hair || !hair.geometry || !hair.geometry.attributes.position) { console.warn('[헤어핀] 3D 헤어가 없어 핀을 붙이지 않음'); return; }
+    var pos = hair.geometry.attributes.position;
+    var cmPer = (typeof modelCmPerUnit === 'function' && modelCmPerUnit()) || 19.33;
+
+    loadTex(item.img, function (tex) {
+      if (!tex || HP.id !== item.id) return;
+      removePin(model3D.headGroup);
+      var C = headCenter(pos);
+      var d = v3(HP.side, HP.up, HP.fwd).normalize();
+      var r = surfaceRadius(pos, C, d, Math.cos(10 * Math.PI / 180));
+      if (!r) { console.warn('[헤어핀] 옆머리 표면을 못 찾음'); return; }
+      r *= 1 + HP.lift;
+
+      // 핀 판의 두 축: t = 길이 방향(앞쪽이 살짝 위), b = 폭 방향
+      var t0 = v3(0, HP.tilt, 1);
+      var t = t0.sub(d.clone().multiplyScalar(t0.dot(d))).normalize();
+      var bAx = new THREE.Vector3().crossVectors(d, t).normalize();
+      var len = item.lengthCm / cmPer;
+      var aspect = tex.image && tex.image.width ? tex.image.width / tex.image.height : 3;
+      var wid = len / aspect;
+
+      // 판을 잘게 나눠 머리 곡면(반지름 r 구면)에 감기게
+      var geo = new THREE.PlaneGeometry(len, wid, 24, 4);
+      var P = geo.attributes.position, center = C.clone().add(d.clone().multiplyScalar(r)), q = new THREE.Vector3();
+      for (var i = 0; i < P.count; i++) {
+        q.copy(center).add(t.clone().multiplyScalar(P.getX(i))).add(bAx.clone().multiplyScalar(P.getY(i)));
+        q.sub(C).setLength(r).add(C);
+        P.setXYZ(i, q.x, q.y, q.z);
+      }
+      P.needsUpdate = true;
+      geo.computeVertexNormals();
+      var mat = new THREE.MeshStandardMaterial({
+        map: tex, transparent: true, alphaTest: 0.35, side: THREE.DoubleSide,
+        roughness: 0.35, metalness: 0.25
+      });
+      var mesh = new THREE.Mesh(geo, mat);
+      mesh.name = 'hairpin';
+      mesh.renderOrder = 2;
+      parent.add(mesh);
+    });
+  }
+  HP.place = placePin;
+
+  /* ── 진단: 사진 경계 보기 ("Seams" 버튼) ─────────────────────────────
+   * 가닥마다 어느 사진(정면·좌·우·후면)에서 왔는지 색으로 칠해 따로 그립니다.
+   * 두피가 한 줄로 드러나는 자리가 색이 바뀌는 경계와 겹치는지 보려는 것 — 고침이 아니라 확인용.
+   * 정면=빨강 · 좌=초록 · 우=파랑 · 후면=노랑 */
+  HP.seams = false;
+  var VIEW_RGB = { front: [0.95, 0.25, 0.2], left: [0.2, 0.85, 0.3], right: [0.25, 0.45, 1.0], back: [1.0, 0.85, 0.15] };
+  function removeByName(root, name) {
+    var o = root && root.getObjectByName(name);
+    if (!o) return;
+    o.parent.remove(o);
+    if (o.geometry) o.geometry.dispose(); if (o.material) o.material.dispose();
+  }
+  function showSeams() {
+    if (typeof model3D === 'undefined' || !model3D || !model3D.headGroup) return;
+    var hair = model3D.headGroup.getObjectByName('adjustedHair');
+    removeByName(model3D.headGroup, 'seamView');
+    if (hair) hair.visible = !HP.seams;
+    if (!HP.seams || !hair || typeof computeAdjustedHair3DStrands !== 'function') return;
+    var list = computeAdjustedHair3DStrands();
+    if (!list || !list.length) return;
+    var P = [], C = [];
+    for (var k = 0; k < list.length; k++) {
+      var pts = list[k].pts, ang = list[k].srcAngle || (pts && pts[0] && typeof viewOfRoot === 'function' ? viewOfRoot(pts[0]) : 'front');
+      var c = VIEW_RGB[ang] || [0.6, 0.6, 0.6];
+      if (!pts) continue;
+      for (var i = 1; i < pts.length; i++) {
+        P.push(pts[i - 1].x, pts[i - 1].y, pts[i - 1].z, pts[i].x, pts[i].y, pts[i].z);
+        C.push(c[0], c[1], c[2], c[0], c[1], c[2]);
+      }
+    }
+    var g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3));
+    g.setAttribute('color', new THREE.Float32BufferAttribute(C, 3));
+    var o = new THREE.LineSegments(g, new THREE.LineBasicMaterial({ vertexColors: true }));
+    o.name = 'seamView';
+    o.position.copy(hair.position); o.rotation.copy(hair.rotation); o.scale.copy(hair.scale);
+    hair.parent.add(o);
+  }
+  HP.showSeams = showSeams;
+
+  /* 진단: 뿌리 점만 보기 ("Roots") — 갈라진 줄에 뿌리가 없는지(심기 문제), 뿌리는 있는데 가닥이 벌어지는지(흐름 문제) 구분 */
+  HP.roots = false;
+  function showRoots() {
+    if (typeof model3D === 'undefined' || !model3D || !model3D.headGroup) return;
+    removeByName(model3D.headGroup, 'rootView');
+    var hair = model3D.headGroup.getObjectByName('adjustedHair');
+    if (!HP.roots || !hair) return;
+    var M = state.hair3Dneutral;
+    if (!M || !M.strands) return;
+    var P = [];
+    for (var k = 0; k < M.strands.length; k++) { var q = M.strands[k].pts && M.strands[k].pts[0]; if (q) P.push(q.x, q.y, q.z); }
+    var g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3));
+    var o = new THREE.Points(g, new THREE.PointsMaterial({ color: 0xffe14a, size: 2.5, sizeAttenuation: false, depthTest: true }));
+    o.name = 'rootView';
+    o.position.copy(hair.position); o.rotation.copy(hair.rotation); o.scale.copy(hair.scale);
+    hair.parent.add(o);
+    hair.visible = false;
+  }
+  HP.showRoots = showRoots;
+
+
+  /* ── 3D 화면 UI: 핀 고르기 + 좌/우 ─────────────────────────────────── */
+  function buildUI() {
+    var vp = document.getElementById('model3dViewport');
+    if (!vp || document.getElementById('hairpinBar')) return;
+    var bar = document.createElement('div');
+    bar.id = 'hairpinBar';
+    bar.style.cssText = 'position:absolute;left:8px;top:60px;z-index:5;display:flex;gap:6px;flex-wrap:wrap;align-items:center;' +
+      'font:600 12px/1 system-ui,sans-serif';
+    function chip(label, on, fn) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.textContent = label;
+      b.style.cssText = 'padding:7px 10px;border-radius:999px;border:1px solid rgba(0,0,0,.18);cursor:pointer;' +
+        (on ? 'background:#D4924A;color:#1b1206;border-color:#D4924A;' : 'background:rgba(20,16,12,.72);color:#f3eadf;');
+      b.onclick = fn; return b;
+    }
+    function render() {
+      bar.innerHTML = '';
+      var lab = document.createElement('span');
+      lab.textContent = 'Hair pin'; lab.style.cssText = 'color:#f3eadf;background:rgba(20,16,12,.72);padding:7px 8px;border-radius:6px;';
+      bar.appendChild(lab);
+      CATALOG.forEach(function (c) {
+        bar.appendChild(chip(c.name, HP.id === c.id, function () { HP.id = c.id; render(); placePin(); }));
+      });
+      if (HP.id !== 'none') bar.appendChild(chip(HP.side > 0 ? 'Side ◐' : 'Side ◑', false, function () { HP.side = -HP.side; render(); placePin(); }));
+      bar.appendChild(chip(HP.seams ? 'Seams ✓' : 'Seams', HP.seams, function () { HP.seams = !HP.seams; render(); showSeams(); }));
+      bar.appendChild(chip(HP.roots ? 'Roots ✓' : 'Roots', HP.roots, function () { HP.roots = !HP.roots; render(); showSeams(); showRoots(); }));
+    }
+    render();
+    vp.appendChild(bar);
+  }
+
+  // 3D 화면을 만들 때마다(헤드그룹이 비워짐) 다시 붙임
+  var setup = G.setupModel3DScreen;
+  if (typeof setup === 'function') {
+    G.setupModel3DScreen = function () {
+      buildUI();
+      var r = setup.apply(this, arguments);
+      var after = function () {
+        try { showSeams(); } catch (e) { console.warn('[경계보기] 실패', e); }
+        try { placePin(); } catch (e) { console.warn('[헤어핀] 붙이기 실패', e); }
+      };
+      if (r && typeof r.then === 'function') r.then(after, after); else after();
+      return r;
+    };
+  }
+})();

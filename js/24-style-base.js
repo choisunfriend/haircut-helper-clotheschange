@@ -1,1 +1,779 @@
-(function(){'use strict';var _0x4a9293=window,_0x472f2a='[스타일기준]',_0x3a0dec=_0x4a9293['STYLE_BASE']=_0x4a9293['STYLE_BASE']||{};_0x3a0dec['on']=!![],_0x3a0dec['LEN_EXT']=0xc8,_0x3a0dec['shade']={'ao':0.42,'lumCap':1.3,'spec':0.22,'specPow':0x3c},_0x3a0dec['fixVolHashAll']=!![],_0x3a0dec['PARAM_KEYS']=['length','elevation','texture','density','overdirection','line','curl','wave','curlDir','base','define','volShare','volPoint','weight'],_0x3a0dec['profiles']={'wavy_bob_seethrough':{'label':'Wavy\x20bob\x20·\x20See-through\x20bangs\x20·\x20Chunky\x20curls','config':{'CURL_BUNDLE':{'microAmp':0.04,'microPhase':0.15,'relax':1.2,'pitchThick':1.4},'CURL3D_FIX':{'ampGamma':0.7},'VOLUME3D':{'AMP':0.18},'MANNEQUIN':{'lenPct':0.9},'MQ_FRINGE':{'tipFaceFrac':-0.1,'crownAllAround':![]},'HAIR_DYE':{'sMax':1.3,'highlightK':0.6,'glossDesat':0.7}},'volBase':0x1,'after':{'front':{'curl':0x14}},'shade':{'ao':0.42,'lumCap':1.3,'spec':0.22,'specPow':0x3c},'silhouette':{'front':{'wh':0.95,'wp':[0.1,0.5,0.72,0.91,0.94,0.99,0.97,0.95,0.87,0.4,0.05],'bot':[0.49,0.84,0.9,0.97,0.44,0.54,0.52,0.55,0.63,0.8,0.85,0.8,0.67]}},'specPatch':function(_0x3c0f84){_0x3c0f84['cut']['front']['density']=0x14,_0x3c0f84['perm']['wave']=0x5c,_0x3c0f84['styling']['volume']=0x32;var _0x4c9ce4={'crown':{'base':0x14,'define':0x46,'volShare':0x3c,'volPoint':0x19,'weight':0x19},'front':{'base':0x14,'define':0x46,'volShare':0x23,'volPoint':0x19,'weight':0x19},'temple':{'base':0x14,'define':0x46,'volShare':0x40,'volPoint':0x19,'weight':0x19},'side':{'base':0x14,'define':0x46,'volShare':0x43,'volPoint':0x19,'weight':0x19},'occipital':{'base':0x14,'define':0x46,'volShare':0x3b,'volPoint':0x19,'weight':0x19},'nape':{'base':0x14,'define':0x46,'volShare':0x32,'volPoint':0x19,'weight':0x19}};for(var _0x2f930e in _0x4c9ce4)if(_0x3c0f84['cut'][_0x2f930e])Object['assign'](_0x3c0f84['cut'][_0x2f930e],_0x4c9ce4[_0x2f930e]);}},'hippie_curl_men':{'label':'Men\x27s\x20hippie\x20perm\x20·\x20Loose\x20S-waves','config':{'CURL_BUNDLE':{'rodThickCm':4.5,'pitchThick':2.4,'relax':1.3,'microAmp':0.03,'microPhase':0.18},'CURL3D_FIX':{'ampGamma':0.8},'VOLUME3D':{'AMP':0.17},'MANNEQUIN':{'lenPct':0.9},'MQ_FRINGE':{'tipFaceFrac':-0.16,'crownAllAround':![]}},'volBase':0x1,'shade':{'ao':0.44,'lumCap':1.3,'spec':0.2,'specPow':0x37}},'long_layered_curtain':{'label':'Long\x20layers\x20·\x20Curtain\x20bangs','config':{'CURL_BUNDLE':{'rodThickCm':0x5,'pitchThick':1.9,'relax':1.2,'microAmp':0.015,'microPhase':0.15},'CURL3D_FIX':{'ampGamma':0.72},'VOLUME3D':{'AMP':0.17},'MQ_FRINGE':{'on':!![],'tipFaceFrac':0.4,'lineHalfX':1.1,'lineGain':0x1,'crownAllAround':![]},'HAIR_DYE':{'sMax':1.25,'highlightK':0x1,'glossDesat':0.5}},'volBase':0x1,'after':{'crown':{'curl':0x0},'front':{'curl':0x0},'temple':{'curl':0x0},'side':{'curl':0x0},'occipital':{'curl':0x0},'nape':{'curl':0x0}},'shade':{'ao':0.55,'lumCap':1.4,'spec':0.62,'specPow':0x1c},'gloss':{'shape':![],'colorSmooth':0.9,'colorWin':0x6}}};var _0x549704={'CURL_BUNDLE':function(){return _0x4a9293['CURL_BUNDLE']||null;},'CURL3D_FIX':function(){return typeof CURL3D_FIX!=='undefined'?CURL3D_FIX:null;},'VOLUME3D':function(){return typeof VOLUME3D!=='undefined'?VOLUME3D:null;},'GRAV3D':function(){return typeof GRAV3D!=='undefined'?GRAV3D:null;},'HAIR_FIELD3D':function(){return typeof HAIR_FIELD3D!=='undefined'?HAIR_FIELD3D:null;},'MANNEQUIN':function(){return typeof MANNEQUIN!=='undefined'?MANNEQUIN:null;},'MQ_FRINGE':function(){return typeof MQ_FRINGE!=='undefined'?MQ_FRINGE:null;},'HAIR_DYE':function(){return typeof HAIR_DYE!=='undefined'?HAIR_DYE:null;}},_0x1dfe44={'HAIR_FIELD3D':['maxAlign']},_0x4da0c6={'MANNEQUIN':['lenPct'],'MQ_FRINGE':null};function _0x14408a(){return typeof state!=='undefined'?state:null;}function _0x4c7468(_0x4fde3a){return _0x4fde3a&&typeof _0x4fde3a==='object'&&!Array['isArray'](_0x4fde3a);}function _0x6faa7(_0x4f6514){return _0x4f6514===void 0x0?void 0x0:JSON['parse'](JSON['stringify'](_0x4f6514));}function _0x238a80(_0x19d95a,_0x16f309,_0x44c953){return Math['max'](_0x16f309,Math['min'](_0x44c953,_0x19d95a));}function _0x213fd6(_0x129ecf){return _0x3a0dec['_orig'][_0x129ecf];}_0x3a0dec['_orig']=_0x3a0dec['_orig']||{};var _0x480b1d={};function _0x3f2016(){for(var _0x5e47d8 in _0x3a0dec['profiles']){var _0x29cc14=_0x3a0dec['profiles'][_0x5e47d8]['config']||{};for(var _0x3a7d08 in _0x29cc14){var _0x95d884=_0x549704[_0x3a7d08]&&_0x549704[_0x3a7d08]();if(!_0x95d884)continue;_0x480b1d[_0x3a7d08]=_0x480b1d[_0x3a7d08]||{};for(var _0x1874da in _0x29cc14[_0x3a7d08])if(!(_0x1874da in _0x480b1d[_0x3a7d08]))_0x480b1d[_0x3a7d08][_0x1874da]=_0x6faa7(_0x95d884[_0x1874da]);}}}function _0x489b16(_0x2a12a3){var _0x5d8beb=[];for(var _0x4cf26d in _0x2a12a3){var _0x557d54=_0x549704[_0x4cf26d]&&_0x549704[_0x4cf26d]();if(!_0x557d54)continue;var _0x566e46=_0x2a12a3[_0x4cf26d]||Object['keys'](_0x557d54)['filter'](function(_0x5d9eec){return typeof _0x557d54[_0x5d9eec]!=='object';});_0x566e46['forEach'](function(_0x4b63a9){_0x5d8beb['push'](_0x4cf26d+'.'+_0x4b63a9+'='+_0x557d54[_0x4b63a9]);});}return _0x5d8beb['join']('|');}_0x3a0dec['activeId']=null,_0x3a0dec['active']=null;var _0x112688=null,_0x26ede1=null;function _0x28dc82(){try{if(typeof ADJ_CACHE!=='undefined'&&ADJ_CACHE['bump'])ADJ_CACHE['bump']();}catch(_0x26e05a){}try{if(typeof DYE_LUT!=='undefined'&&DYE_LUT['map'])DYE_LUT['map']['clear']();}catch(_0x364e0d){}}function _0x522252(_0x126246){var _0xe86602=_0x126246&&_0x3a0dec['profiles'][_0x126246]||null;for(var _0x3ac6ee in _0x480b1d){var _0x46093b=_0x549704[_0x3ac6ee]&&_0x549704[_0x3ac6ee]();if(!_0x46093b)continue;for(var _0x213593 in _0x480b1d[_0x3ac6ee])_0x46093b[_0x213593]=_0x6faa7(_0x480b1d[_0x3ac6ee][_0x213593]);}if(_0xe86602&&_0xe86602['config'])for(var _0x581639 in _0xe86602['config']){var _0xf920f2=_0x549704[_0x581639]&&_0x549704[_0x581639]();if(!_0xf920f2)continue;for(var _0x3fa720 in _0xe86602['config'][_0x581639]){var _0x475430=_0xe86602['config'][_0x581639][_0x3fa720];_0xf920f2[_0x3fa720]=_0x4c7468(_0x475430)&&_0x4c7468(_0xf920f2[_0x3fa720])?Object['assign']({},_0xf920f2[_0x3fa720],_0x6faa7(_0x475430)):_0x6faa7(_0x475430);}}if(_0xe86602&&_0xe86602['specPatch']&&!_0xe86602['_specPatched'])try{var _0x16fab6=typeof STYLE_SPECS!=='undefined'?STYLE_SPECS[_0x126246]:null;_0x16fab6&&(_0xe86602['specPatch'](_0x16fab6),_0xe86602['_specPatched']=!![]);}catch(_0x9fed9e){console['warn'](_0x472f2a+'\x20스펙\x20보정\x20실패',_0x9fed9e);}if(_0xe86602&&_0xe86602['silhouette'])try{if(typeof SILHOUETTE_REF!=='undefined'&&!SILHOUETTE_REF[_0x126246])SILHOUETTE_REF[_0x126246]=_0x6faa7(_0xe86602['silhouette']);}catch(_0x28df5a){}var _0x2685ff=_0x3a0dec['activeId']!==(_0xe86602?_0x126246:null);_0x3a0dec['activeId']=_0xe86602?_0x126246:null,_0x3a0dec['active']=_0xe86602,_0x28dc82(),_0x26ede1=_0x489b16(_0x4da0c6);if(_0x2685ff)_0xe86602&&_0xe86602['label'];}_0x3a0dec['applyProfile']=_0x522252;function _0xa64fa7(_0x1ba86e){try{if(typeof gyAllParamDef==='function')return gyAllParamDef(_0x1ba86e);}catch(_0x390a98){}try{for(var _0x2f350f=0x0;_0x2f350f<GYEOL_GROUPS['length'];_0x2f350f++){var _0x17e6e8=(GYEOL_GROUPS[_0x2f350f]['params']||[])['find'](function(_0x53b1bb){return _0x53b1bb['key']===_0x1ba86e;});if(_0x17e6e8)return _0x17e6e8;}}catch(_0x276cf8){}return{'key':_0x1ba86e,'min':0x0,'max':0x64,'unit':''};}function _0x5a2243(_0x5c748c,_0x78ac2c){return _0x5c748c==='length'?_0x3a0dec['LEN_EXT']:_0x78ac2c['max'];}function _0x169552(_0x1620ee,_0x310ea3){var _0xb5aad4=_0x14408a(),_0x421b08=_0xb5aad4&&_0xb5aad4['_styleBase']&&_0xb5aad4['_styleBase'][_0x1620ee];return _0x421b08&&typeof _0x421b08[_0x310ea3]==='number'?_0x421b08[_0x310ea3]:null;}function _0x4a8d23(_0x9b9b,_0x5f4038,_0x469821,_0x156bc7){_0x156bc7=_0x156bc7||_0xa64fa7(_0x5f4038);var _0xfdab28=_0x3a0dec['on']?_0x169552(_0x9b9b,_0x5f4038):null;if(_0xfdab28==null)return _0x469821;return _0x238a80((_0x156bc7['min']+_0x156bc7['max'])/0x2+(_0x469821-_0xfdab28),_0x156bc7['min'],_0x156bc7['max']);}function _0x4d5e9f(_0x6a0459,_0x44e76f,_0x1201af,_0x3dea6a){_0x3dea6a=_0x3dea6a||_0xa64fa7(_0x44e76f);var _0x1bc782=_0x3a0dec['on']?_0x169552(_0x6a0459,_0x44e76f):null;if(_0x1bc782==null)return _0x1201af;var _0x302a87=_0x1bc782+(_0x1201af-(_0x3dea6a['min']+_0x3dea6a['max'])/0x2);return Math['round'](_0x238a80(_0x302a87,_0x3dea6a['min'],_0x5a2243(_0x44e76f,_0x3dea6a))*0x3e8)/0x3e8;}_0x3a0dec['toPos']=_0x4a8d23,_0x3a0dec['toEff']=_0x4d5e9f;function _0x402108(_0x1ea960){var _0x621d1b=_0x14408a();if(!_0x621d1b||!_0x621d1b['sections'])return;var _0xd6689c={};for(var _0x45b1b3 in _0x621d1b['sections']){_0xd6689c[_0x45b1b3]={},_0x3a0dec['PARAM_KEYS']['forEach'](function(_0x2a5906){if(typeof _0x621d1b['sections'][_0x45b1b3][_0x2a5906]==='number')_0xd6689c[_0x45b1b3][_0x2a5906]=_0x621d1b['sections'][_0x45b1b3][_0x2a5906];});}_0x621d1b['_styleBase']=_0xd6689c,Object['keys'](_0xd6689c)['map'](function(_0x41b1ed){return _0x41b1ed+'\x20'+(_0xd6689c[_0x41b1ed]['length']!=null?Math['round'](_0xd6689c[_0x41b1ed]['length']):'-');})['join']('\x20·\x20');}function _0x54acee(){var _0x3d14e3=_0x14408a();if(_0x3d14e3)_0x3d14e3['_styleBase']=null;}_0x3a0dec['captureBase']=_0x402108,_0x3a0dec['clearBase']=_0x54acee;function _0x3deb7b(){try{if(typeof buildGyPanel==='function')buildGyPanel();else{if(typeof buildGyControls==='function')buildGyControls();}}catch(_0x400b7d){}}function _0x1b02f6(_0x850c83,_0x2ab1bb){var _0x1e9500=0.005*_0x2ab1bb['H'],_0xa26976=measureSectionTipY(_0x850c83,_0x3a0dec['LEN_EXT']);if(_0xa26976==null)return null;var _0x9c11c7=0x0,_0x7eee42=_0x3a0dec['LEN_EXT'];for(var _0x2e615a=0x0;_0x2e615a<0x10;_0x2e615a++){var _0x286040=(_0x9c11c7+_0x7eee42)/0x2,_0x387276=measureSectionTipY(_0x850c83,_0x286040);if(_0x387276==null)return null;if(Math['abs'](_0x387276-_0xa26976)<=_0x1e9500)_0x7eee42=_0x286040;else _0x9c11c7=_0x286040;}return Math['ceil'](_0x7eee42);}function _0x2aae3c(_0x128c9a,_0x2ef9dd){if(!_0x2ef9dd||!_0x2ef9dd['unit']||typeof measureSectionTipY!=='function'||typeof headHeightRef!=='function')return;var _0x1371a1=null;try{_0x1371a1=getStyleSpec(_0x128c9a);}catch(_0x5d4177){}if(!_0x1371a1||!_0x1371a1['tipAt'])return;var _0xad3c99=headHeightRef();if(!_0xad3c99)return;var _0x1cce90=_0x14408a();for(var _0x5dc16c in _0x2ef9dd['unit']){if(_0x2ef9dd['unit'][_0x5dc16c]!=='tip'||_0x1371a1['tipAt'][_0x5dc16c]==null||!_0x1cce90['sections'][_0x5dc16c])continue;if(!(_0x1cce90['sections'][_0x5dc16c]['length']>=99.5))continue;var _0x1dcc0e=_0xad3c99['yTop']-_0x1371a1['tipAt'][_0x5dc16c]*_0xad3c99['H'],_0x48571e=_0x1b02f6(_0x5dc16c,_0xad3c99);if(_0x48571e==null)continue;var _0x38d9e8,_0x346a08=measureSectionTipY(_0x5dc16c,_0x48571e);if(_0x346a08>_0x1dcc0e)_0x38d9e8=_0x48571e;else{var _0x27f1d4=0x0,_0x464ec3=_0x48571e;for(var _0x2de39b=0x0;_0x2de39b<0x12;_0x2de39b++){var _0x6de4b=(_0x27f1d4+_0x464ec3)/0x2,_0x3af4b6=measureSectionTipY(_0x5dc16c,_0x6de4b);if(_0x3af4b6==null)break;if(_0x3af4b6>_0x1dcc0e)_0x27f1d4=_0x6de4b;else _0x464ec3=_0x6de4b;}_0x38d9e8=Math['round']((_0x27f1d4+_0x464ec3)/0x2);}_0x1cce90['sections'][_0x5dc16c]['length']=_0x38d9e8;if(_0x2ef9dd['solved'])_0x2ef9dd['solved'][_0x5dc16c]=_0x38d9e8;var _0x4e882b=measureSectionTipY(_0x5dc16c,_0x38d9e8),_0x3cc555=_0x4e882b==null?null:(_0x4e882b-_0x1dcc0e)/_0xad3c99['H']*0x64;_0x3cc555==null||_0x3cc555['toFixed'](0x1),_0x38d9e8>=_0x48571e&&_0x3cc555!=null&&Math['abs'](_0x3cc555);}}function _0x1ab5e2(_0x564bf9){var _0x4473c5=_0x3a0dec['active']&&_0x3a0dec['active']['shade']||_0x3a0dec['shade'];if(!_0x4473c5||!_0x564bf9||!_0x564bf9['geometry'])return _0x564bf9;var _0x572388=_0x564bf9['geometry'],_0x14017a=_0x572388['attributes']['position'],_0x48fc04=_0x572388['attributes']['color'];if(!_0x14017a||!_0x48fc04||_0x14017a['count']<0x4)return _0x564bf9;var _0x4bb070;try{_0x4bb070=getHeadEllipsoid();}catch(_0xeec6d9){return _0x564bf9;}var _0x3c00ea=typeof SCALP_CENTER_Y!=='undefined'?SCALP_CENTER_Y:0.15,_0x525935=_0x14017a['count'],_0x25c751=0x24,_0x334b7f=0x12,_0x346980=new Float32Array(_0x525935),_0x2aafae=new Int32Array(_0x525935),_0x172bd7=new Float32Array(_0x25c751*_0x334b7f);for(var _0x278018=0x0;_0x278018<_0x525935;_0x278018++){var _0x341bfe=_0x14017a['getX'](_0x278018)/_0x4bb070['a'],_0x569abb=(_0x14017a['getY'](_0x278018)-_0x3c00ea)/_0x4bb070['b'],_0x215791=_0x14017a['getZ'](_0x278018)/_0x4bb070['c'],_0x59ee77=Math['sqrt'](_0x341bfe*_0x341bfe+_0x569abb*_0x569abb+_0x215791*_0x215791)||0.000001,_0x4875f6=Math['atan2'](_0x341bfe,_0x215791),_0x3ced19=Math['acos'](_0x238a80(_0x569abb/_0x59ee77,-0x1,0x1)),_0x3d632a=Math['min'](_0x334b7f-0x1,_0x3ced19/Math['PI']*_0x334b7f|0x0)*_0x25c751+Math['min'](_0x25c751-0x1,(_0x4875f6+Math['PI'])/(0x2*Math['PI'])*_0x25c751|0x0);_0x346980[_0x278018]=_0x59ee77,_0x2aafae[_0x278018]=_0x3d632a;if(_0x59ee77>_0x172bd7[_0x3d632a])_0x172bd7[_0x3d632a]=_0x59ee77;}var _0x146eb0=[];for(var _0x2c5059=0x0;_0x2c5059<_0x525935;_0x2c5059+=0x7)_0x146eb0['push'](0.299*_0x48fc04['getX'](_0x2c5059)+0.587*_0x48fc04['getY'](_0x2c5059)+0.114*_0x48fc04['getZ'](_0x2c5059));_0x146eb0['sort'](function(_0x3568c8,_0x34131c){return _0x3568c8-_0x34131c;});var _0x111afe=(_0x146eb0[_0x146eb0['length']>>0x1]||0.2)*_0x4473c5['lumCap'],_0x7f467b=[0.3,0.8,0.5],_0x1ba3a6=[0x0,0x0,0x1],_0x30b0e9=[_0x7f467b[0x0]+_0x1ba3a6[0x0],_0x7f467b[0x1]+_0x1ba3a6[0x1],_0x7f467b[0x2]+_0x1ba3a6[0x2]],_0x15ba7f=Math['hypot'](_0x30b0e9[0x0],_0x30b0e9[0x1],_0x30b0e9[0x2]);_0x30b0e9=[_0x30b0e9[0x0]/_0x15ba7f,_0x30b0e9[0x1]/_0x15ba7f,_0x30b0e9[0x2]/_0x15ba7f];var _0x4647be=new Float32Array(_0x525935*0x3);for(var _0x105750=0x0;_0x105750+0x1<_0x525935;_0x105750+=0x2){var _0x965494=_0x14017a['getX'](_0x105750+0x1)-_0x14017a['getX'](_0x105750),_0x38ab5f=_0x14017a['getY'](_0x105750+0x1)-_0x14017a['getY'](_0x105750),_0xdea037=_0x14017a['getZ'](_0x105750+0x1)-_0x14017a['getZ'](_0x105750),_0x1e90d1=Math['hypot'](_0x965494,_0x38ab5f,_0xdea037)||1e-9,_0x2d33de=(_0x965494*_0x30b0e9[0x0]+_0x38ab5f*_0x30b0e9[0x1]+_0xdea037*_0x30b0e9[0x2])/_0x1e90d1,_0x47cb04=Math['pow'](Math['sqrt'](Math['max'](0x0,0x1-_0x2d33de*_0x2d33de)),_0x4473c5['specPow']);for(var _0x4f3cd8=_0x105750;_0x4f3cd8<_0x105750+0x2;_0x4f3cd8++){var _0x14ac89=_0x172bd7[_0x2aafae[_0x4f3cd8]],_0xe301e2=_0x14ac89>1.02?_0x238a80((_0x346980[_0x4f3cd8]-0x1)/(_0x14ac89-0x1),0x0,0x1):0x1,_0x1fa83b=_0x4473c5['ao']+(0x1-_0x4473c5['ao'])*Math['pow'](_0xe301e2,0.8),_0x4141ee=_0x48fc04['getX'](_0x4f3cd8),_0x1c8d56=_0x48fc04['getY'](_0x4f3cd8),_0x44180b=_0x48fc04['getZ'](_0x4f3cd8),_0x204569=0.299*_0x4141ee+0.587*_0x1c8d56+0.114*_0x44180b;if(_0x204569>_0x111afe&&_0x204569>0x0){var _0x38c26c=_0x111afe/_0x204569;_0x4141ee*=_0x38c26c,_0x1c8d56*=_0x38c26c,_0x44180b*=_0x38c26c;}var _0xc15cbd=_0x47cb04*_0x4473c5['spec']*_0xe301e2*_0xe301e2;_0x4647be[_0x4f3cd8*0x3]=Math['min'](0x1,_0x4141ee*_0x1fa83b+_0xc15cbd*0.85),_0x4647be[_0x4f3cd8*0x3+0x1]=Math['min'](0x1,_0x1c8d56*_0x1fa83b+_0xc15cbd*0.8),_0x4647be[_0x4f3cd8*0x3+0x2]=Math['min'](0x1,_0x44180b*_0x1fa83b+_0xc15cbd*0.72);}}return _0x572388['setAttribute']('color',new THREE['BufferAttribute'](_0x4647be,0x3)),!_0x3a0dec['_shadeLogged']&&(_0x3a0dec['_shadeLogged']=!![],(_0x4473c5['ao'],_0x4473c5['lumCap'],_0x4473c5['spec'])),_0x564bf9;}var _0x22da8e={'perm':[{'key':'base','label':'베이스\x20폭','hint':'로드\x20하나에\x20감는\x20모발\x20폭\x20·\x20넓을수록\x20컬\x20덩어리가\x20큼','min':0x0,'max':0x64,'unit':'%'}],'set':[{'key':'define','label':'컬\x20정리감','hint':'컬크림·에센스로\x20결을\x20모은\x20정도\x20·\x20낮으면\x20부스스','min':0x0,'max':0x64,'unit':'%'},{'key':'volShare','label':'부피감','hint':'이\x20섹션이\x20두상에서\x20뜨는\x20정도','min':0x0,'max':0x64,'unit':'%'},{'key':'volPoint','label':'볼륨\x20위치','hint':'뿌리\x20↔\x20모발\x20끝\x20·\x20끝쪽일수록\x20밑단이\x20퍼짐','min':0x0,'max':0x64,'unit':'%'},{'key':'weight','label':'처짐','hint':'모발\x20무게로\x20내려앉는\x20정도\x20·\x20낮을수록\x20컬이\x20뜸','min':0x0,'max':0x64,'unit':'%'}]},_0x548222={'base':0x37,'define':0x1e,'volShare':0x32,'volPoint':0x32,'weight':0x32},_0x5c246f=null;function _0x4f260c(_0x169928,_0x15eb0c){var _0x4efa2f=_0x14408a(),_0x398a13=_0x4efa2f&&_0x4efa2f['sections']&&_0x4efa2f['sections'][_0x169928],_0x5f274d=_0x398a13&&_0x398a13[_0x15eb0c];return typeof _0x5f274d==='number'&&isFinite(_0x5f274d)?_0x5f274d:_0x548222[_0x15eb0c];}_0x3a0dec['map']={'rodK':function(_0x159ab0){return 0.4+0.02*_0x159ab0;},'clumpPull':function(_0x3fc609){return _0x3fc609/0x64;},'phaseJitter':function(_0x4f82c7){return Math['max'](0.1,1.6-1.4*_0x4f82c7/0x64);},'secK':function(_0x38c8a0,_0x28086f){return(_0x5c246f&&_0x5c246f[_0x28086f]!=null?_0x5c246f[_0x28086f]:0x1)*_0x38c8a0/0x32;},'ramp':function(_0x136cb5){return 0.3+(_0x136cb5-0x32)/0x32*0.2;},'tipHold':function(_0x3227c4){return 0.8+(_0x3227c4-0x32)/0x32*0.5;},'curlK':function(_0x83318a){return 0.35+(0x32-_0x83318a)/0x32*0.9;}};function _0x237c6f(_0x189cca,_0x4135a7,_0x1b2b83){if(!_0x189cca)return _0x1b2b83();var _0x13a9eb={};for(var _0x4993bc in _0x4135a7){_0x13a9eb[_0x4993bc]=_0x189cca[_0x4993bc],_0x189cca[_0x4993bc]=_0x4135a7[_0x4993bc];}try{return _0x1b2b83();}finally{for(var _0x10a9d7 in _0x13a9eb)_0x189cca[_0x10a9d7]=_0x13a9eb[_0x10a9d7];}}function _0x3ee430(){try{var _0x332d6c=GYEOL_GROUPS['find'](function(_0x3c1b89){return _0x3c1b89['id']==='perm';});_0x22da8e['perm']['forEach'](function(_0x2aad85){if(_0x332d6c&&!_0x332d6c['params']['some'](function(_0xddc27c){return _0xddc27c['key']===_0x2aad85['key'];}))_0x332d6c['params']['push'](_0x2aad85);});if(!GYEOL_GROUPS['some'](function(_0x191eda){return _0x191eda['id']==='set';})){var _0x4b863d=GYEOL_GROUPS['findIndex'](function(_0x4c9f52){return _0x4c9f52['id']==='color';}),_0x2da4b5={'id':'set','title':'세팅','sub':'드라이·제품\x20마무리','color':'var(--gy-perm)','optional':!![],'params':_0x22da8e['set']};if(_0x4b863d<0x0)GYEOL_GROUPS['push'](_0x2da4b5);else GYEOL_GROUPS['splice'](_0x4b863d,0x0,_0x2da4b5);}}catch(_0x29418c){console['warn'](_0x472f2a+'\x20막대\x20그룹\x20추가\x20실패',_0x29418c);}try{if(typeof GY_ALL_PARAMS!=='undefined'){if(GY_ALL_PARAMS['perm']['indexOf']('base')<0x0)GY_ALL_PARAMS['perm']['push']('base');GY_ALL_PARAMS['set']=_0x22da8e['set']['map'](function(_0x5e9980){return _0x5e9980['key'];});}}catch(_0x3e93a2){}try{Object['keys'](_0x548222)['forEach'](function(_0x5c5c22){if(ADJ_GEO_SECTION_KEYS['indexOf'](_0x5c5c22)<0x0)ADJ_GEO_SECTION_KEYS['push'](_0x5c5c22);});}catch(_0x496998){}try{for(var _0xfb314d in SECTIONS){var _0x2ae3c1=SECTIONS[_0xfb314d]['defaults']||(SECTIONS[_0xfb314d]['defaults']={});for(var _0x157abd in _0x548222)if(typeof _0x2ae3c1[_0x157abd]!=='number')_0x2ae3c1[_0x157abd]=_0x548222[_0x157abd];}var _0x4ccd05=_0x14408a();if(_0x4ccd05&&_0x4ccd05['sections']){for(var _0x525cd4 in _0x4ccd05['sections'])for(var _0x5ee4b9 in _0x548222)if(typeof _0x4ccd05['sections'][_0x525cd4][_0x5ee4b9]!=='number')_0x4ccd05['sections'][_0x525cd4][_0x5ee4b9]=_0x548222[_0x5ee4b9];}}catch(_0x3d15d1){}try{if(typeof I18N!=='undefined')Object['assign'](I18N,{'세팅':'Setting','드라이·제품\x20마무리':'Blow-dry\x20&\x20product\x20finish','베이스\x20폭':'Base\x20width','로드\x20하나에\x20감는\x20모발\x20폭\x20·\x20넓을수록\x20컬\x20덩어리가\x20큼':'Hair\x20wound\x20per\x20rod\x20·\x20wider\x20=\x20chunkier\x20curls','컬\x20정리감':'Curl\x20definition','컬크림·에센스로\x20결을\x20모은\x20정도\x20·\x20낮으면\x20부스스':'How\x20much\x20product\x20groups\x20the\x20curls\x20·\x20low\x20=\x20frizzy','부피감':'Lift','이\x20섹션이\x20두상에서\x20뜨는\x20정도':'How\x20far\x20this\x20section\x20stands\x20off\x20the\x20head','볼륨\x20위치':'Volume\x20point','뿌리\x20↔\x20모발\x20끝\x20·\x20끝쪽일수록\x20밑단이\x20퍼짐':'Root\x20↔\x20ends\x20·\x20toward\x20ends\x20=\x20flared\x20hem','처짐':'Weight','모발\x20무게로\x20내려앉는\x20정도\x20·\x20낮을수록\x20컬이\x20뜸':'How\x20much\x20the\x20hair\x20drops\x20under\x20its\x20weight','앞머리\x20기장':'Fringe\x20length','눈썹\x20위\x20↔\x20눈\x20아래':'Above\x20brows\x20↔\x20below\x20eyes'});}catch(_0x1fcf4e){}try{_0x5c246f=_0x6faa7((_0x549704['VOLUME3D']()||{})['secK'])||null;}catch(_0x395f54){}}function _0xed7cf4(_0x3882e5,_0x9e5ae4){var _0x4a7b16=_0x4a9293[_0x3882e5];if(typeof _0x4a7b16!=='function'){console['warn'](_0x472f2a+'\x20'+_0x3882e5+'\x20없음\x20—\x20건너뜀');return;}if(_0x4a7b16['__sbWrapped'])return;_0x3a0dec['_orig'][_0x3882e5]=_0x4a7b16;var _0x1f029e=_0x9e5ae4(_0x4a7b16);_0x1f029e['__sbWrapped']=!![],_0x4a9293[_0x3882e5]=_0x1f029e;}function _0x177d4d(){_0x3ee430(),_0x3f2016(),_0x26ede1=_0x489b16(_0x4da0c6),_0xed7cf4('sectionLengthRatio',function(_0x12241a){return function(_0x391484,_0x4dfeb3){if(!_0x3a0dec['on']||!(typeof _0x4dfeb3==='number'&&_0x4dfeb3>0x64))return _0x12241a['apply'](this,arguments);var _0x1d1784=typeof SECTIONS!=='undefined'&&SECTIONS[_0x391484]&&SECTIONS[_0x391484]['defaults']&&typeof SECTIONS[_0x391484]['defaults']['length']==='number'?SECTIONS[_0x391484]['defaults']['length']:0x32,_0x5822d4=typeof LENGTH_RATIO_PER_UNIT!=='undefined'?LENGTH_RATIO_PER_UNIT:0.018;return 0x1+(Math['min'](_0x3a0dec['LEN_EXT'],_0x4dfeb3)-_0x1d1784)*_0x5822d4;};}),_0x3a0dec['ROD_MAX_CM']=0x4,_0xed7cf4('curlRodRadius',function(_0x146069){return function(_0x182fb4){var _0x3ebeb1=_0x146069['apply'](this,arguments);if(!_0x3a0dec['on']||!(_0x182fb4>0.75))return _0x3ebeb1;var _0x287d03=_0x146069['call'](this,0.75),_0x27ba8e=_0x4a9293['CURL_BUNDLE']&&_0x4a9293['CURL_BUNDLE']['cmPerUnit']||19.33,_0x508c38=Math['max'](_0x287d03,_0x3a0dec['ROD_MAX_CM']/0x2/_0x27ba8e);return _0x287d03+(Math['min'](0x1,_0x182fb4)-0.75)/0.25*(_0x508c38-_0x287d03);};});var _0x3b08cd=null;_0xed7cf4('adjustStrandGeom',function(_0x3e3d9d){return function(_0x4f462f){var _0x1bae5d=_0x3b08cd;_0x3b08cd=_0x4f462f&&_0x4f462f['sec']||null;try{return _0x3e3d9d['apply'](this,arguments);}finally{_0x3b08cd=_0x1bae5d;}};}),_0x3a0dec['_asSec']=function(_0x16d8aa,_0x5b5cfc){var _0x82ab4d=_0x3b08cd;_0x3b08cd=_0x16d8aa;try{return _0x5b5cfc();}finally{_0x3b08cd=_0x82ab4d;}},_0xed7cf4('curlStrand3D',function(_0x14bf93){return function(){if(!_0x3a0dec['on']||!_0x3b08cd||!_0x4a9293['CURL_BUNDLE'])return _0x14bf93['apply'](this,arguments);var _0x284e6c=this,_0x53c9fe=arguments,_0x420395=_0x4f260c(_0x3b08cd,'base'),_0x56f4dd=_0x4f260c(_0x3b08cd,'define');return _0x237c6f(_0x4a9293['CURL_BUNDLE'],{'rodK':_0x3a0dec['map']['rodK'](_0x420395),'clumpPull':_0x3a0dec['map']['clumpPull'](_0x56f4dd),'phaseJitter':_0x3a0dec['map']['phaseJitter'](_0x56f4dd)},function(){return _0x14bf93['apply'](_0x284e6c,_0x53c9fe);});};}),_0xed7cf4('gravityDroop3D',function(_0x4fb826){return function(){var _0x3f1656=_0x549704['GRAV3D']();if(!_0x3a0dec['on']||!_0x3b08cd||!_0x3f1656)return _0x4fb826['apply'](this,arguments);var _0x4b76ba=this,_0x233edd=arguments;return _0x237c6f(_0x3f1656,{'curlK':_0x3a0dec['map']['curlK'](_0x4f260c(_0x3b08cd,'weight'))},function(){return _0x4fb826['apply'](_0x4b76ba,_0x233edd);});};}),_0xed7cf4('volumeStrand3D',function(_0x9a4c6c){return function(_0x3d8aac,_0x54ec84,_0x4709dd){var _0x4f777e=_0x549704['VOLUME3D'](),_0x3f4817=_0x4709dd||_0x3b08cd;if(!_0x3a0dec['on']||!_0x3f4817||!_0x4f777e)return _0x9a4c6c['apply'](this,arguments);var _0x33c285=this,_0x541540=arguments,_0x4f1c22=_0x4f260c(_0x3f4817,'volPoint'),_0xe6cb92=Object['assign']({},_0x4f777e['secK']||{});return _0xe6cb92[_0x3f4817]=_0x3a0dec['map']['secK'](_0x4f260c(_0x3f4817,'volShare'),_0x3f4817),_0x237c6f(_0x4f777e,{'secK':_0xe6cb92,'RAMP':_0x3a0dec['map']['ramp'](_0x4f1c22),'tipHold':_0x3a0dec['map']['tipHold'](_0x4f1c22)},function(){return _0x9a4c6c['apply'](_0x33c285,_0x541540);});};}),_0xed7cf4('buildGyAllControls',function(_0x29d1a9){return function(_0x259308){var _0x224816=_0x29d1a9['apply'](this,arguments);try{var _0xeea8b2=GYEOL_GROUPS['find'](function(_0x2c0372){return _0x2c0372['id']==='set';});if(_0xeea8b2&&typeof gyAllGroup==='function'&&_0x259308){var _0x24fc6e=gyAllGroup(_0xeea8b2,function(_0x31cd6e){GY_ALL_PARAMS['set']['forEach'](function(_0x5dcb9e){_0x31cd6e['appendChild'](gyAllRangeCtrl(_0x5dcb9e));});}),_0x29b601=_0x259308['lastElementChild'];if(_0x29b601&&_0x29b601['className']==='section-affects')_0x259308['insertBefore'](_0x24fc6e,_0x29b601);else _0x259308['appendChild'](_0x24fc6e);}}catch(_0x43bbaa){console['warn'](_0x472f2a+'\x20전체\x20화면\x20세팅\x20묶음\x20실패',_0x43bbaa);}return _0x224816;};}),_0xed7cf4('volumeLiftHead',function(_0x4286f5){return function(_0x439d1a,_0x3c4f70){var _0x39ba5a=_0x3a0dec['on']&&_0x3a0dec['active']&&_0x3a0dec['active']['volBase'];if(!_0x39ba5a)return _0x4286f5['apply'](this,arguments);var _0x40f089=_0x4286f5['call'](this,_0x439d1a,0x64);if(!_0x40f089)return null;var _0x2481a4=_0x39ba5a+(_0x238a80(typeof _0x3c4f70==='number'?_0x3c4f70:0x32,0x0,0x64)-0x32)/0x32;if(Math['abs'](_0x2481a4)<0.000001)return null;return{'x':_0x40f089['x']*_0x2481a4,'y':_0x40f089['y']*_0x2481a4,'z':_0x40f089['z']*_0x2481a4};};}),_0xed7cf4('_volHash',function(_0x416008){return function(){var _0xe3e10f=_0x416008['apply'](this,arguments);if(!_0x3a0dec['on']||!(_0x3a0dec['fixVolHashAll']||_0x3a0dec['active']))return _0xe3e10f;return _0xe3e10f<0x0?_0xe3e10f+0x1:_0xe3e10f;};}),_0xed7cf4('buildNeutralHair3D',function(_0x11c687){return function(_0x1a1604){var _0x40170e=typeof NEUTRAL_BUILD!=='undefined'&&NEUTRAL_BUILD['running'];if(!_0x40170e)_0x112688=_0x489b16(_0x1dfe44);return _0x11c687['apply'](this,arguments);};}),_0xed7cf4('selectStyle',function(_0x4d770b){return function(_0x1ad649){if(!_0x3a0dec['on'])return _0x4d770b['apply'](this,arguments);var _0x19bc98=null;try{_0x19bc98=STYLES['find'](function(_0x2b77dc){return _0x2b77dc['id']===_0x1ad649;});}catch(_0x235128){}var _0x36ac90=_0x19bc98?_0x19bc98['specId']||_0x19bc98['profileId']||null:null;_0x54acee(),_0x522252(_0x36ac90);var _0x5024b5=_0x4d770b['apply'](this,arguments);return _0x19bc98&&!_0x19bc98['specId']&&_0x19bc98['sections']&&(_0x402108('저장\x20스타일\x20'+(_0x19bc98['name']||_0x19bc98['id'])),_0x3deb7b()),_0x5024b5;};}),_0xed7cf4('selectNoStyle',function(_0x14b2bb){return function(){return _0x3a0dec['on']&&(_0x54acee(),_0x522252(null)),_0x14b2bb['apply'](this,arguments);};}),_0xed7cf4('resetSections',function(_0x1700fe){return function(){return _0x54acee(),_0x1700fe['apply'](this,arguments);};}),_0xed7cf4('applyStyleSpecAndRender',function(_0x376ff1){return function(_0x3b15ca){var _0x346e82=_0x14408a();if(_0x3a0dec['on']&&!(_0x346e82&&_0x346e82['specAppliedId']===_0x3b15ca))_0x522252(_0x3b15ca);return _0x376ff1['apply'](this,arguments);};}),_0xed7cf4('applyStyleSpec',function(_0xcbbd80){return function(_0x485d9f){var _0x3ce7f1=FLOW_SPEC['_beginApply'](_0x485d9f);try{ORIG_MQ['_beginApply'](_0x485d9f);var _0x29c9dd=SPEC_PASS['_beginApply'](_0x485d9f),_0x49d7db=null;try{_0x49d7db=getStyleSpec(_0x485d9f);}catch(_0xa77af0){}var _0x564fae=STYLE_TUNES[_0x485d9f];if(_0x49d7db&&_0x564fae&&_0x564fae['tipAt'])_0x49d7db['tipAt']=Object['assign']({},_0x49d7db['tipAt'],_0x564fae['tipAt']);if(_0x49d7db&&_0x49d7db['tipAt']&&_0x49d7db['tipAt']['front']>0.46&&_0x49d7db['tipAt']['front']<0.56&&_0x49d7db['eyeGuard']!==![])console['warn']('[앞머리\x20길이]\x20'+_0x485d9f+'\x20tipAt.front\x20'+_0x49d7db['tipAt']['front']+'\x20—\x20눈높이(0.5)\x20근처\x20목표입니다.\x20눈썹\x200.41\x20·\x20윗눈꺼풀\x200.465\x20·\x20눈\x20아래로\x20덮을\x20거면\x200.55↑');eyeGuardApplyCommonDefaults(_0x485d9f),EYE_GUARD['_applying']=_0x485d9f,EYE_GUARD['_geo']=null,FACE_COVER_CHECK['pendingId']=_0x485d9f;try{var _0x1ecfad=_0xcbbd80['apply'](this,arguments);if(!_0x3a0dec['on']||!_0x1ecfad)return _0x1ecfad;try{_0x2aae3c(_0x485d9f,_0x1ecfad);}catch(_0x3c6df3){console['warn'](_0x472f2a+'\x20길이\x20확장\x20실패',_0x3c6df3);}var _0x2cdb4d=_0x3a0dec['profiles'][_0x485d9f],_0x2a7dda=_0x14408a();if(_0x2cdb4d&&_0x2cdb4d['after']&&_0x2a7dda){for(var _0x5009cd in _0x2cdb4d['after'])if(_0x2a7dda['sections'][_0x5009cd])Object['assign'](_0x2a7dda['sections'][_0x5009cd],_0x2cdb4d['after'][_0x5009cd]);}return _0x402108('스펙\x20'+_0x485d9f),_0x28dc82(),_0x1ecfad;}finally{EYE_GUARD['_applying']=null,SPEC_PASS['_endApply'](_0x29c9dd),ORIG_MQ['_endApply']();}}finally{FLOW_SPEC['_endApply'](_0x3ce7f1);}};}),_0xed7cf4('clearStyleSpec',function(_0x317e9f){return function(){var _0x59fe03=_0x317e9f['apply'](this,arguments);return _0x3a0dec['on']&&(_0x54acee(),_0x522252(null),_0x3deb7b()),_0x59fe03;};}),_0xed7cf4('registerCurrentAsStyle',function(_0x519a11){return function(){var _0xdba557=[];try{_0xdba557=STYLES['slice']();}catch(_0x2bce6b){}var _0xd90c40=_0x519a11['apply'](this,arguments);try{if(_0x3a0dec['activeId']){var _0x14ab09=STYLES['filter'](function(_0x2ec279){return _0xdba557['indexOf'](_0x2ec279)<0x0;});_0x14ab09['forEach'](function(_0x3e61c0){if(!_0x3e61c0['profileId']&&!_0x3e61c0['specId'])_0x3e61c0['profileId']=_0x3a0dec['activeId'];});if(_0x14ab09['length']&&typeof saveCustomStylesToStorage==='function')saveCustomStylesToStorage();}}catch(_0x4daae3){}return _0xd90c40;};}),_0xed7cf4('gyBuildRangeCtrl',function(_0x25358a){return function(_0x40dcdd,_0x212095){var _0x47bee9=_0x25358a['apply'](this,arguments);try{var _0x1e016d=_0x14408a(),_0x50eff9=_0x1e016d['sections'][_0x40dcdd][_0x212095['key']],_0x17ab5d=_0x47bee9['querySelector']('input[type=range]');if(_0x40dcdd==='front'&&_0x212095['key']==='length'){var _0x5c79c6=_0x47bee9['querySelector']('.gy-ctrl-label'),_0x64801a=_0x47bee9['querySelector']('.gy-ctrl-hint');if(_0x5c79c6)_0x5c79c6['textContent']='앞머리\x20기장';if(_0x64801a)_0x64801a['textContent']='눈썹\x20위\x20↔\x20눈\x20아래';}if(_0x17ab5d&&typeof _0x50eff9==='number')_0x17ab5d['value']=_0x4a8d23(_0x40dcdd,_0x212095['key'],_0x50eff9,_0x212095);}catch(_0x4e83c6){}return _0x47bee9;};}),_0xed7cf4('syncGyParamUI',function(_0x86ca07){return function(_0xbb2b31,_0xadf078){var _0xdba4f8=_0x86ca07['apply'](this,arguments);try{var _0xc038a2=document['getElementById']('gyrange-'+_0xbb2b31+'-'+_0xadf078),_0x330d46=_0x14408a()['sections'][_0xbb2b31][_0xadf078];if(_0xc038a2&&typeof _0x330d46==='number')_0xc038a2['value']=_0x4a8d23(_0xbb2b31,_0xadf078,_0x330d46);}catch(_0x1be795){}return _0xdba4f8;};}),_0xed7cf4('onGySlider',function(_0x2e513f){return function(_0x38d45d,_0x4f681a,_0x5b15d8){var _0x41deef=_0x14408a();if(!_0x3a0dec['on']||!_0x41deef||!_0x41deef['sections'][_0x38d45d]||_0x169552(_0x38d45d,_0x4f681a)==null)return _0x2e513f['apply'](this,arguments);var _0x2c3590=_0xa64fa7(_0x4f681a),_0x27e09e=parseFloat(_0x5b15d8),_0x49542b=typeof _0x41deef['sections'][_0x38d45d][_0x4f681a]==='number'?_0x41deef['sections'][_0x38d45d][_0x4f681a]:_0x27e09e,_0x2f0410=_0x4d5e9f(_0x38d45d,_0x4f681a,_0x27e09e,_0x2c3590);_0x41deef['sections'][_0x38d45d][_0x4f681a]=_0x2f0410;var _0x34be1e=document['getElementById']('gyval-'+_0x38d45d+'-'+_0x4f681a);if(_0x34be1e)_0x34be1e['textContent']=Math['round'](_0x2f0410)+(typeof GY_UNIT!=='undefined'&&GY_UNIT[_0x4f681a]||'');if(_0x4f681a==='length'&&typeof propagateSectionChange==='function')propagateSectionChange(_0x38d45d,'length',_0x2f0410-_0x49542b);if(typeof drawAdjustPreview==='function')drawAdjustPreview();};});function _0x19cdc5(_0x1f9f3b,_0x2b4534){var _0x6ca6b0=_0x14408a(),_0x5487a7=0x0,_0x40a322=0x0,_0x5d74cc=_0xa64fa7(_0x1f9f3b);return(typeof SECTION_ORDER!=='undefined'?SECTION_ORDER:Object['keys'](_0x6ca6b0['sections']))['forEach'](function(_0x18d439){var _0x5bf8d1=_0x6ca6b0['sections'][_0x18d439]&&_0x6ca6b0['sections'][_0x18d439][_0x1f9f3b];typeof _0x5bf8d1==='number'&&isFinite(_0x5bf8d1)&&(_0x5487a7+=_0x2b4534(_0x18d439,_0x5bf8d1,_0x5d74cc),_0x40a322++);}),_0x40a322?_0x5487a7/_0x40a322:0x0;}function _0x437530(_0x145450){return _0x19cdc5(_0x145450,function(_0x39ee0e,_0x35351b,_0x44d342){return _0x4a8d23(_0x39ee0e,_0x145450,_0x35351b,_0x44d342);});}function _0x2633bc(_0x53e494){return _0x19cdc5(_0x53e494,function(_0x439afa,_0xd3433b){return _0xd3433b;});}var _0x370cbf=null;_0xed7cf4('gyAllRangeCtrl',function(_0x43ba4a){return function(_0x1c0bdb){var _0x4cec47=_0x43ba4a['apply'](this,arguments);try{var _0x1b066f=_0x4cec47['querySelector']('input[type=range]'),_0x5e5c93=Math['round'](_0x437530(_0x1c0bdb));_0x1b066f&&(_0x1b066f['value']=_0x5e5c93,_0x1b066f['dataset']['start']=String(_0x5e5c93));}catch(_0x44f829){}return _0x4cec47;};}),_0xed7cf4('onGyAllSlider',function(_0x9dd431){return function(_0x47ac2c,_0x165a09,_0x46baf5){if(!_0x3a0dec['on']||!_0x14408a()['_styleBase'])return _0x9dd431['apply'](this,arguments);var _0x3314f8=parseFloat(_0x165a09);if(!isFinite(_0x3314f8))return;var _0x52fb58=_0x14408a(),_0x5b3ac0=_0xa64fa7(_0x47ac2c);if(!_0x370cbf||_0x370cbf['key']!==_0x47ac2c){_0x370cbf={'key':_0x47ac2c,'start':parseFloat(_0x46baf5&&_0x46baf5['dataset']['start']),'base':{}};if(!isFinite(_0x370cbf['start']))_0x370cbf['start']=_0x3314f8;(typeof SECTION_ORDER!=='undefined'?SECTION_ORDER:Object['keys'](_0x52fb58['sections']))['forEach'](function(_0x1b47f1){var _0x3b4f86=_0x52fb58['sections'][_0x1b47f1]&&_0x52fb58['sections'][_0x1b47f1][_0x47ac2c];if(typeof _0x3b4f86==='number')_0x370cbf['base'][_0x1b47f1]=_0x3b4f86;});}var _0x1dde59=_0x3314f8-_0x370cbf['start'];for(var _0x2153b6 in _0x370cbf['base'])_0x52fb58['sections'][_0x2153b6][_0x47ac2c]=Math['round'](_0x238a80(_0x370cbf['base'][_0x2153b6]+_0x1dde59,_0x5b3ac0['min'],_0x5a2243(_0x47ac2c,_0x5b3ac0))*0x3e8)/0x3e8;if(_0x47ac2c==='curl'&&typeof gySyncGlobalCurl==='function')gySyncGlobalCurl();var _0x2d480d=document['getElementById']('gyallval-'+_0x47ac2c);if(_0x2d480d)_0x2d480d['textContent']=Math['round'](_0x2633bc(_0x47ac2c))+(_0x5b3ac0['unit']||'');var _0x536aa8=document['getElementById']('gyallrng-'+_0x47ac2c);try{if(_0x536aa8&&typeof gyAllRangeText==='function')_0x536aa8['textContent']=gyAllRangeText(_0x47ac2c);}catch(_0x51a4bb){}try{drawAdjustPreview();}catch(_0x47cfee){}};}),_0xed7cf4('onGyAllSliderEnd',function(_0x427c9d){return function(_0x6903fb,_0xd69e0a){if(!_0x3a0dec['on']||!_0x14408a()['_styleBase'])return _0x427c9d['apply'](this,arguments);_0x370cbf=null;try{if(typeof _gyAllDrag!=='undefined')_gyAllDrag=null;}catch(_0x520964){}var _0x57d3c2=Math['round'](_0x437530(_0x6903fb)),_0x560142=_0xa64fa7(_0x6903fb);_0xd69e0a&&(_0xd69e0a['dataset']['start']=String(_0x57d3c2),_0xd69e0a['value']=_0x57d3c2);var _0x397645=document['getElementById']('gyallval-'+_0x6903fb);if(_0x397645)_0x397645['textContent']=Math['round'](_0x2633bc(_0x6903fb))+(_0x560142['unit']||'');try{SECTION_ORDER['forEach'](function(_0x4da30b){try{updateSectionSummary(_0x4da30b);}catch(_0x43a392){}});}catch(_0x1fd14d){}};}),_0xed7cf4('buildAdjustedHair3DObjectBase',function(_0x287d73){return function(){var _0x4ddeb1=_0x287d73['apply'](this,arguments);if(!_0x3a0dec['on'])return _0x4ddeb1;try{return _0x1ab5e2(_0x4ddeb1);}catch(_0xf0b817){return console['warn'](_0x472f2a+'\x203D\x20음영\x20실패\x20—\x20원래\x20색\x20유지',_0xf0b817),_0x4ddeb1;}};}),Object['keys'](_0x3a0dec['profiles'])['join'](',\x20');}_0x3a0dec['_shade']=_0x1ab5e2,_0x3a0dec['status']=function(){var _0x458c03=_0x14408a();return{'on':_0x3a0dec['on'],'profile':_0x3a0dec['activeId'],'lenExt':_0x3a0dec['LEN_EXT'],'base':_0x458c03&&_0x458c03['_styleBase']?_0x6faa7(_0x458c03['_styleBase']):null,'neutralSig':_0x489b16(_0x1dfe44),'builtNeutralSig':_0x112688};},_0x3a0dec['addProfile']=function(_0x5d0f99,_0x3608cc){return _0x3a0dec['profiles'][_0x5d0f99]=_0x3608cc,_0x3f2016(),_0x3608cc;},_0x177d4d();}());
+/* ==========================================================================
+ * 24-style-base.js — 스타일 기준점(Style Base) + 슬라이더 중앙화 + 스타일별 엔진 프로필
+ *
+ * 로드 위치: index.html 에서 23-section-all.js 바로 다음 줄
+ *   <script src="js/24-style-base.js?v=20260921g"></script>
+ *
+ * 하는 일
+ *  1) 스타일 = 슬라이더와 무관한 "기준 값".  스타일을 걸면 그 결과를 기준으로 저장하고
+ *     모든 섹션 슬라이더의 손잡이는 가운데(중위값)에 둡니다.  손잡이를 움직이면
+ *     기준 ± 이동량 = 실제 값.  (엔진은 지금처럼 실제 값을 state.sections 에서 읽습니다.)
+ *  2) 길이는 100 에서 잘리던 상한을 LEN_EXT 까지 늘려, 스펙 풀이가 100에 걸리던
+ *     섹션(크라운 등)을 끝까지 풀고 그 값을 기준으로 삼습니다.
+ *  3) 스타일마다 엔진 설정(컬 번들·볼륨·중력·앞머리·염색 음영)을 "프로필"로 묶어
+ *     그 스타일을 걸 때만 적용하고, 다른 스타일로 가면 원래 값으로 되돌립니다.
+ *  4) 볼륨 슬라이더 50 = 스타일 기준 볼륨 (예전: 50 = 볼륨 0).
+ *  5) 3D 두상 헤어 정점색에 깊이 차폐(AO)·밝기 상한·결 하이라이트를 입혀 입체감을 냅니다.
+ *
+ * 끄기: 콘솔에서  STYLE_BASE.on = false  (래퍼가 전부 원래 함수로 통과) → 뷰 다시 그리기
+ * 상태: STYLE_BASE.status()
+ * ========================================================================== */
+(function () {
+  'use strict';
+  var G = window;
+  var TAG = '[스타일기준]';
+
+  /* ------------------------------------------------------------------------
+   * 0. 설정
+   * ---------------------------------------------------------------------- */
+  var SB = G.STYLE_BASE = G.STYLE_BASE || {};
+  SB.on = true;
+  SB.LEN_EXT = 200;          // 길이 실제 값 상한 (예전 100)
+  // 3D 명암(깊이 차폐·밝기 상한·결 하이라이트) — 미용 기법이 아니라 그리는 품질이라 막대 없이 모든 스타일에 켭니다.
+  SB.shade = { ao: 0.42, lumCap: 1.3, spec: 0.22, specPow: 60 };
+  /* _volHash 부호 버그 수정 범위
+   *  원래 식 h ^= h>>>16 뒤 h/2^32 가 음수가 되어 0~1 대신 −0.5~0.5 를 돌려줍니다.
+   *  → 볼륨 노이즈 배수 평균 0.55(최소 0.1), 삐침머리 판정(h<0.25)이 ~75% 가닥에 걸려 끝을 안으로 당김.
+   *  false = 프로필이 걸린 스타일에서만 고침(다른 스타일은 지금 보이는 그대로)
+   *  true  = 모든 스타일에서 고침(다른 스타일도 볼륨이 커집니다 — 확인 후 켜세요) */
+  SB.fixVolHashAll = true;   // 막대만으로 모양을 만들려면 모든 스타일에서 고쳐져 있어야 합니다
+  SB.PARAM_KEYS = ['length', 'elevation', 'texture', 'density', 'overdirection', 'line', 'curl', 'wave', 'curlDir',
+    'base', 'define', 'volShare', 'volPoint', 'weight'];
+
+  /* 스타일별 엔진 프로필 — 키는 STYLE_SPECS 의 id (또는 커스텀 스타일의 profileId) */
+  SB.profiles = {
+    wavy_bob_seethrough: {
+      label: 'Wavy bob · See-through bangs · Chunky curls',
+      // 막대로 옮긴 값(베이스 폭·컬 정리감·부피감·볼륨 위치·처짐·로드 굵기)은 여기서 빼고 스펙에 섹션별로 넣었습니다.
+      // 여기 남은 건 막대가 없는 엔진 설정뿐입니다.
+      config: {
+        CURL_BUNDLE: {
+          microAmp: 0.04,      // 잔곱슬 줄임
+          microPhase: 0.15,
+          relax: 1.2,          // 코일 반경 약간 줄임 (늘어난 용수철 방지)
+          pitchThick: 1.4      // 굵은 로드에서 파장이 너무 길어지지 않게 (한 바퀴 ≈ 6cm)
+        },
+        CURL3D_FIX: { ampGamma: 0.7 },   // 컬 50 → 진폭 0.62
+        VOLUME3D: { AMP: 0.18 },
+        // HAIR_FIELD3D.maxAlign 은 뺐습니다 — 중립 3D 빌드 때만 쓰이는 값이라 스타일마다 바꾸면
+        // 스타일을 고를 때마다 3D 전체를 다시 만들어야 해서 (폰에서 수십 초) 원래 방식으로 되돌렸습니다.
+        MANNEQUIN: { lenPct: 0.9 },      // 어깨 따라간 이상치 가닥 제외
+        MQ_FRINGE: {
+          tipFaceFrac: -0.1,     // 앞머리 기장 막대 가운데의 기준선: 눈썹과 눈 사이
+          crownAllAround: false  // 크라운을 눈썹 높이에서 "한 바퀴 전부" 자르던 것 → 앞쪽만 자름
+        },
+        HAIR_DYE: { sMax: 1.3, highlightK: 0.6, glossDesat: 0.7 } // 원본 광택띠가 은색 철사로 번지는 것 억제
+      },
+      volBase: 1.0,    // 볼륨 막대 50 = AMP×1.0 만큼 부풂
+      after: { front: { curl: 20 } },   // 시스루 앞머리는 거의 곧은 C컬
+      shade: { ao: 0.42, lumCap: 1.3, spec: 0.22, specPow: 60 },
+      silhouette: {   // 레퍼런스 사진 실측(약 25° 돌아간 사진이라 정면 근사치)
+        front: {
+          wh: 0.95,
+          wp: [0.10, 0.50, 0.72, 0.91, 0.94, 0.99, 0.97, 0.95, 0.87, 0.40, 0.05],
+          bot: [0.49, 0.84, 0.90, 0.97, 0.44, 0.54, 0.52, 0.55, 0.63, 0.80, 0.85, 0.80, 0.67]  // 가운데 낮은 칸 = 앞머리 끝
+        }
+      },
+      specPatch: function (spec) {
+        spec.cut.front.density = 20;
+        spec.perm.wave = 92;          // 로드 ≈ 3.4cm (굵은 로드)
+        spec.styling.volume = 50;
+        // 펌·세팅 섹션별 기준값 (막대 숫자 그대로)
+        var set = {
+          crown:     { base: 20, define: 70, volShare: 60, volPoint: 25, weight: 25 },
+          front:     { base: 20, define: 70, volShare: 35, volPoint: 25, weight: 25 },
+          temple:    { base: 20, define: 70, volShare: 64, volPoint: 25, weight: 25 },
+          side:      { base: 20, define: 70, volShare: 67, volPoint: 25, weight: 25 },
+          occipital: { base: 20, define: 70, volShare: 59, volPoint: 25, weight: 25 },
+          nape:      { base: 20, define: 70, volShare: 50, volPoint: 25, weight: 25 }
+        };
+        for (var sec in set) if (spec.cut[sec]) Object.assign(spec.cut[sec], set[sec]);
+      }
+    }
+  };
+
+  /* ------------------------------------------------------------------------
+   * 1. 전역 접근 (다른 스크립트의 최상위 const 는 이름으로만 접근 가능)
+   * ---------------------------------------------------------------------- */
+  var CFG = {
+    CURL_BUNDLE: function () { return G.CURL_BUNDLE || null; },
+    CURL3D_FIX: function () { return typeof CURL3D_FIX !== 'undefined' ? CURL3D_FIX : null; },
+    VOLUME3D: function () { return typeof VOLUME3D !== 'undefined' ? VOLUME3D : null; },
+    GRAV3D: function () { return typeof GRAV3D !== 'undefined' ? GRAV3D : null; },
+    HAIR_FIELD3D: function () { return typeof HAIR_FIELD3D !== 'undefined' ? HAIR_FIELD3D : null; },
+    MANNEQUIN: function () { return typeof MANNEQUIN !== 'undefined' ? MANNEQUIN : null; },
+    MQ_FRINGE: function () { return typeof MQ_FRINGE !== 'undefined' ? MQ_FRINGE : null; },
+    HAIR_DYE: function () { return typeof HAIR_DYE !== 'undefined' ? HAIR_DYE : null; }
+  };
+  var NEUTRAL_KEYS = { HAIR_FIELD3D: ['maxAlign'] };            // 바뀌면 중립 3D 재빌드
+  var MQ_KEYS = { MANNEQUIN: ['lenPct'], MQ_FRINGE: null };     // 바뀌면 마네킹 재생성(null=전부)
+
+  function st() { return typeof state !== 'undefined' ? state : null; }
+  function isObj(v) { return v && typeof v === 'object' && !Array.isArray(v); }
+  function clone(v) { return v === undefined ? undefined : JSON.parse(JSON.stringify(v)); }
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function orig(name) { return SB._orig[name]; }
+  SB._orig = SB._orig || {};
+
+  /* ------------------------------------------------------------------------
+   * 2. 프로필 적용/복원
+   * ---------------------------------------------------------------------- */
+  var DEFAULTS = {};
+  function snapshotDefaults() {
+    for (var pid in SB.profiles) {
+      var conf = SB.profiles[pid].config || {};
+      for (var cname in conf) {
+        var obj = CFG[cname] && CFG[cname]();
+        if (!obj) continue;
+        DEFAULTS[cname] = DEFAULTS[cname] || {};
+        for (var k in conf[cname]) if (!(k in DEFAULTS[cname])) DEFAULTS[cname][k] = clone(obj[k]);
+      }
+    }
+  }
+
+  function sigOf(map) {
+    var out = [];
+    for (var c in map) {
+      var o = CFG[c] && CFG[c]();
+      if (!o) continue;
+      var keys = map[c] || Object.keys(o).filter(function (k) { return typeof o[k] !== 'object'; });
+      keys.forEach(function (k) { out.push(c + '.' + k + '=' + o[k]); });
+    }
+    return out.join('|');
+  }
+
+  SB.activeId = null;
+  SB.active = null;
+  var builtNeutralSig = null, lastMqSig = null;
+
+  function bumpCaches() {
+    try { if (typeof ADJ_CACHE !== 'undefined' && ADJ_CACHE.bump) ADJ_CACHE.bump(); } catch (e) {}
+    try { if (typeof DYE_LUT !== 'undefined' && DYE_LUT.map) DYE_LUT.map.clear(); } catch (e) {}
+  }
+
+  function applyProfile(id) {
+    var prof = (id && SB.profiles[id]) || null;
+    // 1) 기본값 복원
+    for (var c in DEFAULTS) {
+      var o = CFG[c] && CFG[c]();
+      if (!o) continue;
+      for (var k in DEFAULTS[c]) o[k] = clone(DEFAULTS[c][k]);
+    }
+    // 2) 프로필 덮기
+    if (prof && prof.config) {
+      for (var c2 in prof.config) {
+        var o2 = CFG[c2] && CFG[c2]();
+        if (!o2) continue;
+        for (var k2 in prof.config[c2]) {
+          var v = prof.config[c2][k2];
+          o2[k2] = (isObj(v) && isObj(o2[k2])) ? Object.assign({}, o2[k2], clone(v)) : clone(v);
+        }
+      }
+    }
+    // 3) 스펙 원본 보정(한 번)
+    if (prof && prof.specPatch && !prof._specPatched) {
+      try {
+        var spec = typeof STYLE_SPECS !== 'undefined' ? STYLE_SPECS[id] : null;
+        if (spec) { prof.specPatch(spec); prof._specPatched = true; }
+      } catch (e) { console.warn(TAG + ' 스펙 보정 실패', e); }
+    }
+    // 4) 실루엣 목표
+    if (prof && prof.silhouette) {
+      try { if (typeof SILHOUETTE_REF !== 'undefined' && !SILHOUETTE_REF[id]) SILHOUETTE_REF[id] = clone(prof.silhouette); } catch (e) {}
+    }
+    var changed = SB.activeId !== (prof ? id : null);
+    SB.activeId = prof ? id : null;
+    SB.active = prof;
+    bumpCaches();
+
+    // 5) 스타일을 고를 때 중립 3D·마네킹을 다시 만들지 않습니다 (원래 방식).
+    //    마네킹은 원래 코드대로 스펙 스타일 선택 시 mannequinReset() 에서만 새로 만들어집니다.
+    lastMqSig = sigOf(MQ_KEYS);
+    if (changed) console.log(TAG + ' 엔진 프로필 → ' + (prof ? (prof.label || id) : '기본값'));
+  }
+  SB.applyProfile = applyProfile;
+
+  /* ------------------------------------------------------------------------
+   * 3. 슬라이더 ↔ 실제 값 (기준 + 중앙화)
+   * ---------------------------------------------------------------------- */
+  function paramDef(key) {
+    try { if (typeof gyAllParamDef === 'function') return gyAllParamDef(key); } catch (e) {}
+    try {
+      for (var i = 0; i < GYEOL_GROUPS.length; i++) {
+        var p = (GYEOL_GROUPS[i].params || []).find(function (q) { return q.key === key; });
+        if (p) return p;
+      }
+    } catch (e) {}
+    return { key: key, min: 0, max: 100, unit: '' };
+  }
+  function effMax(key, def) { return key === 'length' ? SB.LEN_EXT : def.max; }
+  function baseOf(sec, key) {
+    var S = st(), b = S && S._styleBase && S._styleBase[sec];
+    return b && typeof b[key] === 'number' ? b[key] : null;
+  }
+  function toPos(sec, key, eff, def) {
+    def = def || paramDef(key);
+    var b = SB.on ? baseOf(sec, key) : null;
+    if (b == null) return eff;
+    return clamp((def.min + def.max) / 2 + (eff - b), def.min, def.max);
+  }
+  function toEff(sec, key, pos, def) {
+    def = def || paramDef(key);
+    var b = SB.on ? baseOf(sec, key) : null;
+    if (b == null) return pos;
+    var e = b + (pos - (def.min + def.max) / 2);
+    return Math.round(clamp(e, def.min, effMax(key, def)) * 1000) / 1000;
+  }
+  SB.toPos = toPos; SB.toEff = toEff;
+
+  function captureBase(reason) {
+    var S = st();
+    if (!S || !S.sections) return;
+    var base = {};
+    for (var sec in S.sections) {
+      base[sec] = {};
+      SB.PARAM_KEYS.forEach(function (k) { if (typeof S.sections[sec][k] === 'number') base[sec][k] = S.sections[sec][k]; });
+    }
+    S._styleBase = base;
+    console.log(TAG + ' 기준 저장(' + reason + ') — 손잡이를 가운데로 둡니다. 길이 기준: ' +
+      Object.keys(base).map(function (s) { return s + ' ' + (base[s].length != null ? Math.round(base[s].length) : '-'); }).join(' · '));
+  }
+  function clearBase() { var S = st(); if (S) S._styleBase = null; }
+  SB.captureBase = captureBase; SB.clearBase = clearBase;
+
+  function refreshPanel() {
+    try { if (typeof buildGyPanel === 'function') buildGyPanel(); else if (typeof buildGyControls === 'function') buildGyControls(); } catch (e) {}
+  }
+
+  /* ------------------------------------------------------------------------
+   * 4. 길이 상한 확장 + 100에 걸린 스펙 섹션 끝까지 풀기
+   * ---------------------------------------------------------------------- */
+  // 길이를 더 늘려도 끝이 안 내려가는 지점(포화점)을 찾습니다.
+  // 가닥 원료 길이·자르기 상한·앞머리선 때문에 어느 값부터는 막대를 밀어도 화면이 그대로입니다.
+  // 기준을 그 너머에 두면 손잡이 오른쪽 절반이 "죽은 구간"이 되므로, 기준은 포화점을 넘지 않게 합니다.
+  function saturationLen(sec, ref) {
+    var eps = 0.005 * ref.H;
+    var yEnd = measureSectionTipY(sec, SB.LEN_EXT);
+    if (yEnd == null) return null;
+    var lo = 0, hi = SB.LEN_EXT;
+    for (var i = 0; i < 16; i++) {
+      var mid = (lo + hi) / 2, y = measureSectionTipY(sec, mid);
+      if (y == null) return null;
+      if (Math.abs(y - yEnd) <= eps) hi = mid; else lo = mid;
+    }
+    return Math.ceil(hi);
+  }
+
+  function extendPinned(id, rep) {
+    if (!rep || !rep.unit || typeof measureSectionTipY !== 'function' || typeof headHeightRef !== 'function') return;
+    var spec = null;
+    try { spec = getStyleSpec(id); } catch (e) {}
+    if (!spec || !spec.tipAt) return;
+    var ref = headHeightRef();
+    if (!ref) return;
+    var S = st();
+    for (var sec in rep.unit) {
+      if (rep.unit[sec] !== 'tip' || spec.tipAt[sec] == null || !S.sections[sec]) continue;
+      if (!(S.sections[sec].length >= 99.5)) continue;
+      var target = ref.yTop - spec.tipAt[sec] * ref.H;
+      var sat = saturationLen(sec, ref);
+      if (sat == null) continue;
+      var best;
+      var ySat = measureSectionTipY(sec, sat);
+      if (ySat > target) {
+        best = sat;                                   // 끝까지 가도 목표에 못 닿음 → 닿을 수 있는 최대
+      } else {
+        var lo = 0, hi = sat;                         // 포화점 안쪽에서 목표를 찾음
+        for (var i = 0; i < 18; i++) {
+          var mid = (lo + hi) / 2, y = measureSectionTipY(sec, mid);
+          if (y == null) break;
+          if (y > target) lo = mid; else hi = mid;
+        }
+        best = Math.round((lo + hi) / 2);
+      }
+      S.sections[sec].length = best;
+      if (rep.solved) rep.solved[sec] = best;
+      var yB = measureSectionTipY(sec, best);
+      var miss = yB == null ? null : (yB - target) / ref.H * 100;
+      console.log(TAG + ' ' + sec + ' 길이: 100에 걸려 있던 것 → 기준 ' + best + ' (이 값부터는 늘려도 끝이 안 내려가는 지점 ' + sat + ')' +
+        ' · 남은 오차 ' + (miss == null ? '—' : miss.toFixed(1) + '%') +
+        (best >= sat && miss != null && Math.abs(miss) > 2 ? ' — 길이로는 더 못 맞춥니다(가닥 원료·앞머리선·컬 줄어듦 쪽)' : ''));
+    }
+  }
+
+  /* ------------------------------------------------------------------------
+   * 5. 3D 헤어 음영 (깊이 차폐 · 밝기 상한 · 결 하이라이트)
+   * ---------------------------------------------------------------------- */
+  function shadeHairObject(obj) {
+    var sh = (SB.active && SB.active.shade) || SB.shade;
+    if (!sh || !obj || !obj.geometry) return obj;
+    var g = obj.geometry, P = g.attributes.position, C = g.attributes.color;
+    if (!P || !C || P.count < 4) return obj;
+    var E;
+    try { E = getHeadEllipsoid(); } catch (e) { return obj; }
+    var cy = typeof SCALP_CENTER_Y !== 'undefined' ? SCALP_CENTER_Y : 0.15;
+    var n = P.count, NT = 36, NP = 18;
+    var rho = new Float32Array(n), bin = new Int32Array(n), bmax = new Float32Array(NT * NP);
+    for (var i = 0; i < n; i++) {
+      var dx = P.getX(i) / E.a, dy = (P.getY(i) - cy) / E.b, dz = P.getZ(i) / E.c;
+      var r = Math.sqrt(dx * dx + dy * dy + dz * dz) || 1e-6;
+      var th = Math.atan2(dx, dz), ph = Math.acos(clamp(dy / r, -1, 1));
+      var bi = Math.min(NP - 1, (ph / Math.PI * NP) | 0) * NT + Math.min(NT - 1, ((th + Math.PI) / (2 * Math.PI) * NT) | 0);
+      rho[i] = r; bin[i] = bi; if (r > bmax[bi]) bmax[bi] = r;
+    }
+    // 밝기 중앙값
+    var lums = [];
+    for (var j = 0; j < n; j += 7) lums.push(0.299 * C.getX(j) + 0.587 * C.getY(j) + 0.114 * C.getZ(j));
+    lums.sort(function (a, b) { return a - b; });
+    var cap = (lums[lums.length >> 1] || 0.2) * sh.lumCap;
+    // 빛: 앞 위쪽, 시선 +z
+    var L = [0.3, 0.8, 0.5], V = [0, 0, 1], H = [L[0] + V[0], L[1] + V[1], L[2] + V[2]];
+    var hl = Math.hypot(H[0], H[1], H[2]); H = [H[0] / hl, H[1] / hl, H[2] / hl];
+    var out = new Float32Array(n * 3);
+    for (var s = 0; s + 1 < n; s += 2) {
+      var tx = P.getX(s + 1) - P.getX(s), ty = P.getY(s + 1) - P.getY(s), tz = P.getZ(s + 1) - P.getZ(s);
+      var tl = Math.hypot(tx, ty, tz) || 1e-9;
+      var th2 = (tx * H[0] + ty * H[1] + tz * H[2]) / tl;
+      var kk = Math.pow(Math.sqrt(Math.max(0, 1 - th2 * th2)), sh.specPow);
+      for (var q = s; q < s + 2; q++) {
+        var bm = bmax[bin[q]], d = bm > 1.02 ? clamp((rho[q] - 1) / (bm - 1), 0, 1) : 1;
+        var ao = sh.ao + (1 - sh.ao) * Math.pow(d, 0.8);
+        var rr = C.getX(q), gg = C.getY(q), bb = C.getZ(q);
+        var lum = 0.299 * rr + 0.587 * gg + 0.114 * bb;
+        if (lum > cap && lum > 0) { var f = cap / lum; rr *= f; gg *= f; bb *= f; }
+        var sp = kk * sh.spec * d * d;
+        out[q * 3] = Math.min(1, rr * ao + sp * 0.85);
+        out[q * 3 + 1] = Math.min(1, gg * ao + sp * 0.8);
+        out[q * 3 + 2] = Math.min(1, bb * ao + sp * 0.72);
+      }
+    }
+    g.setAttribute('color', new THREE.BufferAttribute(out, 3));
+    if (!SB._shadeLogged) { SB._shadeLogged = true; console.log(TAG + ' 3D 음영 — 안쪽 가닥 ×' + sh.ao + ' · 밝기 상한 중앙값×' + sh.lumCap + ' · 결 하이라이트 ' + sh.spec); }
+    return obj;
+  }
+
+  /* ------------------------------------------------------------------------
+   * 5-1. 미용 기법 막대 (섹션별)
+   *   펌   · 베이스 폭   — 로드 하나에 감는 모발 폭. 넓을수록 컬 덩어리가 큼
+   *   세팅 · 컬 정리감   — 컬크림·에센스로 결을 모은 정도
+   *        · 부피감      — 이 섹션이 두상에서 뜨는 정도
+   *        · 볼륨 위치   — 부피가 뿌리/중간/모발 끝 중 어디에 실리나
+   *        · 처짐        — 모발 무게로 내려앉는 정도
+   *   커트 · 앞머리 기장 — 앞머리 섹션의 "길이" 막대 이름을 미용 용어로 (동작은 원래 앞머리선 계산)
+   *   각 막대의 기본값은 "예전 엔진값과 똑같은 결과"가 나오는 숫자입니다 → 다른 스타일은 안 변합니다.
+   * ---------------------------------------------------------------------- */
+  var NEW_PARAMS = {
+    perm: [
+      { key: 'base', label: '베이스 폭', hint: '로드 하나에 감는 모발 폭 · 넓을수록 컬 덩어리가 큼', min: 0, max: 100, unit: '%' }
+    ],
+    set: [
+      { key: 'define',   label: '컬 정리감', hint: '컬크림·에센스로 결을 모은 정도 · 낮으면 부스스', min: 0, max: 100, unit: '%' },
+      { key: 'volShare', label: '부피감',    hint: '이 섹션이 두상에서 뜨는 정도',                 min: 0, max: 100, unit: '%' },
+      { key: 'volPoint', label: '볼륨 위치', hint: '뿌리 ↔ 모발 끝 · 끝쪽일수록 밑단이 퍼짐',      min: 0, max: 100, unit: '%' },
+      { key: 'weight',   label: '처짐',      hint: '모발 무게로 내려앉는 정도 · 낮을수록 컬이 뜸',  min: 0, max: 100, unit: '%' }
+    ]
+  };
+  // 예전 엔진값과 같은 결과가 나오는 기본 숫자
+  var NEW_DEFAULTS = { base: 55, define: 30, volShare: 50, volPoint: 50, weight: 50 };
+  var VOL_SECK0 = null;   // 섹션별 예전 부피 배수(VOLUME3D.secK)
+
+  function secVal(sec, key) {
+    var S = st(), o = S && S.sections && S.sections[sec];
+    var v = o && o[key];
+    return typeof v === 'number' && isFinite(v) ? v : NEW_DEFAULTS[key];
+  }
+  // 막대 → 엔진 값
+  SB.map = {
+    rodK:        function (b) { return 0.4 + 0.02 * b; },                  // 55 → 1.5(예전) · 20 → 0.8
+    clumpPull:   function (d) { return d / 100; },                        // 30 → 0.3(예전)
+    phaseJitter: function (d) { return Math.max(0.1, 1.6 - 1.4 * d / 100); }, // 30 → 1.18 ≈ 예전 1.2
+    secK:        function (v, sec) { return (VOL_SECK0 && VOL_SECK0[sec] != null ? VOL_SECK0[sec] : 1) * v / 50; },
+    ramp:        function (p) { return 0.3 + (p - 50) / 50 * 0.2; },      // 50 → 0.3(예전)
+    tipHold:     function (p) { return 0.8 + (p - 50) / 50 * 0.5; },      // 50 → 0.8(예전)
+    curlK:       function (w) { return 0.35 + (50 - w) / 50 * 0.9; }      // 50 → 0.35(예전) · 25 → 0.8
+  };
+
+  function withTemp(obj, vals, fn) {
+    if (!obj) return fn();
+    var old = {};
+    for (var k in vals) { old[k] = obj[k]; obj[k] = vals[k]; }
+    try { return fn(); } finally { for (var k2 in old) obj[k2] = old[k2]; }
+  }
+
+  function installParams() {
+    // 그룹·막대 정의
+    try {
+      var perm = GYEOL_GROUPS.find(function (g) { return g.id === 'perm'; });
+      NEW_PARAMS.perm.forEach(function (p) { if (perm && !perm.params.some(function (q) { return q.key === p.key; })) perm.params.push(p); });
+      if (!GYEOL_GROUPS.some(function (g) { return g.id === 'set'; })) {
+        var ci = GYEOL_GROUPS.findIndex(function (g) { return g.id === 'color'; });
+        var grp = { id: 'set', title: '세팅', sub: '드라이·제품 마무리', color: 'var(--gy-perm)', optional: true, params: NEW_PARAMS.set };
+        if (ci < 0) GYEOL_GROUPS.push(grp); else GYEOL_GROUPS.splice(ci, 0, grp);
+      }
+    } catch (e) { console.warn(TAG + ' 막대 그룹 추가 실패', e); }
+    try {
+      if (typeof GY_ALL_PARAMS !== 'undefined') {
+        if (GY_ALL_PARAMS.perm.indexOf('base') < 0) GY_ALL_PARAMS.perm.push('base');
+        GY_ALL_PARAMS.set = NEW_PARAMS.set.map(function (p) { return p.key; });
+      }
+    } catch (e) {}
+    // 조정 캐시 서명에 새 값 포함 (막대를 움직이면 다시 계산되도록)
+    try {
+      Object.keys(NEW_DEFAULTS).forEach(function (k) { if (ADJ_GEO_SECTION_KEYS.indexOf(k) < 0) ADJ_GEO_SECTION_KEYS.push(k); });
+    } catch (e) {}
+    // 섹션 기본값
+    try {
+      for (var sec in SECTIONS) {
+        var d = SECTIONS[sec].defaults || (SECTIONS[sec].defaults = {});
+        for (var k in NEW_DEFAULTS) if (typeof d[k] !== 'number') d[k] = NEW_DEFAULTS[k];
+      }
+      var S = st();
+      if (S && S.sections) for (var s2 in S.sections) for (var k3 in NEW_DEFAULTS) if (typeof S.sections[s2][k3] !== 'number') S.sections[s2][k3] = NEW_DEFAULTS[k3];
+    } catch (e) {}
+    // 영어 화면용 번역
+    try {
+      if (typeof I18N !== 'undefined') Object.assign(I18N, {
+        '세팅': 'Setting', '드라이·제품 마무리': 'Blow-dry & product finish',
+        '베이스 폭': 'Base width', '로드 하나에 감는 모발 폭 · 넓을수록 컬 덩어리가 큼': 'Hair wound per rod · wider = chunkier curls',
+        '컬 정리감': 'Curl definition', '컬크림·에센스로 결을 모은 정도 · 낮으면 부스스': 'How much product groups the curls · low = frizzy',
+        '부피감': 'Lift', '이 섹션이 두상에서 뜨는 정도': 'How far this section stands off the head',
+        '볼륨 위치': 'Volume point', '뿌리 ↔ 모발 끝 · 끝쪽일수록 밑단이 퍼짐': 'Root ↔ ends · toward ends = flared hem',
+        '처짐': 'Weight', '모발 무게로 내려앉는 정도 · 낮을수록 컬이 뜸': 'How much the hair drops under its weight',
+        '앞머리 기장': 'Fringe length', '눈썹 위 ↔ 눈 아래': 'Above brows ↔ below eyes'
+      });
+    } catch (e) {}
+    try { VOL_SECK0 = clone((CFG.VOLUME3D() || {}).secK) || null; } catch (e) {}
+  }
+
+  /* ------------------------------------------------------------------------
+   * 6. 래퍼 설치
+   * ---------------------------------------------------------------------- */
+  function wrap(name, make) {
+    var f = G[name];
+    if (typeof f !== 'function') { console.warn(TAG + ' ' + name + ' 없음 — 건너뜀'); return; }
+    if (f.__sbWrapped) return;
+    SB._orig[name] = f;
+    var w = make(f);
+    w.__sbWrapped = true;
+    G[name] = w;
+  }
+
+  function install() {
+    installParams();
+    snapshotDefaults();
+    lastMqSig = sigOf(MQ_KEYS);
+
+    // 길이 상한 확장 (100 → LEN_EXT). 100 이하에서는 원래 식과 같습니다.
+    wrap('sectionLengthRatio', function (f) {
+      return function (sec, len) {
+        if (!SB.on || !(typeof len === 'number' && len > 100)) return f.apply(this, arguments);
+        var d = (typeof SECTIONS !== 'undefined' && SECTIONS[sec] && SECTIONS[sec].defaults && typeof SECTIONS[sec].defaults.length === 'number') ? SECTIONS[sec].defaults.length : 50;
+        var per = typeof LENGTH_RATIO_PER_UNIT !== 'undefined' ? LENGTH_RATIO_PER_UNIT : 0.018;
+        // 원래 식: 기본값 이상 구간은 1 + (v − 기본값) × LENGTH_RATIO_PER_UNIT — 같은 직선을 LEN_EXT까지 연장
+        return 1 + (Math.min(SB.LEN_EXT, len) - d) * per;
+      };
+    });
+
+    // 로드 굵기: 웨이브 폭 0~75 는 예전 그대로, 75~100 은 굵은 로드(최대 4cm)까지 늘림
+    SB.ROD_MAX_CM = 4.0;
+    wrap('curlRodRadius', function (f) {
+      return function (w) {
+        var r = f.apply(this, arguments);
+        if (!SB.on || !(w > 0.75)) return r;
+        var r75 = f.call(this, 0.75);
+        var cpu = (G.CURL_BUNDLE && G.CURL_BUNDLE.cmPerUnit) || 19.33;
+        var rMax = Math.max(r75, SB.ROD_MAX_CM / 2 / cpu);
+        return r75 + (Math.min(1, w) - 0.75) / 0.25 * (rMax - r75);
+      };
+    });
+
+    // 섹션을 아는 곳(adjustStrandGeom)에서 지금 섹션을 기억 → 섹션을 모르는 계산들이 막대 값을 씀
+    var CUR_SEC = null;
+    wrap('adjustStrandGeom', function (f) {
+      return function (strand) {
+        var prev = CUR_SEC; CUR_SEC = strand && strand.sec || null;
+        try { return f.apply(this, arguments); } finally { CUR_SEC = prev; }
+      };
+    });
+    SB._asSec = function (sec, fn) { var p = CUR_SEC; CUR_SEC = sec; try { return fn(); } finally { CUR_SEC = p; } };  // 점검용
+    // 펌 · 베이스 폭 / 세팅 · 컬 정리감
+    wrap('curlStrand3D', function (f) {
+      return function () {
+        if (!SB.on || !CUR_SEC || !G.CURL_BUNDLE) return f.apply(this, arguments);
+        var self = this, args = arguments, b = secVal(CUR_SEC, 'base'), d = secVal(CUR_SEC, 'define');
+        return withTemp(G.CURL_BUNDLE, { rodK: SB.map.rodK(b), clumpPull: SB.map.clumpPull(d), phaseJitter: SB.map.phaseJitter(d) },
+          function () { return f.apply(self, args); });
+      };
+    });
+    // 세팅 · 처짐
+    wrap('gravityDroop3D', function (f) {
+      return function () {
+        var g = CFG.GRAV3D();
+        if (!SB.on || !CUR_SEC || !g) return f.apply(this, arguments);
+        var self = this, args = arguments;
+        return withTemp(g, { curlK: SB.map.curlK(secVal(CUR_SEC, 'weight')) }, function () { return f.apply(self, args); });
+      };
+    });
+    // 세팅 · 부피감 / 볼륨 위치
+    wrap('volumeStrand3D', function (f) {
+      return function (pts, vol, sec) {
+        var v = CFG.VOLUME3D(), sc = sec || CUR_SEC;
+        if (!SB.on || !sc || !v) return f.apply(this, arguments);
+        var self = this, args = arguments, vp = secVal(sc, 'volPoint');
+        var secK = Object.assign({}, v.secK || {}); secK[sc] = SB.map.secK(secVal(sc, 'volShare'), sc);
+        return withTemp(v, { secK: secK, RAMP: SB.map.ramp(vp), tipHold: SB.map.tipHold(vp) }, function () { return f.apply(self, args); });
+      };
+    });
+
+    // 전체 섹션 화면에 '세팅' 묶음 추가
+    wrap('buildGyAllControls', function (f) {
+      return function (host) {
+        var r = f.apply(this, arguments);
+        try {
+          var grp = GYEOL_GROUPS.find(function (g) { return g.id === 'set'; });
+          if (grp && typeof gyAllGroup === 'function' && host) {
+            var el = gyAllGroup(grp, function (body) { GY_ALL_PARAMS.set.forEach(function (k) { body.appendChild(gyAllRangeCtrl(k)); }); });
+            var note = host.lastElementChild;
+            if (note && note.className === 'section-affects') host.insertBefore(el, note); else host.appendChild(el);
+          }
+        } catch (e) { console.warn(TAG + ' 전체 화면 세팅 묶음 실패', e); }
+        return r;
+      };
+    });
+
+    // 볼륨: 슬라이더 50 = 스타일 기준 볼륨
+    wrap('volumeLiftHead', function (f) {
+      return function (p, vol) {
+        var vb = SB.on && SB.active && SB.active.volBase;
+        if (!vb) return f.apply(this, arguments);
+        var v1 = f.call(this, p, 100);
+        if (!v1) return null;
+        var t = vb + (clamp(typeof vol === 'number' ? vol : 50, 0, 100) - 50) / 50;
+        if (Math.abs(t) < 1e-6) return null;
+        return { x: v1.x * t, y: v1.y * t, z: v1.z * t };
+      };
+    });
+
+    // _volHash 부호 버그 (위 fixVolHashAll 설명 참고)
+    wrap('_volHash', function (f) {
+      return function () {
+        var r = f.apply(this, arguments);
+        if (!SB.on || !(SB.fixVolHashAll || SB.active)) return r;
+        return r < 0 ? r + 1 : r;   // 부호 있는 int32 → 부호 없는 값으로
+      };
+    });
+
+    // 중립 3D 빌드 시점의 설정 서명 기록
+    wrap('buildNeutralHair3D', function (f) {
+      return function (cb) {
+        var running = typeof NEUTRAL_BUILD !== 'undefined' && NEUTRAL_BUILD.running;
+        if (!running) builtNeutralSig = sigOf(NEUTRAL_KEYS);
+        return f.apply(this, arguments);
+      };
+    });
+
+    // 스타일 선택: 프로필을 먼저 걸고(마네킹이 올바른 설정으로 만들어지게) 원래 동작
+    wrap('selectStyle', function (f) {
+      return function (styleId) {
+        if (!SB.on) return f.apply(this, arguments);
+        var sty = null;
+        try { sty = STYLES.find(function (s) { return s.id === styleId; }); } catch (e) {}
+        var pid = sty ? (sty.specId || sty.profileId || null) : null;
+        clearBase();
+        applyProfile(pid);
+        var r = f.apply(this, arguments);
+        if (sty && !sty.specId && sty.sections) { captureBase('저장 스타일 ' + (sty.name || sty.id)); refreshPanel(); }
+        return r;
+      };
+    });
+    wrap('selectNoStyle', function (f) {
+      return function () { if (SB.on) { clearBase(); applyProfile(null); } return f.apply(this, arguments); };
+    });
+    wrap('resetSections', function (f) {
+      return function () { clearBase(); return f.apply(this, arguments); };
+    });
+
+    // 스펙 적용: 프로필 → 원래 풀이 → 100에 걸린 섹션 확장 → 후처리 → 기준 저장
+    wrap('applyStyleSpecAndRender', function (f) {
+      return function (id) {
+        var S = st();
+        if (SB.on && !(S && S.specAppliedId === id)) applyProfile(id);
+        return f.apply(this, arguments);
+      };
+    });
+    wrap('applyStyleSpec', function (f) {
+      return function (id) {
+        var rep = f.apply(this, arguments);
+        if (!SB.on || !rep) return rep;
+        try { extendPinned(id, rep); } catch (e) { console.warn(TAG + ' 길이 확장 실패', e); }
+        var prof = SB.profiles[id], S = st();
+        if (prof && prof.after && S) {
+          for (var sec in prof.after) if (S.sections[sec]) Object.assign(S.sections[sec], prof.after[sec]);
+        }
+        captureBase('스펙 ' + id);
+        bumpCaches();
+        return rep;
+      };
+    });
+    wrap('clearStyleSpec', function (f) {
+      return function () {
+        var r = f.apply(this, arguments);
+        if (SB.on) { clearBase(); applyProfile(null); refreshPanel(); }
+        return r;
+      };
+    });
+
+    // 현재 상태를 스타일로 저장할 때 엔진 프로필도 같이 저장
+    wrap('registerCurrentAsStyle', function (f) {
+      return function () {
+        var before = [];
+        try { before = STYLES.slice(); } catch (e) {}
+        var r = f.apply(this, arguments);
+        try {
+          if (SB.activeId) {
+            var added = STYLES.filter(function (s) { return before.indexOf(s) < 0; });
+            added.forEach(function (s) { if (!s.profileId && !s.specId) s.profileId = SB.activeId; });
+            if (added.length && typeof saveCustomStylesToStorage === 'function') saveCustomStylesToStorage();
+          }
+        } catch (e) {}
+        return r;
+      };
+    });
+
+    /* --- 섹션별 슬라이더 --- */
+    wrap('gyBuildRangeCtrl', function (f) {
+      return function (sec, def) {
+        var el = f.apply(this, arguments);
+        try {
+          var S = st(), eff = S.sections[sec][def.key];
+          var inp = el.querySelector('input[type=range]');
+          if (sec === 'front' && def.key === 'length') {   // 커트 · 앞머리 기장
+            var lb = el.querySelector('.gy-ctrl-label'), hn = el.querySelector('.gy-ctrl-hint');
+            if (lb) lb.textContent = '앞머리 기장';
+            if (hn) hn.textContent = '눈썹 위 ↔ 눈 아래';
+          }
+          if (inp && typeof eff === 'number') inp.value = toPos(sec, def.key, eff, def);
+        } catch (e) {}
+        return el;
+      };
+    });
+    wrap('syncGyParamUI', function (f) {
+      return function (sec, key) {
+        var r = f.apply(this, arguments);
+        try {
+          var inp = document.getElementById('gyrange-' + sec + '-' + key), eff = st().sections[sec][key];
+          if (inp && typeof eff === 'number') inp.value = toPos(sec, key, eff);
+        } catch (e) {}
+        return r;
+      };
+    });
+    wrap('onGySlider', function (f) {
+      return function (sec, key, val) {
+        var S = st();
+        if (!SB.on || !S || !S.sections[sec] || baseOf(sec, key) == null) return f.apply(this, arguments);
+        var def = paramDef(key), pos = parseFloat(val);
+        var prev = typeof S.sections[sec][key] === 'number' ? S.sections[sec][key] : pos;
+        var eff = toEff(sec, key, pos, def);
+        S.sections[sec][key] = eff;
+        var lab = document.getElementById('gyval-' + sec + '-' + key);
+        if (lab) lab.textContent = Math.round(eff) + ((typeof GY_UNIT !== 'undefined' && GY_UNIT[key]) || '');
+        if (key === 'length' && typeof propagateSectionChange === 'function') propagateSectionChange(sec, 'length', eff - prev);
+        if (typeof drawAdjustPreview === 'function') drawAdjustPreview();
+      };
+    });
+
+    /* --- 전체(All) 슬라이더 --- */
+    function avgOf(key, fn) {
+      var S = st(), sum = 0, n = 0, def = paramDef(key);
+      (typeof SECTION_ORDER !== 'undefined' ? SECTION_ORDER : Object.keys(S.sections)).forEach(function (sec) {
+        var v = S.sections[sec] && S.sections[sec][key];
+        if (typeof v === 'number' && isFinite(v)) { sum += fn(sec, v, def); n++; }
+      });
+      return n ? sum / n : 0;
+    }
+    function avgPos(key) { return avgOf(key, function (s, v, d) { return toPos(s, key, v, d); }); }
+    function avgEff(key) { return avgOf(key, function (s, v) { return v; }); }
+    var allDrag = null;
+
+    wrap('gyAllRangeCtrl', function (f) {
+      return function (key) {
+        var el = f.apply(this, arguments);
+        try {
+          var inp = el.querySelector('input[type=range]'), p = Math.round(avgPos(key));
+          if (inp) { inp.value = p; inp.dataset.start = String(p); }
+        } catch (e) {}
+        return el;
+      };
+    });
+    wrap('onGyAllSlider', function (f) {
+      return function (key, val, inp) {
+        if (!SB.on || !st()._styleBase) return f.apply(this, arguments);
+        var v = parseFloat(val);
+        if (!isFinite(v)) return;
+        var S = st(), def = paramDef(key);
+        if (!allDrag || allDrag.key !== key) {
+          allDrag = { key: key, start: parseFloat(inp && inp.dataset.start), base: {} };
+          if (!isFinite(allDrag.start)) allDrag.start = v;
+          (typeof SECTION_ORDER !== 'undefined' ? SECTION_ORDER : Object.keys(S.sections)).forEach(function (sec) {
+            var x = S.sections[sec] && S.sections[sec][key];
+            if (typeof x === 'number') allDrag.base[sec] = x;
+          });
+        }
+        var dlt = v - allDrag.start;
+        for (var sec in allDrag.base) {
+          S.sections[sec][key] = Math.round(clamp(allDrag.base[sec] + dlt, def.min, effMax(key, def)) * 1000) / 1000;
+        }
+        if (key === 'curl' && typeof gySyncGlobalCurl === 'function') gySyncGlobalCurl();
+        var lab = document.getElementById('gyallval-' + key);
+        if (lab) lab.textContent = Math.round(avgEff(key)) + (def.unit || '');
+        var rng = document.getElementById('gyallrng-' + key);
+        try { if (rng && typeof gyAllRangeText === 'function') rng.textContent = gyAllRangeText(key); } catch (e) {}
+        try { drawAdjustPreview(); } catch (e) {}
+      };
+    });
+    wrap('onGyAllSliderEnd', function (f) {
+      return function (key, inp) {
+        if (!SB.on || !st()._styleBase) return f.apply(this, arguments);
+        allDrag = null;
+        try { if (typeof _gyAllDrag !== 'undefined') _gyAllDrag = null; } catch (e) {}
+        var p = Math.round(avgPos(key)), def = paramDef(key);
+        if (inp) { inp.dataset.start = String(p); inp.value = p; }
+        var lab = document.getElementById('gyallval-' + key);
+        if (lab) lab.textContent = Math.round(avgEff(key)) + (def.unit || '');
+        try { SECTION_ORDER.forEach(function (s) { try { updateSectionSummary(s); } catch (e) {} }); } catch (e) {}
+      };
+    });
+
+    /* --- 3D 음영 --- */
+    wrap('buildAdjustedHair3DObject', function (f) {
+      return function () {
+        var obj = f.apply(this, arguments);
+        if (!SB.on) return obj;
+        try { return shadeHairObject(obj); } catch (e) { console.warn(TAG + ' 3D 음영 실패 — 원래 색 유지', e); return obj; }
+      };
+    });
+
+    console.log(TAG + ' 설치 완료 — 새 막대: 펌·베이스 폭 / 세팅·컬 정리감·부피감·볼륨 위치·처짐 / 커트·앞머리 기장 · 스타일 설정 ' + Object.keys(SB.profiles).join(', ') + ' · 끄기 STYLE_BASE.on=false');
+  }
+
+  SB._shade = shadeHairObject;   // 점검용
+
+  SB.status = function () {
+    var S = st();
+    return {
+      on: SB.on, profile: SB.activeId, lenExt: SB.LEN_EXT,
+      base: S && S._styleBase ? clone(S._styleBase) : null,
+      neutralSig: sigOf(NEUTRAL_KEYS), builtNeutralSig: builtNeutralSig
+    };
+  };
+
+  /* 새 스타일 프로필 추가용:  STYLE_BASE.addProfile('spec_id', { config:{...}, volBase, after, shade, specPatch }) */
+  SB.addProfile = function (id, prof) {
+    SB.profiles[id] = prof;
+    snapshotDefaults();
+    return prof;
+  };
+
+  // 앞의 스크립트가 모두 동기 로드된 뒤라 바로 설치합니다(부트 코드가 원래 함수를 먼저 부르지 않도록).
+  install();
+})();

@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>결 GYEOL — 스타일 프리뷰</title>
+<title>GYEOL — Style Preview</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=20260922e">
 </head>
@@ -213,31 +213,18 @@
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/MTLLoader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
-<script>
-/* ════════════════════════════════════════════════════════════════
-   VISION 모듈 로더
-   MediaPipe tasks-vision을 동적 import로 1회만 받아 캐시. FaceLandmarker·
-   ImageSegmenter·PoseLandmarker가 모두 이 프라미스를 공유한다.
-   ════════════════════════════════════════════════════════════════ */
-let __visionModulePromise = null;
-function loadVisionModule(){
-  if(!__visionModulePromise){
-    __visionModulePromise = import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.9');
-  }
-  return __visionModulePromise;
-}
-</script>
+<script>let __visionModulePromise=null;function loadVisionModule(){return!__visionModulePromise&&(__visionModulePromise=import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.9')),__visionModulePromise;}</script>
 <script src="js/01-face-landmarker.js?v=20260922e"></script>
-<script src="js/02-state-sections.js?v=20260930a"></script>
+<script src="js/02-state-sections.js?v=20260922e"></script>
 <script src="js/21-body-base.js?v=20260922e"></script>
 <script src="js/03a-hair-mask.js?v=20260922e"></script>
 <script src="js/03b-mask-memory.js?v=20260922e"></script>
 <script src="js/04-structure-tensor.js?v=20260922e"></script>
 <script src="js/05-capture-nav.js?v=20260922e"></script>
-<script src="js/06-ui-panels.js?v=20260930a"></script>
+<script src="js/06-ui-panels.js?v=20260922e"></script>
 <script src="js/07a-render-canvas.js?v=20260922e"></script>
 <script src="js/07b-render-compare.js?v=20260922e"></script>
-<script src="js/08-cut-engine.js?v=20260930a"></script>
+<script src="js/08-cut-engine.js?v=20260922e"></script>
 <script src="js/09-strand-dye.js?v=20260922e"></script>
 <script src="js/10-hair-render-2d.js?v=20260922e"></script>
 <script src="js/11-result-screen.js?v=20260922e"></script>
@@ -249,21 +236,59 @@ function loadVisionModule(){
 <script src="js/14-hair-3d-ops.js?v=20260922e"></script>
 <script src="js/15-project-3d.js?v=20260922e"></script>
 <script src="js/21-braid.js?v=20260922e"></script>
-<script src="js/16-style-spec-diag.js?v=20260930a"></script>
-<script src="js/17a-mannequin.js?v=20260930d"></script>
+<script src="js/16-style-spec-diag.js?v=20260922e"></script>
+<script src="js/17a-mannequin.js?v=20261004d"></script>
 <script src="js/17b-cut3d-piece.js?v=20260922e"></script>
 <script src="js/14c-curl-bundle.js?v=20260922e"></script>
 <script src="js/18-perf-i18n-boot.js?v=20260922e"></script>
 <script src="js/19-stage-backdrop.js?v=20260922e"></script>
 <script src="js/20-outfit-match.js?v=20260922e"></script>
 <script src="js/22-ui-i18n-extra.js?v=20260922e"></script>
-<script src="js/23-section-all.js?v=20260930a"></script>
-<script src="js/24-style-base.js?v=20260930a"></script>
+<script src="js/23-section-all.js?v=20260922e"></script>
+<script src="js/24-style-base.js?v=20260922e"></script>
 <script src="js/25-treatment-spec.js?v=20260922e"></script>
 <script src="js/26-hair-clump.js?v=20260922e"></script>
 <script src="js/27-perf-tune.js?v=20260927a"></script>
-<script src="js/28-perf-probe.js?v=20260929z"></script>
+<script src="js/28-perf-probe.js?v=20261004e"></script>
 <script src="js/29-hairpin-3d.js?v=20260927d"></script>
 <script src="js/30-saved-photos.js?v=20260927b"></script>
+<script src="js/31-hippie-wave-eyeguard.js?v=20261001a"></script>
+<script src="js/32-braid-drape.js?v=20260930a"></script>
+<script src="js/33-cut-from-tip.js?v=20260930b"></script>
+<script src="js/34-skip-result.js?v=20261001a"></script>
+<script src="js/35-long-layered-curtain.js?v=20261002b"></script>
+<script src="js/36-gloss-wave.js?v=20261003a"></script>
+<script src="js/37-mobile-diet.js?v=20261004g"></script>
+<script src="js/38-diag-copy-cam.js?v=20261003d"></script>
+<script src="js/39-two-pass-render.js?v=20261003g"></script>
+<script src="js/40-gpu-diet.js?v=20261004a"></script>
+<script src="js/41-original-asis.js?v=20261004c"></script>
+<script src="js/66-gabor-orient.js?v=20261012i"></script>
+<script src="js/42-regrow.js?v=20261012r"></script>
+<script src="js/43-adjust-3d.js?v=20261004f"></script>
+<script src="js/44-fitting.js?v=20261004b"></script>
+<script src="js/45-shot360.js?v=20261004c"></script>
+<script src="js/46-i18n-en.js?v=20261004d"></script>
+<script src="js/47-natural-grow.js?v=20261004g"></script>
+<script src="js/48-strand-budget.js?v=20261012o"></script>
+<script src="js/49-photo-change.js?v=20261004a"></script>
+<script src="js/50-shoulders.js?v=20261012m"></script>
+<script src="js/51-roots-fallback.js?v=20261004a"></script>
+<script src="js/52-views360.js?v=20261005f"></script>
+<script src="js/53-comb3d.js?v=20261008k"></script>
+<script src="js/54-body-seg-wait.js?v=20261006b"></script>
+<script src="js/55-fly-trim.js?v=20261010a"></script>
+<script src="js/56-neighbor-align.js?v=20261007a"></script>
+<script src="js/57-spec-pass.js?v=20261007b"></script>
+<script src="js/58-original-on-mannequin.js?v=20261007b"></script>
+<script src="js/59-flow-spec.js?v=20261012v"></script>
+<script src="js/60-photo-check.js?v=20261010c"></script>
+<script src="js/61-photo-curl.js?v=20261013a"></script>
+<script src="js/68-read-shape.js?v=20261013e"></script>
+<script src="js/69-style-paths.js?v=20261013f"></script>
+<script src="js/62-dialog-lang.js?v=20261010a"></script>
+<script src="js/63-hair-look.js?v=20261010b"></script>
+<script src="js/64-seg-orient.js?v=20261011a"></script>
+<script src="js/65-view-align.js?v=20261011r"></script>
 </body>
 </html>
