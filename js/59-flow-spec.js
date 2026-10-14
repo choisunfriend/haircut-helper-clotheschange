@@ -142,18 +142,14 @@
     smoothPasses: 2, smoothDot: 0.8,   // 이웃 칸과 고르는 횟수 · 같은 쪽으로 가는 무리로 보는 기준(cos)
     // ── 마네킹 없이(제 머리 바탕)
     native: true,        // 마네킹 없이 만든 스타일은 마네킹을 안 켜고 손님의 다시 기른 머리 위에 얹음 · 컬이 nativeCurl 이상인 손님의 원본은 다시 기른 머리로 보여 줌
-    nativeCurl: 0,       // (2026-10-10t) 0 — 컬 손님 원본도 마네킹 + 잰 값(61번 ④가 잰 반경·간격으로 감음). 예전 값 40      // 잰 컬이 이 값 이상이면 원본 = 다시 기른 머리(42번이 결 정렬을 끄는 기준과 같은 값) · 0 = 컬과 무관하게 마네킹+표
+    nativeCurl: 40,      // 잰 컬이 이 값 이상이면 원본 = 다시 기른 머리(42번이 결 정렬을 끄는 기준과 같은 값) · 0 = 컬과 무관하게 마네킹+표
     natResMax: 75,       // 도: 가닥이 제 결에서 벗어나 있던 각을 이만큼까지만 인정(거꾸로 간 가닥은 이 각으로 눌림)
     natLenMin: 0.25, natLenMax: 4,   // 길이 배수(스타일 길이 ÷ 제 칸 길이)의 한도
     smallFrac: 0.25,     // (i) 몸통 가닥 수가 보통 칸(중앙값)의 이 비율 미만인 무리는 같은 쪽으로 가는 큰 이웃의 방향을 따름 · 0 = 끔
     saveComb: true,      // (h) 스타일 등록 때 빗질·넘기기(53번)를 건 가닥으로 표를 뽑음 — 넘긴 모양이 스타일에 들어감 · false = 빗기 전 모양으로(예전)
-    natUpK: 1.25,        // (2026-10-10a) 제 머리 바탕: 두상(타원) 반지름의 이 배 밖에서는 결이 위로 가도 위로 가려던 만큼 아래로 꺾임(처짐) · 0 = 끔
     natTail: 1.1, natTailFull: 2,    // (g) 늘릴 때: 제 칸보다 긴 가닥도 스타일 칸 길이의 natTail배까지만(배수 natTailFull 이상에서 온전히) · 0 = 안 누름
     nativeWaitMs: 25000, // 다시 기르기를 이만큼 기다려도 안 끝나면 마네킹 방식으로 겁니다
-    guardNeck: false,     // 걸을 때 목 기둥 속으로 들어가는 점은 밖으로(42번 neckPush)
-    lenOwnOnly: true,    // (2026-10-12c) 가닥 길이 = 제 칸의 길이만(둘레 칸과 안 섞음) — 사용자: "왜 섞는거야? 그냥 가닥길이를 쓰면 안돼?" 머리선의 짧은 칸(짧게 심은·옆으로 눕힌 가닥)이 긴 이웃의 길이를 받아 제 방향 그대로 허공으로 뻗던 것(직모 손님 앞머리 가시 450가닥 → 0). 이웃 가닥과의 길이 차이는 그대로(중앙 0.49 → 0.50cm). false = 예전(섞음)
-    deadEnd: true, deadRatio: 0.3, deadRing: 7,   // (2026-10-12e) 머리 안쪽(둘레 8방향 중 deadRing 이상이 두 칸 밖까지 머리)인데 이웃 길이의 deadRatio배 미만인 무리는 표에서 뺌(더듬이) · 끄기 deadEnd=false
-    lenOwnCap: 0,        // lenOwnOnly를 끄고 쓸 때: 제 칸 길이의 이 배까지만 이웃과 섞음 · 0 = 끔
+    guardNeck: true,     // 걸을 때 목 기둥 속으로 들어가는 점은 밖으로(42번 neckPush)
     fidelityN: 2500      // 진단: 표로 다시 만들어 볼 원래 가닥 수
   }, W.FLOW_SPEC || {});
   var ST = FS.stats = { built: null, shaped: 0, fallback: 0, err: null, saveWarn: null };
@@ -285,43 +281,6 @@
     var cmap = new Map(), ci, pi;
     out.forEach(function (c) { cmap.set(keyOf(c.ix, c.iy, c.iz), c); });
     function compat(a, b) { return 0.5 * (a.e[0] * b.e[0] + a.e[1] * b.e[1] + a.e[2] * b.e[2] + a.e2[0] * b.e2[0] + a.e2[1] * b.e2[1] + a.e2[2] * b.e2[2]); }
-    // (2026-10-12e) 머리 안쪽의 막다른 짧은 무리 빼기 — 둘레가 두 칸 밖까지 전부 머리인 자리(헤어라인이 아님)인데 길이가 이웃의 deadRatio배도 안 되는 무리.
-    //   실측(긴 웨이브·긴 직모): 정수리 앞쪽 가르마 위의 뿌리가 앞으로 걷다가 이마에서 앞 사진에 막혀 5cm쯤에서 끝남 → 마네킹에서 "더듬이"·앞으로 뻗는 가닥.
-    //   긴 머리 한가운데의 짧은 가닥은 사진에 보일 수 없는 것이라(긴 머리에 덮임) 읽은 것이 아니라 막힌 것으로 봅니다. 표에서 빼면 그 자리 뿌리는 가까운 이웃 칸의 결·길이를 따릅니다.
-    //   헤어라인의 짧은 칸(앞머리·잔머리)은 둘레에 빈 칸이 있어 안 걸립니다.
-    var nDead = 0;
-    if (cfg.deadEnd && cfg.deadRatio > 0) {
-      var ringOk = function (c, kk) {
-        var ux = (c.ix + 0.5) * cs, uy = (c.iy + 0.5) * cs, uz = (c.iz + 0.5) * cs, ul = Math.sqrt(ux * ux + uy * uy + uz * uz) || 1, a8, n8 = 0;
-        ux /= ul; uy /= ul; uz /= ul;
-        var rx = Math.abs(uy) > 0.9 ? 1 : 0, ry = Math.abs(uy) > 0.9 ? 0 : 1, t1x = uy * 0 - uz * ry, t1y = uz * rx - ux * 0, t1z = ux * ry - uy * rx, tl = Math.sqrt(t1x * t1x + t1y * t1y + t1z * t1z) || 1;
-        t1x /= tl; t1y /= tl; t1z /= tl;
-        var t2x = uy * t1z - uz * t1y, t2y = uz * t1x - ux * t1z, t2z = ux * t1y - uy * t1x;
-        for (a8 = 0; a8 < 8; a8++) {
-          var ca8 = Math.cos(a8 * Math.PI / 4), sa8 = Math.sin(a8 * Math.PI / 4), px = ux + kk * cs * (ca8 * t1x + sa8 * t2x), py = uy + kk * cs * (ca8 * t1y + sa8 * t2y), pz = uz + kk * cs * (ca8 * t1z + sa8 * t2z), pl = Math.sqrt(px * px + py * py + pz * pz) || 1;
-          if (cmap.has(keyOf(Math.floor(px / pl / cs), Math.floor(py / pl / cs), Math.floor(pz / pl / cs)))) n8++;
-        }
-        return n8;
-      };
-      var deads = [];
-      out.forEach(function (c) {
-        var Ls = [], dx, dy, dz, nc, k;
-        for (dz = -1; dz <= 1; dz++) for (dy = -1; dy <= 1; dy++) for (dx = -1; dx <= 1; dx++) {
-          if (!dx && !dy && !dz) continue;
-          nc = cmap.get(keyOf(c.ix + dx, c.iy + dy, c.iz + dz)); if (!nc) continue;
-          for (k = 0; k < nc.cl.length; k++) Ls.push(nc.cl[k].L);
-        }
-        if (Ls.length < 6) return;
-        var med = qv(Ls, 0.5), hit = c.cl.filter(function (g) { return g.L < cfg.deadRatio * med; });
-        if (!hit.length) return;
-        if (ringOk(c, 1.3) < cfg.deadRing || ringOk(c, 2.6) < cfg.deadRing) return;
-        deads.push([c, hit]);
-      });
-      deads.forEach(function (u) {
-        var c = u[0]; c.cl = c.cl.filter(function (g) { if (u[1].indexOf(g) >= 0) { nDead++; nUsed -= g.core; return false; } return true; });
-        if (!c.cl.length) { cmap.delete(keyOf(c.ix, c.iy, c.iz)); out.splice(out.indexOf(c), 1); }
-      });
-    }
     // 혼자 긴 칸 누르기 — 같은 쪽으로 가는 이웃 무리들보다 훨씬 긴 칸은(다시 기르기가 밑단을 지나쳐 간 자리) 이웃 길이의 위쪽(75%) × tailCap으로.
     //   짧은 쪽(앞머리 등)은 그대로 둠
     var nTail = 0;
@@ -435,7 +394,7 @@
     }
     // 길이 분포(5자리)는 고른 길이 둘레의 좁은 띠로 — 가닥마다 ±lenVar만 다름
     out.forEach(function (c) { c.cl.forEach(function (g) { var v = cfg.lenVar; g.q = [g.L * (1 - v), g.L * (1 - v / 2), g.L, g.L * (1 + v / 2), g.L * (1 + v)]; }); });
-    return { cs: cs, bin: bin, nb: nb, cells: out, stats: { strands: recs.length, used: nUsed, cells: out.length, split: nSplit, skipped: nSkipCell, maxLen: maxLen, tailCells: nTail, mixed: nMixed, lone: nLone, small: nSmall, dead: nDead } };
+    return { cs: cs, bin: bin, nb: nb, cells: out, stats: { strands: recs.length, used: nUsed, cells: out.length, split: nSplit, skipped: nSkipCell, maxLen: maxLen, tailCells: nTail, mixed: nMixed, lone: nLone, small: nSmall } };
   }
 
   /* ------------------------------------------------------------------------------------------------------------
@@ -543,8 +502,6 @@
     if (!nC || !(wsum > 1e-6) || _G[iH] !== H) { _G[0] = H; _Wt[0] = 1; wsum = 1; nC = 1; iH = 0; }
     var len = 0;
     if (lenOver > 0) len = lenOver; else { for (i = 0; i < nC; i++) len += _Wt[i] * quant(_G[i].q, h); len /= wsum; }
-    if (!(lenOver > 0) && cfg.lenOwnOnly) len = quant(H.q, h);
-    if (!(lenOver > 0) && cfg.lenOwnCap > 0) { var lenOwn = quant(H.q, h) * cfg.lenOwnCap; if (len > lenOwn) { len = lenOwn; if (cfg === FS) ST.lenCapped = (ST.lenCapped || 0) + 1; } }   // (2026-10-12c) 제 칸 길이보다 훨씬 길게는 이웃에서 끌어오지 않음 — 머리선의 짧은 칸(짧게 심은·옆으로 눕힌 가닥)이 이웃의 긴 길이를 받아 제 방향 그대로 허공으로 뻗던 것(가시·더듬이)
     if (!(len > 1e-4)) return null;
     var n = Math.max(cfg.minPts, Math.min(cfg.maxPts, Math.round(len / cfg.step))), ds = len / n, out = new Array(n + 1);
     var px = nx, py = ny, pz = nz, vx = e[0], vy = e[1], vz = e[2], s, fb, b0, tt, ax, ay, az, al, bA, bB, d, pl;
@@ -688,19 +645,11 @@
           ux = vx; uy = vy; uz = vz;
         } else { ux = ms[0]; uy = ms[1]; uz = ms[2]; }
       }
-      if (cfg.natUpK > 0 && uy > 0) {                                        // (2026-10-10a) 머리 겉면 밖에서는 위로 안 가고 아래로 꺾임 — 곱슬 표의 헤매는 결이 긴 머리에서 정수리 위로 솟는 막대가 되던 것
-        var kq = Math.sqrt(px * px + py * py + pz * pz);
-        if (kq > cfg.natUpK) { var wu = Math.min(1, (kq - cfg.natUpK) / 0.08); uy *= (1 - 2 * wu); var lu = Math.sqrt(ux * ux + uy * uy + uz * uz); if (lu > 1e-6) { ux /= lu; uy /= lu; uz /= lu; } else { ux = 0; uy = -1; uz = 0; } if (cfg._st && wu > 0) cfg._st.upCut = (cfg._st.upCut || 0) + 1; }
-      }
       px += ux * step; py += uy * step; pz += uz * step; arc += step; put();
     }
     if (T - arc > 1e-3) {                                                    // 스타일이 더 긺 — 스타일의 결을 따라 이어 기름
       var avg = A / Math.max(1, m - 1), nx2 = Math.min(80, Math.max(1, Math.ceil((T - arc) / Math.max(avg, 1e-3)))), ds = (T - arc) / nx2, k;
-      for (k = 0; k < nx2; k++) {
-        sty.dir(arc + ds * 0.5, ms);
-        if (cfg.natUpK > 0 && ms[1] > 0) { var kq2 = Math.sqrt(px * px + py * py + pz * pz); if (kq2 > cfg.natUpK) { var wu2 = Math.min(1, (kq2 - cfg.natUpK) / 0.08), my = ms[1] * (1 - 2 * wu2), lm = Math.sqrt(ms[0] * ms[0] + my * my + ms[2] * ms[2]) || 1; ms[0] /= lm; ms[1] = my / lm; ms[2] /= lm; } }
-        px += ms[0] * ds; py += ms[1] * ds; pz += ms[2] * ds; arc += ds; put();
-      }
+      for (k = 0; k < nx2; k++) { sty.dir(arc + ds * 0.5, ms); px += ms[0] * ds; py += ms[1] * ds; pz += ms[2] * ds; arc += ds; put(); }
     }
     return out.length >= 2 ? out : null;
   }
@@ -879,7 +828,7 @@
       if (state.fade && sp.fade) Object.assign(state.fade, sp.fade);
       try { if (typeof BRAID !== 'undefined') BRAID.on = false; } catch (e) {}
     } catch (e) { nat.err = '값 넣기 실패: ' + (e && e.message || e); console.warn(TAG + ' ' + nat.err, e); return false; }
-    nat.id = id; nat.base = G.base; nat.undo = undo; nat.shaped = 0; nat.kept = 0; nat.tailCut = 0; nat.upCut = 0; FS._st = nat; nat.err = null; nat.applied++; nat.at = new Date().toTimeString().slice(0, 8);
+    nat.id = id; nat.base = G.base; nat.undo = undo; nat.shaped = 0; nat.kept = 0; nat.tailCut = 0; FS._st = nat; nat.err = null; nat.applied++; nat.at = new Date().toTimeString().slice(0, 8);
     refreshActive();
     redrawAll(sp.name || '스타일');
     needNatLine = true;
@@ -1103,10 +1052,6 @@
       }
       if (spec && sp && FS.save) {
         if (sp.base === 'regrown') spec.base = 'regrown';
-        // (2026-10-12t) 원본 머리(68번 = 다시 기른 길을 옮겨심은 것)를 보며 등록한 스타일도 마네킹 없이 — 사용자: "마네킨 모드로 저장하지 않은 건 마네킨 모드 꺼지게"
-        //   다른 손님에게 걸 때 그 손님의 다시 기른 머리 위에 얹음(위의 native 경로) · (2026-10-12v) 기본 끔(FLOW_SPEC.origAsRegrown=true일 때만) — 대신 굴곡을 spec.readShape로 싣고 받는 손님은 결 표 길 + 그 굴곡 · 예전 = FLOW_SPEC.origAsRegrown=false
-        try { if (W.ORIG_MQ && typeof W.ORIG_MQ.isOriginal === 'function' && W.ORIG_MQ.isOriginal() && W.PHOTO_CURL && typeof W.PHOTO_CURL.exportShape === 'function') { var rsx = W.PHOTO_CURL.exportShape(); if (rsx) { spec.readShape = rsx; console.log(TAG + ' 원본 머리에서 등록 — 사진에서 읽은 굴곡을 같이 실음(' + Math.round(JSON.stringify(rsx).length / 1024) + 'KB · 나선 쪽 ' + rsx.w + ')'); } } } catch (e) {}   // (2026-10-12v)
-        try { if (FS.origAsRegrown === true && W.ORIG_MQ && typeof W.ORIG_MQ.isOriginal === 'function' && W.ORIG_MQ.isOriginal() && W.READ_SHAPE && W.READ_SHAPE.on !== false) { spec.base = 'regrown'; console.log(TAG + ' 원본 머리에서 등록 — 마네킹 없이 거는 스타일로 저장(base regrown)'); } } catch (e) {}
         var fcB = null; try { fcB = FS.fromCombed(); } catch (e) { fcB = null; }             // (h) 빗질·넘기기가 있으면 그걸 건 가닥으로 다시 뽑은 표
         spec.flow = fcB || sp.flow; spec.flowBase = JSON.parse(JSON.stringify(sp.flowBase || {})); spec.flowLen = {};
         secOrder().forEach(function (sec) { var c = state.sections && state.sections[sec]; if (c && typeof c.length === 'number') spec.flowLen[sec] = c.length; });
@@ -1135,7 +1080,7 @@
     var sp = null; try { sp = natSpec(); } catch (e) {}
     if (!sp) return TAG + ' 제 머리 바탕 — ' + (nat.pending ? '거는 중(다시 기르기를 기다림)' : (FS.native ? '걸린 스타일 없음' : '꺼짐(FLOW_SPEC.native=false)')) +
       (isCurlyPhoto() ? ' · 이 손님은 컬 ' + FS.nativeCurl + ' 이상이라 원본을 다시 기른 머리로 보여 줍니다' : '') + (nat.fellBack ? ' · 마네킹 방식으로 떨어진 횟수 ' + nat.fellBack : '') + (nat.err ? ' · ⚠ ' + nat.err : '');
-    return TAG + ' 제 머리 바탕으로 걸림 — "' + (sp.name || nat.id) + '"(' + nat.at + ') · 마네킹 안 켬 · 큰 흐름을 스타일 표로 바꾼 가닥 ' + nat.shaped + '개' + (nat.upCut ? ' · 머리 겉면 밖에서 위로 솟으려다 아래로 꺾인 마디 ' + nat.upCut + '(FLOW_SPEC.natUpK)' : '') + (nat.kept ? ' · 표가 없어 그대로 둔 가닥 ' + nat.kept : '') + (nat.tailCut ? ' · 혼자 길어서 스타일 길이로 누른 가닥 ' + nat.tailCut + '(FLOW_SPEC.natTail)' : '') +
+    return TAG + ' 제 머리 바탕으로 걸림 — "' + (sp.name || nat.id) + '"(' + nat.at + ') · 마네킹 안 켬 · 큰 흐름을 스타일 표로 바꾼 가닥 ' + nat.shaped + '개' + (nat.kept ? ' · 표가 없어 그대로 둔 가닥 ' + nat.kept : '') + (nat.tailCut ? ' · 혼자 길어서 스타일 길이로 누른 가닥 ' + nat.tailCut + '(FLOW_SPEC.natTail)' : '') +
       ' · 가닥의 잔 차이는 이 손님 것 그대로(' + FS.natResMax + '°까지) · 길이는 스타일 ÷ 제 칸 배수' + (nat.err ? ' · ⚠ ' + nat.err : '') + ' — 끄기 FLOW_SPEC.native=false 후 스타일 다시 걸기';
   };
   FS.applyLine = function () {
@@ -1152,7 +1097,6 @@
       L.push(TAG + ' 다시 기른 가닥 ' + s.strands + '개에서 뽑음(' + b.at + ' · ' + Math.round(b.ms) + 'ms) — 두피 칸 ' + s.cells + '개(가닥이 ' + FS.minCell + '개 미만이라 뺀 칸 ' + s.skipped + ') · 그중 두 무리로 가른 칸(가르마 등) ' + s.split + ' · 두 무리가 섞여 있어 큰 무리만 쓴 칸 ' + (s.mixed || 0) + ' · 혼자 다른 쪽으로 가서 이웃을 따르게 한 칸 ' + (s.lone || 0) +
         ' · 가닥이 적어(보통 칸의 ' + Math.round(FS.smallFrac * 100) + '% 미만) 큰 이웃의 결을 따르게 한 무리 ' + (s.small || 0) +
         ' · 표에 넣은 가닥(칸의 결과 같은 쪽으로 가는 몸통만) ' + s.used + '개(' + Math.round(s.used / Math.max(1, s.strands) * 100) + '% — 나머지는 잔머리·엇나간 가닥이라 뺌) · 혼자 길어서 누른 칸 ' + (s.tailCells || 0) +
-        ' · 머리 안쪽의 막다른 짧은 무리라 뺀 것 ' + (s.dead || 0) + '(이웃 칸을 따름 · 끄기 FLOW_SPEC.deadEnd=false)' +
         ' · 길이 칸 ' + b.nb + ' · 스펙에 싣는 크기 ' + Math.round(b.bytes / 1024) + 'KB');
       if (f && f.n) L.push('    표로 다시 만든 가닥 ↔ 원래 가닥(' + f.n + '개 표본 · 길이는 원래 길이로): 가닥 전체 평균 거리 ' + (f.meanMed * cm).toFixed(1) + 'cm(중앙값) · ' + (f.meanP90 * cm).toFixed(1) + 'cm(90%) | 끝 거리 ' +
         (f.tipMed * cm).toFixed(1) + ' · ' + (f.tipP90 * cm).toFixed(1) + 'cm' + (f.miss ? ' · 표가 없어 못 만든 가닥 ' + f.miss : '') +

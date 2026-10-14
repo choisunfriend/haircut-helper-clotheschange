@@ -153,13 +153,6 @@
  *     · ↶는 정리·넘기기 가운데 마지막 한 획을 되돌립니다. 등록 스타일에는 아직 안 들어갑니다(이 손님 화면에서만).
  *   끄기: COMB3D.sweep=false 후 COMB3D.refresh() · 넘긴 것만 지우기: COMB3D.clearSweeps()
  *
- * (2026-10-08k) 넘기기 세기 조절 — 사용자: "sweep 좋네. 좀 센 느낌도 있긴 한데 … sweep을 켤 때 강도 조절할 수 있도록 했으면 좋겠어."
- *   [넘기기]를 켜면 버튼 옆에 세기 막대(1~10)가 나옵니다. 세기 = "한 번 쓸 때 얼마나 넘어가나"(표본 하나의 세기 sweepStrength). 여러 번 쓸면 쌓여서 끝까지 넘어갑니다.
- *   붓 하나가 같은 칸을 여러 번 칠하므로 표본 세기와 체감은 비례하지 않습니다 → 막대는 0.03~0.6을 같은 비율로 나눔(붓 가운데가 한 획에 도는 정도 — 합성 계산):
- *     1(0.03) ≈ 25% · 3(0.06) ≈ 50% · 5(0.11) ≈ 75% · 7(0.22) ≈ 95% · 10(0.6 — 지금까지의 값) = 100%(가장자리 가까이까지).
- *   기본은 7(예전 10보다 조금 약하게 — 붓 가운데는 한 획에 거의 넘어가고 가장자리는 덜 딸려 감). 고른 값은 이 기기에 기억합니다. 이미 그은 획은 안 바뀝니다(그은 뒤부터).
- *   콘솔: COMB3D.setSweepLevel(1~10)
- *
  * 아직 안 되는 것 / 알아둘 것:
  *   · 등록 스타일에는 들어가지 않습니다(이 손님 화면에서만).
  *   · 쓰다듬는 동안 머리는 liveMs마다 다시 그립니다(가닥이 많으면 반 박자 늦게 따라옴).
@@ -238,8 +231,7 @@
     // (2026-10-07j) 빗어 넘기기 — 원 안의 머리(몸통 포함)를 쓴 방향으로 돌림(머리말 j 참고)
     sweep: true,
     mode: 'tidy',       // 'tidy' = 정리(잔머리를 결에 맞춤 — 지금까지의 빗) · 'sweep' = 넘기기
-    sweepStrength: 0.6, // 한 표본이 돌리는 세기(겹쳐 쓸면 1까지 쌓임) — (k) 세기 막대가 정함(sweepLevel)
-    sweepLevel: 7,      // (k) 세기 막대 1~10 → sweepStrength 0.03~0.6(같은 비율로)
+    sweepStrength: 0.6, // 한 표본이 돌리는 세기(겹쳐 쓸면 1까지 쌓임)
     sweepGrip: 0.12,    // 가닥의 앞 12%(뿌리 쪽)는 덜 돎
     sweepTol: 3,        // 도: 큰 방향이 쓴 방향에서 이 안쪽이면 안 건드림
     sweepDepth: 0.2,    // 넘기기 붓에 걸리는 깊이(≈ 3.8cm — 뭉치의 속까지 같이 넘어가게 · 정리는 depthLayer 2.5cm)
@@ -1479,16 +1471,7 @@
    * ④ 버튼
    * ────────────────────────────────────────────────────────────────────── */
   function lang() { try { return uiLang === 'ko' ? 'ko' : 'en'; } catch (e) { return 'ko'; } }
-  var btn = null, undoBtn = null, sweepBtn = null, kWrap = null, kRange = null, kLabel = null;
-  var K_LO = 0.03, K_HI = 0.6, K_KEY = 'gyeol_sweepLevel';
-  function levelToK(lv) { lv = Math.max(1, Math.min(10, +lv || 7)); return +(K_LO * Math.pow(K_HI / K_LO, (lv - 1) / 9)).toFixed(3); }
-  C.setSweepLevel = function (lv, keep) {
-    lv = Math.max(1, Math.min(10, Math.round(+lv || 7)));
-    C.sweepLevel = lv; C.sweepStrength = levelToK(lv);
-    if (!keep) { try { localStorage.setItem(K_KEY, String(lv)); } catch (e) {} }
-    try { if (kRange) kRange.value = String(lv); if (kLabel) kLabel.textContent = (lang() === 'ko' ? '세기 ' : 'Strength ') + lv; } catch (e) {}
-    return C.sweepStrength;
-  };
+  var btn = null, undoBtn = null, sweepBtn = null;
   function syncBtn() {
     try {
       if (!btn) return;
@@ -1497,7 +1480,6 @@
       btn.classList.toggle('on', !!C.on && !sw);
       btn.textContent = (C.on && !sw) ? '빗질 ON' : '빗질 OFF';
       if (sweepBtn) { sweepBtn.style.display = show && C.sweep ? '' : 'none'; sweepBtn.classList.toggle('on', !!sw); sweepBtn.textContent = sw ? '넘기기 ON' : '넘기기 OFF'; }
-      if (kWrap) kWrap.style.display = show && sw ? 'inline-flex' : 'none';
       undoBtn.style.display = show && C.on ? '' : 'none';
       undoBtn.disabled = !(C.samples.length || C.sweeps.length);
       if (mark) { var r2 = mark.querySelector('#comb3dRing2'); if (r2) r2.setAttribute('stroke', sw ? '#3b82c4' : '#c9874a'); }
@@ -1535,25 +1517,13 @@
       if (mq && mq.className) sweepBtn.className = mq.className;
       sweepBtn.title = '켜면 한 손가락 드래그가 빗어 넘기기가 됩니다 — 원 안의 머리가 뭉치째 쓴 방향으로 넘어갑니다';
       sweepBtn.addEventListener('click', function () { C.toggle(null, 'sweep'); });
-      // (k) 넘기기 세기 막대 — 넘기기를 켰을 때만 보임
-      kWrap = document.createElement('span'); kWrap.id = 'comb3dSweepK';
-      kWrap.style.cssText = 'display:none;align-items:center;gap:5px;vertical-align:middle;padding:2px 8px;border-radius:999px;background:rgba(30,25,21,0.82);color:#f3e9da;font-size:11px;line-height:1;white-space:nowrap;';
-      kLabel = document.createElement('span');
-      kRange = document.createElement('input'); kRange.type = 'range'; kRange.min = '1'; kRange.max = '10'; kRange.step = '1';
-      kRange.style.cssText = 'width:84px;height:22px;margin:0;accent-color:#3b82c4;touch-action:pan-x;';
-      kRange.title = '넘기기 세기 — 한 번 쓸 때 얼마나 넘어가나(여러 번 쓸면 쌓임)';
-      kRange.addEventListener('input', function () { C.setSweepLevel(kRange.value); });
-      ['pointerdown', 'touchstart', 'mousedown'].forEach(function (ev) { kWrap.addEventListener(ev, function (e) { e.stopPropagation(); }); });
-      kWrap.appendChild(kLabel); kWrap.appendChild(kRange);
-      var lv0 = C.sweepLevel; try { var sv = parseInt(localStorage.getItem(K_KEY), 10); if (sv >= 1 && sv <= 10) lv0 = sv; } catch (e) {}
-      C.setSweepLevel(lv0, true);
-      bar.appendChild(btn); bar.appendChild(sweepBtn); bar.appendChild(kWrap); bar.appendChild(undoBtn);
+      bar.appendChild(btn); bar.appendChild(sweepBtn); bar.appendChild(undoBtn);
       syncBtn();
     }
   } catch (e) { console.warn(TAG + ' 버튼 만들기 실패', e); }
   try {
     if (typeof I18N !== 'undefined') {
-      Object.assign(I18N, { '빗질 ON': 'Comb ON', '빗질 OFF': 'Comb OFF', '넘기기 ON': 'Sweep ON', '넘기기 OFF': 'Sweep OFF', '넘기기 세기 — 한 번 쓸 때 얼마나 넘어가나(여러 번 쓸면 쌓임)': 'Sweep strength — how far one stroke turns the hair (repeat strokes add up)',
+      Object.assign(I18N, { '빗질 ON': 'Comb ON', '빗질 OFF': 'Comb OFF', '넘기기 ON': 'Sweep ON', '넘기기 OFF': 'Sweep OFF',
         '켜면 한 손가락 드래그가 빗어 넘기기가 됩니다 — 원 안의 머리가 뭉치째 쓴 방향으로 넘어갑니다': 'When on, a one-finger drag sweeps — the whole bundle inside the circle turns the way you stroke',
         '켜면 한 손가락 드래그가 빗질이 됩니다 — 잔머리를 결 방향으로 쓰다듬어 눕힙니다': 'When on, a one-finger drag combs — stroke flyaways along the hair flow to lay them down',
         '마지막 빗질 한 획 되돌리기': 'Undo the last comb stroke' });
@@ -1587,7 +1557,7 @@
     var L = ppl.apply(this, arguments) || [];
     try {
       L.push(TAG + ' ' + (C.enabled ? (C.on ? '켜짐(빗질 모드)' : '대기') : '꺼짐') + ' · 획 ' + S.strokes + ' · 표본 ' + C.samples.length + '/' + C.maxSamples +
-        ' · 넘기기 ' + (C.sweep ? (C.on && C.mode === 'sweep' ? '켜짐' : '대기') + ' — 세기 ' + C.sweepLevel + '/10(표본 세기 ' + C.sweepStrength + ') · 획 ' + (S.sweepStrokes || 0) + ' · 표본 ' + C.sweeps.length + ' · 직전에 넘어간 가닥 ' + (S.swept || 0) + '(두상에 막혀 눕힌 마디 ' + (S.sweptPush || 0) + ') · 방향 장 ' + (F2 ? F2.n : 0) + '칸' : '꺼짐(COMB3D.sweep=false)') +
+        ' · 넘기기 ' + (C.sweep ? (C.on && C.mode === 'sweep' ? '켜짐' : '대기') + ' — 획 ' + (S.sweepStrokes || 0) + ' · 표본 ' + C.sweeps.length + ' · 직전에 넘어간 가닥 ' + (S.swept || 0) + '(두상에 막혀 눕힌 마디 ' + (S.sweptPush || 0) + ') · 방향 장 ' + (F2 ? F2.n : 0) + '칸' : '꺼짐(COMB3D.sweep=false)') +
         ' · 직전에 바뀐 가닥 ' + S.touched + ' · 가닥 만들기 ' + Math.round(S.ms) + 'ms(빗질 포함) · 붓 자리 찾기 준비 ' + Math.round(S.pickMs) + 'ms(점 ' + S.pickPts + ') · 직전 표본이 칠한 점 ' + S.dabs + '(원 안에 보인 점 ' + S.seen + ')' +
         ' · 방향 장 ' + (F ? F.n : 0) + '칸 · 붓 ' + C.radiusPx + 'px(상한 ' + C.maxRadius + ' · 지금 화면에서 ' + Math.round(markR) + 'px) · 세기 ' + C.strength + ' · 터치 빗 위치 손가락 위 ' + C.touchOffset + 'px' + (S.err ? ' · ⚠ ' + S.err : ''));
       L.push('  결 따라 빗기 ' + (C.grain ? (flowMemo && flowMemo.flow ? '켜짐 — 결 칸 ' + S.flowCells + ' · 몸통 머리 보통 밀도 칸당 ' + S.flowRef + '가닥 · 결 읽기 ' + Math.round(S.flowMs) + 'ms' : '켜짐(아직 결을 안 읽음 — 빗을 대면 읽음)') : '꺼짐(손가락 방향 그대로)') +
