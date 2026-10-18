@@ -1,1 +1,1310 @@
-const FLOW_DISC={'dirJump':0.7,'dipRatio':0.45,'dipMin':0.2,'wDir':0.6,'wDip':0.65,'thrMin':0.75,'thrSpan':0.55};function traceStrandPath(_0x76638d,_0x23e767,_0x329e2c,_0x29d4f8,_0x3a193c,_0x524bf8,_0x7d1cf1){const {hasOrientation:_0x4dbb85,orientation:_0x297ccb,orientMaskW:_0x4b0998,ox:_0x4c8bcd,oy:_0x4a83ce,STRAND_STEP_LEN:_0x40c580,frontDirBiasFor:_0x505698,curlAmtFor:_0x244439,waveWidthFor:_0x23e8e8,maskAt:_0x5c16b1}=_0x3a193c,_0x237d13=_0x40c580,_0x9ee507=Math['max'](0x2,Math['round'](_0x329e2c/_0x237d13)),_0x18dd06=[{'x':_0x76638d,'y':_0x23e767}];let _0x68a564=0x0,_0x2b6915=null,_0x427a68=null,_0x2f051d=0x0,_0x171080=null;const _0x2c6a8e=FLOW_DISC['thrMin']+hashFract((_0x29d4f8+_0x76638d)*12.9898)*FLOW_DISC['thrSpan'],_0x6054bb=_0x505698(_0x76638d,_0x524bf8),_0xcbf9dc=_0x244439(_0x76638d,_0x524bf8),_0x308422=_0xcbf9dc/0x64,_0x22de87=_0x23e8e8(_0x76638d,_0x524bf8)/0x64;let _0x4b8406=Math['PI']/0x2;if(HAIR_FLOW['on']&&HAIR_FLOW['applyTo2D']&&_0x4dbb85){const _0x37440d=sampleOrientation(_0x297ccb,_0x76638d*_0x4c8bcd,_0x4b0998,_0x23e767*_0x4a83ce);if(_0x37440d&&_0x37440d['fc']>=HAIR_FLOW['minConf'])_0x4b8406=Math['atan2'](_0x37440d['fy'],_0x37440d['fx']);}for(let _0x4636d6=0x0;_0x4636d6<_0x9ee507;_0x4636d6++){const _0x55deea=_0x18dd06[_0x18dd06['length']-0x1];let _0xfce49d=_0x4b8406;if(_0x4dbb85&&_0x4636d6>=0x2){const _0x2ad214=sampleOrientation(_0x297ccb,_0x55deea['x']*_0x4c8bcd,_0x4b0998,_0x55deea['y']*_0x4a83ce);if(_0x2ad214['coherence']>0.05){let _0x14704e=_0x2ad214['angle'];const _0x59ce6c=HAIR_FLOW['applyTo2D']?flowPolarityFor(_0x2ad214['angle'],_0x2ad214):0x0;if(_0x59ce6c!==0x0){if(_0x59ce6c<0x0)_0x14704e+=Math['PI'];}else{const _0x274d58=wrapPi(_0x14704e-_0x4b8406);if(Math['abs'](_0x274d58)>Math['PI']/0x2)_0x14704e+=Math['PI'];}if(_0x3a193c['flowAcc']){_0x3a193c['flowAcc']['n']++;if(_0x59ce6c!==0x0)_0x3a193c['flowAcc']['byFlow']++;}let _0x11dfc0=Math['min'](0x1,_0x2ad214['coherence']*1.3)*(0x1-_0x308422*0.65);const _0x799f4b=wrapPi(_0x14704e-_0x4b8406);if(Math['abs'](_0x799f4b)>Math['PI']/0x2)_0x11dfc0=Math['min'](_0x11dfc0,HAIR_FLOW['maxTurn2D']);_0xfce49d=_0x4b8406+_0x799f4b*_0x11dfc0;let _0x319a82=_0x799f4b;if(_0x319a82>Math['PI']/0x2)_0x319a82-=Math['PI'];if(_0x319a82<-Math['PI']/0x2)_0x319a82+=Math['PI'];if(_0x171080===null&&_0x2b6915===null&&_0x4636d6>=0x4){if(Math['abs'](_0x319a82)>FLOW_DISC['dirJump']&&_0x2ad214['coherence']>0.2)_0x2f051d+=FLOW_DISC['wDir'];if(_0x427a68!==null&&_0x427a68>FLOW_DISC['dipMin']&&_0x2ad214['coherence']<_0x427a68*FLOW_DISC['dipRatio'])_0x2f051d+=FLOW_DISC['wDip'];if(_0x2f051d>=_0x2c6a8e)_0x171080=_0x18dd06['length']-0x1;}_0x427a68=_0x427a68===null?_0x2ad214['coherence']:_0x427a68*0.7+_0x2ad214['coherence']*0.3;}else{const _0x7e11e2=wrapPi(Math['PI']/0x2-_0x4b8406),_0x23ba18=0.15+_0x4636d6/_0x9ee507*0.35;_0xfce49d=_0x4b8406+_0x7e11e2*_0x23ba18;if(_0x171080===null&&_0x2b6915===null&&_0x4636d6>=0x4&&_0x427a68!==null&&_0x427a68>0.3){_0x2f051d+=FLOW_DISC['wDip'];if(_0x2f051d>=_0x2c6a8e)_0x171080=_0x18dd06['length']-0x1;}if(_0x427a68!==null)_0x427a68*=0.7;}}if(_0x2b6915!==null){const _0x13ff86=wrapPi(Math['PI']/0x2-_0xfce49d);_0xfce49d+=_0x13ff86*0.45;}_0x4b8406=_0xfce49d;const _0x569959=0x1+_0x4636d6/_0x9ee507*1.8,_0x1f366b=(Math['sin']((_0x4636d6+_0x29d4f8)*0.9)*0.12+(Math['random']()-0.5)*0.1)*_0x569959,_0x47b512=0x3+_0x22de87*0xf,_0x1642ca=_0x4636d6/_0x47b512*Math['PI']*0x2,_0x24e24f=Math['sin'](_0x1642ca+_0x76638d*0.05+_0x29d4f8*0.15)*_0x308422*0.85,_0x496cb7=0x1-_0x4636d6/_0x9ee507*0.6,_0x6f1fb3=_0xfce49d+_0x24e24f+_0x1f366b+_0x6054bb*_0x496cb7,_0x1e61dc=Math['cos'](_0x6f1fb3)*_0x237d13,_0xaa99cb=Math['sin'](_0x6f1fb3)*_0x237d13;_0x18dd06['push']({'x':_0x55deea['x']+_0x1e61dc,'y':_0x55deea['y']+_0xaa99cb});if(_0x5c16b1&&_0x2b6915===null&&_0x4636d6>=0x2){const _0x1fc1cb=_0x18dd06[_0x18dd06['length']-0x1];if(_0x5c16b1(_0x1fc1cb['x'],_0x1fc1cb['y']))_0x68a564=0x0;else{_0x68a564++;if(_0x68a564>=0x3){_0x2b6915=_0x18dd06['length']-0x1-_0x68a564;if(_0x7d1cf1)break;}}}if(_0x7d1cf1&&_0x171080!==null)break;}return _0x18dd06['maskExitIdx']=_0x2b6915!==null?Math['max'](0x1,_0x2b6915):_0x18dd06['length']-0x1,_0x18dd06['flowEndIdx']=_0x171080!==null?Math['max'](0x1,_0x171080):null,_0x18dd06;}function fillLine1D(_0x5101f7){const _0x4523d5=_0x5101f7['length'];let _0x2696c7=-0x1;for(let _0x534eb9=0x0;_0x534eb9<_0x4523d5;_0x534eb9++){if(_0x5101f7[_0x534eb9]>=0x0)_0x2696c7=_0x5101f7[_0x534eb9];else{if(_0x2696c7>=0x0)_0x5101f7[_0x534eb9]=_0x2696c7;}}let _0x282452=-0x1;for(let _0x478f1d=_0x4523d5-0x1;_0x478f1d>=0x0;_0x478f1d--){if(_0x5101f7[_0x478f1d]>=0x0)_0x282452=_0x5101f7[_0x478f1d];else{if(_0x282452>=0x0)_0x5101f7[_0x478f1d]=_0x282452;}}return _0x5101f7;}function clampLineOutliers1D(_0x29f49a,_0x1a0c3a){const _0x3f69ee=_0x1a0c3a&&_0x1a0c3a['window']||0x3,_0x4e9329=_0x1a0c3a&&_0x1a0c3a['k']||0.35,_0x4824c3=_0x29f49a['length'],_0x33eb78=[];for(let _0x5ebc7c=0x0;_0x5ebc7c<_0x4824c3;_0x5ebc7c++)if(_0x29f49a[_0x5ebc7c]>=0x0)_0x33eb78['push'](_0x29f49a[_0x5ebc7c]);if(_0x33eb78['length']<0x5)return _0x29f49a;const _0x3f14b2=_0x33eb78['slice']()['sort']((_0x281ae9,_0x5a1930)=>_0x281ae9-_0x5a1930),_0x52850e=_0x3f14b2[Math['floor'](_0x3f14b2['length']*0.1)],_0x38cd7e=_0x3f14b2[Math['floor'](_0x3f14b2['length']*0.9)],_0x57743b=Math['max'](0.000001,(_0x38cd7e-_0x52850e)*_0x4e9329),_0x52d7c4=_0x29f49a['slice'](),_0x5a93ef=[];for(let _0x37b10f=0x0;_0x37b10f<_0x4824c3;_0x37b10f++){if(_0x29f49a[_0x37b10f]<0x0)continue;_0x5a93ef['length']=0x0;for(let _0x18d362=Math['max'](0x0,_0x37b10f-_0x3f69ee);_0x18d362<=Math['min'](_0x4824c3-0x1,_0x37b10f+_0x3f69ee);_0x18d362++){if(_0x18d362!==_0x37b10f&&_0x29f49a[_0x18d362]>=0x0)_0x5a93ef['push'](_0x29f49a[_0x18d362]);}if(_0x5a93ef['length']<0x2)continue;_0x5a93ef['sort']((_0x5b4235,_0xbe4c35)=>_0x5b4235-_0xbe4c35);const _0x53352b=_0x5a93ef[Math['floor'](_0x5a93ef['length']/0x2)],_0x89462d=_0x29f49a[_0x37b10f]-_0x53352b;if(_0x89462d>_0x57743b)_0x52d7c4[_0x37b10f]=_0x53352b+_0x57743b;else{if(_0x89462d<-_0x57743b)_0x52d7c4[_0x37b10f]=_0x53352b-_0x57743b;}}for(let _0x235485=0x0;_0x235485<_0x4824c3;_0x235485++)_0x29f49a[_0x235485]=_0x52d7c4[_0x235485];return _0x29f49a;}function smoothLine1D(_0x2ce898,_0x1f86d4){const _0x41d46e=_0x1f86d4&&_0x1f86d4['radius']||0x2,_0x336ea3=_0x2ce898['length'],_0x43e3be=Math['max'](0.5,_0x41d46e/0x2),_0x4187f5=[];for(let _0x293cce=-_0x41d46e;_0x293cce<=_0x41d46e;_0x293cce++)_0x4187f5['push'](Math['exp'](-(_0x293cce*_0x293cce)/(0x2*_0x43e3be*_0x43e3be)));const _0x2c5a6f=_0x2ce898['slice']();for(let _0x476171=0x0;_0x476171<_0x336ea3;_0x476171++){if(_0x2ce898[_0x476171]<0x0)continue;let _0x403c40=0x0,_0xd861a8=0x0;for(let _0x31f2a0=-_0x41d46e;_0x31f2a0<=_0x41d46e;_0x31f2a0++){const _0xe79447=_0x476171+_0x31f2a0;if(_0xe79447<0x0||_0xe79447>=_0x336ea3)continue;if(_0x2ce898[_0xe79447]<0x0)continue;const _0x1c58c1=_0x4187f5[_0x31f2a0+_0x41d46e];_0x403c40+=_0x2ce898[_0xe79447]*_0x1c58c1,_0xd861a8+=_0x1c58c1;}if(_0xd861a8>0x0)_0x2c5a6f[_0x476171]=_0x403c40/_0xd861a8;}for(let _0x5488b7=0x0;_0x5488b7<_0x336ea3;_0x5488b7++)_0x2ce898[_0x5488b7]=_0x2c5a6f[_0x5488b7];return _0x2ce898;}function symmetrize1D(_0x3ce559,_0x219c96){const _0x4e65f5=_0x219c96&&_0x219c96['blend']||0x0;if(_0x4e65f5<=0x0)return _0x3ce559;const _0x182f9c=_0x3ce559['length'],_0x396a05=_0x3ce559['slice']();for(let _0x4882ef=0x0;_0x4882ef<_0x182f9c;_0x4882ef++){const _0x27c93c=_0x182f9c-0x1-_0x4882ef;if(_0x3ce559[_0x4882ef]>=0x0&&_0x3ce559[_0x27c93c]>=0x0)_0x396a05[_0x4882ef]=_0x3ce559[_0x4882ef]*(0x1-_0x4e65f5)+_0x3ce559[_0x27c93c]*_0x4e65f5;}for(let _0x244d04=0x0;_0x244d04<_0x182f9c;_0x244d04++)_0x3ce559[_0x244d04]=_0x396a05[_0x244d04];return _0x3ce559;}function cleanupLine1D(_0xb9d8d0,_0xb44879){_0xb44879=_0xb44879||{};if(_0xb44879['fill']!==![])fillLine1D(_0xb9d8d0);if(_0xb44879['clamp']!==![])clampLineOutliers1D(_0xb9d8d0,_0xb44879['clampOpts']);if(_0xb44879['smooth']!==![])smoothLine1D(_0xb9d8d0,_0xb44879['smoothOpts']);if(_0xb44879['symmetryBlend'])symmetrize1D(_0xb9d8d0,{'blend':_0xb44879['symmetryBlend']});return _0xb9d8d0;}const HAIR_STRAND_LOOK={'resBase':0x2c1,'minSafeWidth':0.9,'thin':0.48,'undercoatMul':2.2,'layers':[{'id':'root','base':0.5,'gain':0.28,'src':'thickness','c0':0x33e,'c1':0x24e,'tint':[0.68,0.55]},{'id':'section','base':0.65,'gain':0.6,'src':'volume','c0':0x55,'c1':0x31,'tint':[0.7,0.55]},{'id':'mid','base':0.48,'gain':0.33,'src':'thickness','c0':0x1cc,'c1':0x1ea,'tint':[0.72,0.6]},{'id':'fine','base':0.5,'gain':0.28,'src':'thickness','c0':0x253,'c1':0x253,'tint':[0.65,0.75]}]},HAIR_PIXEL_COLOR={'on':!![],'segments':0x6,'blend':0.85,'reproject':!![],'jitter':![]},HAIR_DYE={'on':!![],'shading':0x1,'shadingGamma':0.85,'glossDesat':0.55,'sMin':0.35,'sMax':1.85,'liftTo':0x0,'chroma':0x1,'highlightK':1.1},DYE_KEYS=['shading','shadingGamma','glossDesat','sMin','sMax','liftTo','chroma','highlightK'];function _srgbToLinRaw(_0x140a26){return _0x140a26/=0xff,_0x140a26<=0.04045?_0x140a26/12.92:Math['pow']((_0x140a26+0.055)/1.055,2.4);}const _SRGB_LIN=((()=>{const _0x39f700=new Float64Array(0x100);for(let _0x2000e2=0x0;_0x2000e2<0x100;_0x2000e2++)_0x39f700[_0x2000e2]=_srgbToLinRaw(_0x2000e2);return _0x39f700;})());function _srgbToLin(_0x5a4e6a){return _SRGB_LIN[_0x5a4e6a&0xff];}function _linToSrgb(_0x32364e){const _0x223c2e=_0x32364e<=0.0031308?_0x32364e*12.92:1.055*Math['pow'](Math['max'](0x0,_0x32364e),0x1/2.4)-0.055;return Math['max'](0x0,Math['min'](0xff,Math['round'](_0x223c2e*0xff)));}function rgbToOklab(_0x75103a,_0x42e5b7,_0x63e1cf){const _0x4d8b71=_SRGB_LIN[Math['max'](0x0,Math['min'](0xff,Math['round'](_0x75103a)))],_0x5b6520=_SRGB_LIN[Math['max'](0x0,Math['min'](0xff,Math['round'](_0x42e5b7)))],_0x3a13e5=_SRGB_LIN[Math['max'](0x0,Math['min'](0xff,Math['round'](_0x63e1cf)))],_0x1ad917=Math['cbrt'](0.4122214708*_0x4d8b71+0.5363325363*_0x5b6520+0.0514459929*_0x3a13e5),_0x1e2d76=Math['cbrt'](0.2119034982*_0x4d8b71+0.6806995451*_0x5b6520+0.1073969566*_0x3a13e5),_0x4dc7db=Math['cbrt'](0.0883024619*_0x4d8b71+0.2817188376*_0x5b6520+0.6299787005*_0x3a13e5);return{'L':0.2104542553*_0x1ad917+0.793617785*_0x1e2d76-0.0040720468*_0x4dc7db,'a':1.9779984951*_0x1ad917-2.428592205*_0x1e2d76+0.4505937099*_0x4dc7db,'b':0.0259040371*_0x1ad917+0.7827717662*_0x1e2d76-0.808675766*_0x4dc7db};}function oklabToRgb(_0x7666cc,_0x56f022,_0x49d19d){const _0x183916=_0x7666cc+0.3963377774*_0x56f022+0.2158037573*_0x49d19d,_0x5cb735=_0x7666cc-0.1055613458*_0x56f022-0.0638541728*_0x49d19d,_0x274ce5=_0x7666cc-0.0894841775*_0x56f022-1.291485548*_0x49d19d,_0x255fa7=_0x183916*_0x183916*_0x183916,_0x594a22=_0x5cb735*_0x5cb735*_0x5cb735,_0x4ea009=_0x274ce5*_0x274ce5*_0x274ce5;return[_linToSrgb(4.0767416621*_0x255fa7-3.3077115913*_0x594a22+0.2309699292*_0x4ea009),_linToSrgb(-1.2684380046*_0x255fa7+2.6097574011*_0x594a22-0.3413193965*_0x4ea009),_linToSrgb(-0.0041960863*_0x255fa7-0.7034186147*_0x594a22+1.707614701*_0x4ea009)];}const _cssColorCache=new Map();function cssToRGB(_0x3c9a0c){if(!_0x3c9a0c)return null;if(_cssColorCache['has'](_0x3c9a0c))return _cssColorCache['get'](_0x3c9a0c);let _0x2213b3=null;const _0x35d5c4=String(_0x3c9a0c)['trim']();let _0x1b28aa=/^#([0-9a-f]{3})$/i['exec'](_0x35d5c4);if(_0x1b28aa){const _0x585152=_0x1b28aa[0x1];_0x2213b3={'r':parseInt(_0x585152[0x0]+_0x585152[0x0],0x10),'g':parseInt(_0x585152[0x1]+_0x585152[0x1],0x10),'b':parseInt(_0x585152[0x2]+_0x585152[0x2],0x10)};}if(!_0x2213b3&&(_0x1b28aa=/^#([0-9a-f]{6})$/i['exec'](_0x35d5c4))){const _0x3199f6=parseInt(_0x1b28aa[0x1],0x10);_0x2213b3={'r':_0x3199f6>>0x10&0xff,'g':_0x3199f6>>0x8&0xff,'b':_0x3199f6&0xff};}if(!_0x2213b3&&(_0x1b28aa=/^rgba?\(([^)]+)\)$/i['exec'](_0x35d5c4))){const _0x3315e7=_0x1b28aa[0x1]['split'](',')['map'](_0x43c7f0=>parseFloat(_0x43c7f0));if(_0x3315e7['length']>=0x3&&_0x3315e7['every'](_0x50c26f=>isFinite(_0x50c26f)))_0x2213b3={'r':_0x3315e7[0x0]|0x0,'g':_0x3315e7[0x1]|0x0,'b':_0x3315e7[0x2]|0x0};}if(!_0x2213b3&&typeof document!=='undefined')try{const _0x4d8f43=document['createElement']('canvas');_0x4d8f43['width']=_0x4d8f43['height']=0x1;const _0x25cb82=_0x4d8f43['getContext']('2d');_0x25cb82['fillStyle']='#000',_0x25cb82['fillStyle']=_0x35d5c4;if(_0x25cb82['fillStyle']!=='#000'||/^(black|#000000|#000)$/i['test'](_0x35d5c4)){_0x25cb82['fillRect'](0x0,0x0,0x1,0x1);const _0x3dc85c=_0x25cb82['getImageData'](0x0,0x0,0x1,0x1)['data'];_0x2213b3={'r':_0x3dc85c[0x0],'g':_0x3dc85c[0x1],'b':_0x3dc85c[0x2]};}}catch(_0x1951ca){}if(_cssColorCache['size']>0x200)_cssColorCache['clear']();return _cssColorCache['set'](_0x3c9a0c,_0x2213b3),_0x2213b3;}function gyNormalizeColor(_0x1df223){const _0x8ef230=cssToRGB(_0x1df223);if(!_0x8ef230)return null;const _0x6f5bff=_0x17ef04=>('0'+Math['max'](0x0,Math['min'](0xff,Math['round'](_0x17ef04)))['toString'](0x10))['slice'](-0x2);return'#'+_0x6f5bff(_0x8ef230['r'])+_0x6f5bff(_0x8ef230['g'])+_0x6f5bff(_0x8ef230['b']);}function gyToOklch(_0xeea6a4){const _0x4f82cf=cssToRGB(_0xeea6a4);if(!_0x4f82cf)return null;const _0x1615a5=rgbToOklab(_0x4f82cf['r'],_0x4f82cf['g'],_0x4f82cf['b']);let _0x5bbe23=Math['atan2'](_0x1615a5['b'],_0x1615a5['a'])*0xb4/Math['PI'];if(_0x5bbe23<0x0)_0x5bbe23+=0x168;return{'L':_0x1615a5['L'],'C':Math['hypot'](_0x1615a5['a'],_0x1615a5['b']),'h':_0x5bbe23};}function gyFromOklch(_0x50a010,_0x85d0f6,_0x29af88){const _0x6a26d0=_0x29af88*Math['PI']/0xb4,_0x1dada4=oklabToRgb(_0x50a010,Math['cos'](_0x6a26d0)*_0x85d0f6,Math['sin'](_0x6a26d0)*_0x85d0f6),_0x43eaff=rgbToOklab(_0x1dada4[0x0],_0x1dada4[0x1],_0x1dada4[0x2]),_0x39e9d1=Math['hypot'](_0x43eaff['a'],_0x43eaff['b']),_0xc406b=_0x328c57=>('0'+_0x328c57['toString'](0x10))['slice'](-0x2);return{'hex':'#'+_0xc406b(_0x1dada4[0x0])+_0xc406b(_0x1dada4[0x1])+_0xc406b(_0x1dada4[0x2]),'gotL':_0x43eaff['L'],'gotC':_0x39e9d1,'clipped':Math['abs'](_0x43eaff['L']-_0x50a010)>0.01||Math['abs'](_0x39e9d1-_0x85d0f6)>0.01};}function gyColorNumbers(_0x192b4f){const _0x1d343d=gyToOklch(_0x192b4f),_0x3b72c8=gyNormalizeColor(_0x192b4f);if(!_0x1d343d||!_0x3b72c8)return null;return{'hex':_0x3b72c8['toUpperCase'](),'oklch':'oklch('+(_0x1d343d['L']*0x64)['toFixed'](0x1)+'%\x20'+_0x1d343d['C']['toFixed'](0x3)+'\x20'+_0x1d343d['h']['toFixed'](0x0)+')','L':_0x1d343d['L'],'C':_0x1d343d['C'],'h':_0x1d343d['h']};}const DYE_LUT={'map':new Map(),'max':0x18,'hits':0x0,'misses':0x0};function dyeLUTFor(_0x23c42d,_0x20488d){const _0x19f685=HAIR_DYE,_0x510fcd=_0x23c42d+'|'+(_0x20488d||'-')+'|'+DYE_KEYS['map'](_0x39ee9e=>_0x19f685[_0x39ee9e])['join'](','),_0x405389=DYE_LUT['map']['get'](_0x510fcd);if(_0x405389)return DYE_LUT['hits']++,_0x405389;DYE_LUT['misses']++;const _0x4ae18f=cssToRGB(_0x23c42d);if(!_0x4ae18f)return null;const _0x4d139b=rgbToOklab(_0x4ae18f['r'],_0x4ae18f['g'],_0x4ae18f['b']),_0x44bdf4=cssToRGB(_0x20488d);let _0x3e3a66=_0x44bdf4?rgbToOklab(_0x44bdf4['r'],_0x44bdf4['g'],_0x44bdf4['b'])['L']:_0x4d139b['L'];if(!(_0x3e3a66>0.02))_0x3e3a66=0.02;const _0x35f099=_0x19f685['liftTo']>0x0?_0x19f685['liftTo']:_0x4d139b['L'],_0xbc8eff=Math['hypot'](_0x4d139b['a'],_0x4d139b['b'])*_0x19f685['chroma'],_0x242b74=Math['atan2'](_0x4d139b['b'],_0x4d139b['a']),_0x2d9823=Math['cos'](_0x242b74),_0x54026a=Math['sin'](_0x242b74),_0x138cad=new Array(0x100);for(let _0x54bd65=0x0;_0x54bd65<0x100;_0x54bd65++){const _0x4f56fb=_0x54bd65/0xff;let _0x468506=_0x4f56fb/_0x3e3a66;_0x468506=0x1+(_0x468506-0x1)*_0x19f685['shading'],_0x468506=Math['max'](_0x19f685['sMin'],Math['min'](_0x19f685['sMax'],_0x468506));if(_0x19f685['shadingGamma']!==0x1)_0x468506=Math['pow'](_0x468506,_0x19f685['shadingGamma']);let _0x444fdf;_0x468506<=0x1?_0x444fdf=_0x35f099*_0x468506:_0x444fdf=_0x35f099+(0x1-_0x35f099)*(0x1-Math['exp'](-_0x19f685['highlightK']*(_0x468506-0x1)));_0x444fdf=Math['max'](0x0,Math['min'](0x1,_0x444fdf));let _0x53c7b3=0x1;_0x444fdf>_0x35f099&&_0x35f099<0x1&&(_0x53c7b3=0x1-_0x19f685['glossDesat']*Math['min'](0x1,(_0x444fdf-_0x35f099)/(0x1-_0x35f099)));const _0x2e27e3=_0xbc8eff*_0x53c7b3,[_0x508338,_0x231e30,_0x55d0e2]=oklabToRgb(_0x444fdf,_0x2d9823*_0x2e27e3,_0x54026a*_0x2e27e3);_0x138cad[_0x54bd65]='rgb('+_0x508338+','+_0x231e30+','+_0x55d0e2+')';}DYE_LUT['map']['set'](_0x510fcd,_0x138cad);while(DYE_LUT['map']['size']>DYE_LUT['max'])DYE_LUT['map']['delete'](DYE_LUT['map']['keys']()['next']()['value']);return _0x138cad;}function dyeIndexOf(_0x3f9038,_0x288fec,_0x21ae0d){const _0xbb1e7e=rgbToOklab(_0x3f9038,_0x288fec,_0x21ae0d)['L'];return Math['max'](0x0,Math['min'](0xff,Math['round'](_0xbb1e7e*0xff)));}function packPhotoRGB(_0x40ece5,_0x46af2e,_0x368a15){const _0x101b5d=_0x46af2e*_0x368a15,_0xe7bc46=new Uint8Array(_0x101b5d*0x3);for(let _0x4ceebd=0x0,_0x486869=0x0,_0x5b47ee=0x0;_0x4ceebd<_0x101b5d;_0x4ceebd++,_0x486869+=0x3,_0x5b47ee+=0x4){_0xe7bc46[_0x486869]=_0x40ece5[_0x5b47ee],_0xe7bc46[_0x486869+0x1]=_0x40ece5[_0x5b47ee+0x1],_0xe7bc46[_0x486869+0x2]=_0x40ece5[_0x5b47ee+0x2];}return _0xe7bc46;}function photoRGBAt(_0x314fc1,_0x4bbbac,_0x252b5d){const _0x3df958=_0x314fc1&&_0x314fc1['photoRGB'];if(!_0x3df958)return null;const _0xef623a=_0x314fc1['maskW'],_0x53dba3=_0x314fc1['maskH'],_0x4730ae=_0xef623a/Math['max'](0x1,_0x314fc1['w']||_0xef623a),_0x3b54b6=_0x53dba3/Math['max'](0x1,_0x314fc1['h']||_0x53dba3),_0x3799ba=_0x4bbbac*_0x4730ae|0x0,_0x257ed4=_0x252b5d*_0x3b54b6|0x0;if(_0x3799ba<0x0||_0x257ed4<0x0||_0x3799ba>=_0xef623a||_0x257ed4>=_0x53dba3)return null;const _0x2e9113=(_0x257ed4*_0xef623a+_0x3799ba)*0x3;return[_0x3df958[_0x2e9113],_0x3df958[_0x2e9113+0x1],_0x3df958[_0x2e9113+0x2]];}function isHairPixelAt(_0x2e925d,_0x4b4d34,_0x270ca2){const _0x48702e=_0x2e925d&&_0x2e925d['reasonMask'];if(!_0x48702e)return!![];const _0x3a1b1d=_0x2e925d['maskW'],_0x3b4c5b=_0x2e925d['maskH'],_0x286999=_0x3a1b1d/Math['max'](0x1,_0x2e925d['w']||_0x3a1b1d),_0x49fa75=_0x3b4c5b/Math['max'](0x1,_0x2e925d['h']||_0x3b4c5b),_0x2b1367=_0x4b4d34*_0x286999|0x0,_0x1dc239=_0x270ca2*_0x49fa75|0x0;if(_0x2b1367<0x0||_0x1dc239<0x0||_0x2b1367>=_0x3a1b1d||_0x1dc239>=_0x3b4c5b)return![];return _0x48702e[_0x1dc239*_0x3a1b1d+_0x2b1367]===0x1;}function sampleStrandColors(_0x577980,_0x3d3130,_0xa6a8ad){if(!HAIR_PIXEL_COLOR['on']||!_0x577980||!_0x577980['photoRGB'])return null;const _0xd7d83c=Math['max'](0x1,HAIR_PIXEL_COLOR['segments']|0x0);if(_0xd7d83c<0x2||!_0x3d3130||_0x3d3130['length']<0x2)return null;const _0x2cd697=parseRGBTriple(_0xa6a8ad),_0x3a9ed8=new Array(_0xd7d83c);let _0x5f0fc6=0x0,_0x59c5bd=_0xa6a8ad;for(let _0x3b3d7b=0x0;_0x3b3d7b<_0xd7d83c;_0x3b3d7b++){const _0x12ef65=(_0x3b3d7b+0.5)/_0xd7d83c,_0x5f2433=Math['min'](_0x3d3130['length']-0x1,Math['max'](0x0,Math['round'](_0x12ef65*(_0x3d3130['length']-0x1)))),_0x302b9d=photoRGBAt(_0x577980,_0x3d3130[_0x5f2433]['x'],_0x3d3130[_0x5f2433]['y']);if(!_0x302b9d){_0x3a9ed8[_0x3b3d7b]=_0x59c5bd;continue;}_0x5f0fc6++;let _0x5e1dea=_0x302b9d[0x0],_0xffaf90=_0x302b9d[0x1],_0x5346d0=_0x302b9d[0x2];if(_0x2cd697){const _0x845ee2=HAIR_PIXEL_COLOR['blend'];_0x5e1dea=_0x5e1dea*_0x845ee2+_0x2cd697['r']*(0x1-_0x845ee2),_0xffaf90=_0xffaf90*_0x845ee2+_0x2cd697['g']*(0x1-_0x845ee2),_0x5346d0=_0x5346d0*_0x845ee2+_0x2cd697['b']*(0x1-_0x845ee2);}_0x59c5bd=_0x3a9ed8[_0x3b3d7b]='rgb('+(_0x5e1dea|0x0)+','+(_0xffaf90|0x0)+','+(_0x5346d0|0x0)+')';}if(!_0x5f0fc6)return null;let _0x486d9e=-0x1;for(let _0x4a127c=0x0;_0x4a127c<_0xd7d83c;_0x4a127c++){if(_0x3a9ed8[_0x4a127c]!==_0xa6a8ad){_0x486d9e=_0x4a127c;break;}}for(let _0x45bf9b=0x0;_0x45bf9b<_0x486d9e;_0x45bf9b++)_0x3a9ed8[_0x45bf9b]=_0x3a9ed8[_0x486d9e];return _0x3a9ed8;}function sampleProjectedStrandColors(_0x19b8be,_0x1a113b,_0x41841f,_0x59edd6,_0x53addf){if(!HAIR_PIXEL_COLOR['on']||!_0x19b8be||!_0x19b8be['photoRGB'])return _0x41841f;const _0x21f4c5=Math['max'](0x1,HAIR_PIXEL_COLOR['segments']|0x0);if(_0x21f4c5<0x2||!_0x1a113b||_0x1a113b['length']<0x2)return _0x41841f;const _0x4f75d0=HAIR_DYE['on']&&_0x53addf?dyeLUTFor(_0x53addf,_0x19b8be['avgHairColor']):null,_0x52a28d=parseRGBTriple(_0x4f75d0?null:_0x59edd6),_0x16e433=new Array(_0x21f4c5),_0xf4feb7=new Array(_0x21f4c5)['fill'](![]);let _0x4962e0=0x0,_0x2c99a5=null;for(let _0x5ca293=0x0;_0x5ca293<_0x21f4c5;_0x5ca293++){const _0x59d0fc=(_0x5ca293+0.5)/_0x21f4c5,_0x2a8934=Math['min'](_0x1a113b['length']-0x1,Math['max'](0x0,Math['round'](_0x59d0fc*(_0x1a113b['length']-0x1)))),_0x1835bd=_0x1a113b[_0x2a8934],_0x293d72=isHairPixelAt(_0x19b8be,_0x1835bd['x'],_0x1835bd['y'])?photoRGBAt(_0x19b8be,_0x1835bd['x'],_0x1835bd['y']):null;if(!_0x293d72){_0x16e433[_0x5ca293]=_0x4f75d0?_0x2c99a5||_0x53addf:_0x41841f&&_0x41841f[_0x5ca293]||_0x2c99a5||_0x59edd6;continue;}_0x4962e0++,_0xf4feb7[_0x5ca293]=!![];let _0x436a5d=_0x293d72[0x0],_0x4e25c2=_0x293d72[0x1],_0x45ca70=_0x293d72[0x2];if(_0x4f75d0){_0x2c99a5=_0x16e433[_0x5ca293]=_0x4f75d0[dyeIndexOf(_0x436a5d,_0x4e25c2,_0x45ca70)];continue;}if(_0x52a28d){const _0x454c00=HAIR_PIXEL_COLOR['blend'];_0x436a5d=_0x436a5d*_0x454c00+_0x52a28d['r']*(0x1-_0x454c00),_0x4e25c2=_0x4e25c2*_0x454c00+_0x52a28d['g']*(0x1-_0x454c00),_0x45ca70=_0x45ca70*_0x454c00+_0x52a28d['b']*(0x1-_0x454c00);}_0x2c99a5=_0x16e433[_0x5ca293]='rgb('+(_0x436a5d|0x0)+','+(_0x4e25c2|0x0)+','+(_0x45ca70|0x0)+')';}if(!_0x4962e0)return _0x41841f;let _0x177f1c=0x0;while(_0x177f1c<_0x21f4c5&&!_0xf4feb7[_0x177f1c])_0x177f1c++;for(let _0x328ea7=0x0;_0x328ea7<_0x177f1c;_0x328ea7++){if(!(_0x41841f&&_0x41841f[_0x328ea7]))_0x16e433[_0x328ea7]=_0x16e433[_0x177f1c];}return _0x16e433;}function bakeStrandColors3DBase(_0x314a1a,_0x3a7f71,_0x28f25c,_0x33f964,_0x5d8e1c,_0x13054e){if(!HAIR_PIXEL_COLOR['on']||!_0x314a1a||_0x314a1a['length']<0x2||!_0x3a7f71)return _0x5d8e1c||null;const _0x4eb37f=_0x3a7f71['viewCal']&&_0x3a7f71['viewCal'][_0x28f25c],_0x16e343=state['hairMasks']&&state['hairMasks'][_0x28f25c];if(!_0x4eb37f||!_0x16e343||!_0x16e343['photoRGB'])return _0x5d8e1c||null;const _0xdbfdb4=new Array(_0x314a1a['length']);for(let _0x2fb96e=0x0;_0x2fb96e<_0x314a1a['length'];_0x2fb96e++){const _0x4554ee=project3DPointToView(_0x314a1a[_0x2fb96e],_0x4eb37f,_0x3a7f71['yTop'],_0x3a7f71['CY']);_0xdbfdb4[_0x2fb96e]={'x':_0x4554ee['ix'],'y':_0x4554ee['iy']};}return sampleProjectedStrandColors(_0x16e343,_0xdbfdb4,_0x5d8e1c||null,_0x33f964,_0x13054e);}function bakeStrandColors3D(_0x469dbf,_0x39141f,_0x41ef3c,_0x10360c,_0x490a54,_0x3dc96a){const _0x3a851f=bakeStrandColors3DBase(_0x469dbf,_0x39141f,_0x41ef3c,_0x10360c,_0x490a54,_0x3dc96a),_0x5f365c=glossWaveCfg();if(!_0x5f365c||!Array['isArray'](_0x3a851f))return _0x3a851f;try{return glossWaveSmoothColors(_0x3a851f,_0x5f365c);}catch(_0x2212ef){return _0x3a851f;}}function hairStrandRoles(_0x2b2895,_0x1617a6,_0x1f65c3){const _0x4147ed=HAIR_STRAND_LOOK,_0x33213b=_0x2b2895/_0x4147ed['resBase']*_0x4147ed['thin'];return _0x4147ed['layers']['map'](_0x1ffbd0=>({'id':_0x1ffbd0['id'],'w':Math['max'](_0x4147ed['minSafeWidth'],(_0x1ffbd0['base']+(_0x1ffbd0['src']==='volume'?_0x1617a6:_0x1f65c3)/0x64*_0x1ffbd0['gain'])*_0x33213b),'n':_0x1ffbd0['c0']+_0x1617a6/0x64*_0x1ffbd0['c1'],'tint':_0x1ffbd0['tint']}));}var GLOSS_WAVE={'on':!![]};GLOSS_WAVE['defaults']={'shape':!![],'fineCm':1.2,'flowCm':3.2,'waveBoost':0.3,'rootCm':0x2,'keepLen':![],'colorSmooth':0.7,'colorWin':0x4,'maxMoveCm':1.2,'skullPad':1.06},GLOSS_WAVE['set']=function(_0x304b6b){Object['assign'](GLOSS_WAVE['defaults'],_0x304b6b||{}),glossWaveBump();};function glossWaveCfg(){if(!GLOSS_WAVE['on'])return null;var _0xd7fe59=window['STYLE_BASE'],_0x5e4cb9=_0xd7fe59&&_0xd7fe59['on']!==![]&&_0xd7fe59['active'];if(!_0x5e4cb9||!_0x5e4cb9['gloss'])return null;return Object['assign']({},GLOSS_WAVE['defaults'],_0x5e4cb9['gloss']===!![]?{}:_0x5e4cb9['gloss']);}function glossWaveCpu(){try{var _0x2b5088=typeof modelCmPerUnit==='function'?modelCmPerUnit():null;if(_0x2b5088>0x0)return _0x2b5088;}catch(_0x7bfc0a){}return 19.3;}function glossWaveArcLen(_0x5779d1){var _0x2f9e76=new Float64Array(_0x5779d1['length']);for(var _0x3ea3c1=0x1;_0x3ea3c1<_0x5779d1['length'];_0x3ea3c1++){var _0x522d04=_0x5779d1[_0x3ea3c1-0x1],_0x3debce=_0x5779d1[_0x3ea3c1];_0x2f9e76[_0x3ea3c1]=_0x2f9e76[_0x3ea3c1-0x1]+Math['hypot'](_0x3debce['x']-_0x522d04['x'],_0x3debce['y']-_0x522d04['y'],_0x3debce['z']-_0x522d04['z']);}return _0x2f9e76;}function glossWaveGauss(_0x592bdf,_0x3ca9c5,_0x4cb20c,_0x523a1){var _0x12c60a=_0x592bdf['length'],_0x2b53b5=0x3*_0x4cb20c,_0x226ae9=0x1/(0x2*_0x4cb20c*_0x4cb20c),_0x416adf=0x0;for(var _0x8b1e41=0x0;_0x8b1e41<_0x12c60a;_0x8b1e41++){while(_0x3ca9c5[_0x8b1e41]-_0x3ca9c5[_0x416adf]>_0x2b53b5)_0x416adf++;var _0x8a1e3=0x0,_0x1475b5=0x0,_0x166549=0x0,_0x162dfe=0x0;for(var _0x570d6b=_0x416adf;_0x570d6b<_0x12c60a;_0x570d6b++){var _0x1365f8=_0x3ca9c5[_0x570d6b]-_0x3ca9c5[_0x8b1e41];if(_0x1365f8>_0x2b53b5)break;var _0x4e7f3b=Math['exp'](-_0x1365f8*_0x1365f8*_0x226ae9);_0x8a1e3+=_0x592bdf[_0x570d6b]['x']*_0x4e7f3b,_0x1475b5+=_0x592bdf[_0x570d6b]['y']*_0x4e7f3b,_0x166549+=_0x592bdf[_0x570d6b]['z']*_0x4e7f3b,_0x162dfe+=_0x4e7f3b;}_0x523a1[_0x8b1e41*0x3]=_0x8a1e3/_0x162dfe,_0x523a1[_0x8b1e41*0x3+0x1]=_0x1475b5/_0x162dfe,_0x523a1[_0x8b1e41*0x3+0x2]=_0x166549/_0x162dfe;}return _0x523a1;}function glossWavePushOut(_0x42e61e,_0x1b1756,_0x5f4d83,_0x3bf443){if(!_0x1b1756||!(_0x1b1756['a']>0x0))return;var _0x5cb0cc=_0x42e61e['x']/(_0x1b1756['a']*_0x3bf443),_0x3e52bf=(_0x42e61e['y']-_0x5f4d83)/(_0x1b1756['b']*_0x3bf443),_0x293af8=_0x42e61e['z']/(_0x1b1756['c']*_0x3bf443),_0x192f2d=Math['sqrt'](_0x5cb0cc*_0x5cb0cc+_0x3e52bf*_0x3e52bf+_0x293af8*_0x293af8);if(_0x192f2d>=0x1||_0x192f2d<0.000001)return;_0x42e61e['x']/=_0x192f2d,_0x42e61e['y']=_0x5f4d83+(_0x42e61e['y']-_0x5f4d83)/_0x192f2d,_0x42e61e['z']/=_0x192f2d;}function glossWaveSmoothPts(_0x58428c,_0xfa113a,_0x54e99b,_0x347920){var _0x733110=_0x58428c['length'];if(_0x733110<0x5)return _0x58428c;var _0x6a945b=glossWaveArcLen(_0x58428c),_0x1c5731=_0x6a945b[_0x733110-0x1];if(!(_0x1c5731>0x0))return _0x58428c;var _0x3a7f7d=_0xfa113a['fineCm']/_0x54e99b/2.5,_0x14c413=_0xfa113a['flowCm']/_0x54e99b/2.5,_0x73b4d9=glossWaveGauss(_0x58428c,_0x6a945b,_0x3a7f7d,new Float64Array(_0x733110*0x3)),_0x57399c=new Array(_0x733110);for(var _0x473598=0x0;_0x473598<_0x733110;_0x473598++)_0x57399c[_0x473598]={'x':_0x73b4d9[_0x473598*0x3],'y':_0x73b4d9[_0x473598*0x3+0x1],'z':_0x73b4d9[_0x473598*0x3+0x2]};_0x73b4d9=glossWaveGauss(_0x57399c,glossWaveArcLen(_0x57399c),_0x3a7f7d,new Float64Array(_0x733110*0x3));var _0x555ae5=glossWaveGauss(_0x58428c,_0x6a945b,_0x14c413,new Float64Array(_0x733110*0x3)),_0x305176=0x1+_0xfa113a['waveBoost'],_0xe6ace1=_0xfa113a['rootCm']/_0x54e99b,_0x46f180=(_0xfa113a['maxMoveCm']||0x3b9aca00)/_0x54e99b,_0x1b8f0e=null,_0x2b5c41=0x0;try{_0x1b8f0e=getHeadEllipsoid(),_0x2b5c41=typeof SCALP_CENTER_Y!=='undefined'?SCALP_CENTER_Y:0.15;}catch(_0x5cbc74){_0x1b8f0e=null;}var _0x2b84a2=new Array(_0x733110),_0x523166=0x0;for(var _0x3ff3b8=0x0;_0x3ff3b8<_0x733110;_0x3ff3b8++){var _0x4c5a90=_0xe6ace1>0x0?Math['min'](0x1,_0x6a945b[_0x3ff3b8]/_0xe6ace1):0x1;_0x4c5a90=_0x4c5a90*_0x4c5a90*(0x3-0x2*_0x4c5a90);var _0x5046d7=_0x555ae5[_0x3ff3b8*0x3]+(_0x73b4d9[_0x3ff3b8*0x3]-_0x555ae5[_0x3ff3b8*0x3])*_0x305176,_0x4ea3cb=_0x555ae5[_0x3ff3b8*0x3+0x1]+(_0x73b4d9[_0x3ff3b8*0x3+0x1]-_0x555ae5[_0x3ff3b8*0x3+0x1])*_0x305176,_0x4bb1c7=_0x555ae5[_0x3ff3b8*0x3+0x2]+(_0x73b4d9[_0x3ff3b8*0x3+0x2]-_0x555ae5[_0x3ff3b8*0x3+0x2])*_0x305176,_0x58a5b0=_0x58428c[_0x3ff3b8],_0x1693c0=Object['assign']({},_0x58a5b0),_0x2fab2d=(_0x5046d7-_0x58a5b0['x'])*_0x4c5a90,_0x5c32bc=(_0x4ea3cb-_0x58a5b0['y'])*_0x4c5a90,_0x405519=(_0x4bb1c7-_0x58a5b0['z'])*_0x4c5a90,_0x5ecff2=Math['hypot'](_0x2fab2d,_0x5c32bc,_0x405519);if(_0x5ecff2>_0x46f180){var _0x12a03c=_0x46f180/_0x5ecff2;_0x2fab2d*=_0x12a03c,_0x5c32bc*=_0x12a03c,_0x405519*=_0x12a03c;}_0x1693c0['x']=_0x58a5b0['x']+_0x2fab2d,_0x1693c0['y']=_0x58a5b0['y']+_0x5c32bc,_0x1693c0['z']=_0x58a5b0['z']+_0x405519;if(_0x1b8f0e)glossWavePushOut(_0x1693c0,_0x1b8f0e,_0x2b5c41,_0xfa113a['skullPad']);_0x523166+=Math['hypot'](_0x1693c0['x']-_0x58a5b0['x'],_0x1693c0['y']-_0x58a5b0['y'],_0x1693c0['z']-_0x58a5b0['z']),_0x2b84a2[_0x3ff3b8]=_0x1693c0;}_0x2b84a2[0x0]=Object['assign']({},_0x58428c[0x0]);if(_0xfa113a['keepLen']){var _0x3c462b=_0x2b84a2[0x0]['x'],_0x5f5205=_0x2b84a2[0x0]['y'],_0x7375ad=_0x2b84a2[0x0]['z'];for(var _0x2e7f9a=0x1;_0x2e7f9a<_0x733110;_0x2e7f9a++){var _0x274552=_0x2b84a2[_0x2e7f9a]['x']-_0x2b84a2[_0x2e7f9a-0x1]['x'],_0x5e9350=_0x2b84a2[_0x2e7f9a]['y']-_0x2b84a2[_0x2e7f9a-0x1]['y'],_0x417e87=_0x2b84a2[_0x2e7f9a]['z']-_0x2b84a2[_0x2e7f9a-0x1]['z'],_0x1462f8=Math['hypot'](_0x274552,_0x5e9350,_0x417e87)||1e-9,_0x5ed7a4=_0x6a945b[_0x2e7f9a]-_0x6a945b[_0x2e7f9a-0x1];_0x3c462b+=_0x274552/_0x1462f8*_0x5ed7a4,_0x5f5205+=_0x5e9350/_0x1462f8*_0x5ed7a4,_0x7375ad+=_0x417e87/_0x1462f8*_0x5ed7a4,_0x2b84a2[_0x2e7f9a]['__nx']=_0x3c462b,_0x2b84a2[_0x2e7f9a]['__ny']=_0x5f5205,_0x2b84a2[_0x2e7f9a]['__nz']=_0x7375ad;}for(var _0x2edd78=0x1;_0x2edd78<_0x733110;_0x2edd78++){_0x2b84a2[_0x2edd78]['x']=_0x2b84a2[_0x2edd78]['__nx'],_0x2b84a2[_0x2edd78]['y']=_0x2b84a2[_0x2edd78]['__ny'],_0x2b84a2[_0x2edd78]['z']=_0x2b84a2[_0x2edd78]['__nz'],delete _0x2b84a2[_0x2edd78]['__nx'],delete _0x2b84a2[_0x2edd78]['__ny'],delete _0x2b84a2[_0x2edd78]['__nz'];}}return _0x347920&&(_0x347920['n']++,_0x347920['dev']+=_0x523166/_0x733110*_0x54e99b),_0x2b84a2;}function glossWaveParseCol(_0x4bf54){if(typeof _0x4bf54==='number')return[_0x4bf54>>0x10&0xff,_0x4bf54>>0x8&0xff,_0x4bf54&0xff,'n'];if(typeof _0x4bf54!=='string')return null;if(_0x4bf54[0x0]==='#'&&_0x4bf54['length']===0x7)return[parseInt(_0x4bf54['substr'](0x1,0x2),0x10),parseInt(_0x4bf54['substr'](0x3,0x2),0x10),parseInt(_0x4bf54['substr'](0x5,0x2),0x10),'h'];var _0x561c9b=/^rgba?\(([^)]+)\)/['exec'](_0x4bf54);if(_0x561c9b){var _0x549e73=_0x561c9b[0x1]['split'](',')['map'](parseFloat);return[_0x549e73[0x0],_0x549e73[0x1],_0x549e73[0x2],'h'];}return null;}function glossWaveFmtCol(_0x202b8e,_0x86ff84,_0x46f9b6,_0xde0278){_0x202b8e=Math['max'](0x0,Math['min'](0xff,Math['round'](_0x202b8e))),_0x86ff84=Math['max'](0x0,Math['min'](0xff,Math['round'](_0x86ff84))),_0x46f9b6=Math['max'](0x0,Math['min'](0xff,Math['round'](_0x46f9b6)));if(_0xde0278==='n')return _0x202b8e<<0x10|_0x86ff84<<0x8|_0x46f9b6;return'#'+(0x1<<0x18|_0x202b8e<<0x10|_0x86ff84<<0x8|_0x46f9b6)['toString'](0x10)['slice'](0x1);}function glossWaveSmoothColors(_0x305374,_0x46d3e5){if(!_0x305374||!_0x305374['length']||_0x305374['length']<0x3||!(_0x46d3e5['colorSmooth']>0x0))return _0x305374;var _0x1830a5=new Array(_0x305374['length']);for(var _0x1daa95=0x0;_0x1daa95<_0x305374['length'];_0x1daa95++){_0x1830a5[_0x1daa95]=glossWaveParseCol(_0x305374[_0x1daa95]);if(!_0x1830a5[_0x1daa95])return _0x305374;}var _0xadff35=Math['max'](0x1,_0x46d3e5['colorWin']|0x0),_0x13e2b2=_0x46d3e5['colorSmooth'],_0x54dfb1=new Array(_0x305374['length']);for(var _0x1f5d50=0x0;_0x1f5d50<_0x305374['length'];_0x1f5d50++){var _0x479907=0x0,_0x5175b1=0x0,_0x1bcd89=0x0,_0x49be84=0x0;for(var _0x1327ec=Math['max'](0x0,_0x1f5d50-_0xadff35);_0x1327ec<=Math['min'](_0x305374['length']-0x1,_0x1f5d50+_0xadff35);_0x1327ec++){_0x479907+=_0x1830a5[_0x1327ec][0x0],_0x5175b1+=_0x1830a5[_0x1327ec][0x1],_0x1bcd89+=_0x1830a5[_0x1327ec][0x2],_0x49be84++;}_0x54dfb1[_0x1f5d50]=glossWaveFmtCol(_0x1830a5[_0x1f5d50][0x0]+(_0x479907/_0x49be84-_0x1830a5[_0x1f5d50][0x0])*_0x13e2b2,_0x1830a5[_0x1f5d50][0x1]+(_0x5175b1/_0x49be84-_0x1830a5[_0x1f5d50][0x1])*_0x13e2b2,_0x1830a5[_0x1f5d50][0x2]+(_0x1bcd89/_0x49be84-_0x1830a5[_0x1f5d50][0x2])*_0x13e2b2,_0x1830a5[_0x1f5d50][0x3]);}return _0x54dfb1;}var _glossWaveMemo=new WeakMap(),_glossWaveVer=0x0;function glossWaveBump(){_glossWaveVer++;try{if(typeof ADJ_CACHE!=='undefined'&&ADJ_CACHE['bump'])ADJ_CACHE['bump']();}catch(_0x17537c){}}GLOSS_WAVE['bump']=glossWaveBump;function glossWaveStrand(_0x437277,_0x12a78c,_0x403e82,_0x162f95){if(!_0x437277||!_0x437277['pts']||_0x437277['pts']['length']<0x5)return _0x437277;var _0x1ec5db=Object['assign']({},_0x437277);try{if(_0x12a78c['shape']!==![])_0x1ec5db['pts']=glossWaveSmoothPts(_0x437277['pts'],_0x12a78c,_0x403e82,_0x162f95);if(_0x437277['colors'])_0x1ec5db['colors']=glossWaveSmoothColors(_0x437277['colors'],_0x12a78c);}catch(_0x437829){_0x1ec5db=_0x437277;}return _0x1ec5db;}GLOSS_WAVE['strand']=glossWaveStrand,GLOSS_WAVE['cfg']=glossWaveCfg,GLOSS_WAVE['cpu']=glossWaveCpu;function glossWaveAll(_0x5eb6d6){if(GLOSS_WAVE['_defer'])return _0x5eb6d6;var _0x5af5b0=glossWaveCfg();if(!_0x5af5b0||!Array['isArray'](_0x5eb6d6)||!_0x5eb6d6['length'])return _0x5eb6d6;var _0x4139c8=JSON['stringify'](_0x5af5b0)+'|'+_glossWaveVer,_0x10b7f5=_glossWaveMemo['get'](_0x5eb6d6);if(_0x10b7f5&&_0x10b7f5['key']===_0x4139c8)return _0x10b7f5['out'];var _0x2bffcb=performance['now'](),_0x330368=glossWaveCpu(),_0x4db8ec={'n':0x0,'dev':0x0},_0x4532d6=new Array(_0x5eb6d6['length']);for(var _0x4d87c=0x0;_0x4d87c<_0x5eb6d6['length'];_0x4d87c++){_0x4532d6[_0x4d87c]=glossWaveStrand(_0x5eb6d6[_0x4d87c],_0x5af5b0,_0x330368,_0x4db8ec);}return _glossWaveMemo['set'](_0x5eb6d6,{'key':_0x4139c8,'out':_0x4532d6}),(!GLOSS_WAVE['_logged']||GLOSS_WAVE['_logged']!==_0x4139c8)&&(GLOSS_WAVE['_logged']=_0x4139c8,console['log']('[광택·웨이브]'+(_0x5af5b0['shape']===![]?'\x20코팅만(모양\x20그대로)\x20·\x20가닥\x20'+_0x5eb6d6['length']+'개\x20·\x20끄기\x20GLOSS_WAVE.on=false':'\x20가닥\x20'+_0x4db8ec['n']+'개\x20매끈하게')+'\x20—\x20잔결(<'+_0x5af5b0['fineCm']+'cm)\x20제거\x20·\x20웨이브('+_0x5af5b0['fineCm']+'~'+_0x5af5b0['flowCm']+'cm)\x20×'+(0x1+_0x5af5b0['waveBoost'])['toFixed'](0x2)+'\x20·\x20평균\x20이동\x20'+(_0x4db8ec['dev']/Math['max'](0x1,_0x4db8ec['n']))['toFixed'](0x2)+'cm\x20·\x20'+Math['round'](performance['now']()-_0x2bffcb)+'ms\x20·\x20끄기\x20GLOSS_WAVE.on=false')),_0x4532d6;}console['log']('[광택·웨이브]\x20설치\x20—\x20gloss\x20있는\x20스타일에서\x20잔결\x20제거·웨이브\x20살림·색\x20고르게\x20·\x20끄기\x20GLOSS_WAVE.on=false');
+/* ══════════════════════════════════════════════════════════
+   09-strand-dye.js — 가닥 경로 추적 · 라인 정돈 · 가닥 성질/색 · 염색 LUT
+   원본 index.html 12904~13785행. 클래식 스크립트이므로 로드 순서가 곧
+   실행 순서다 — index.html의 <script src> 순서를 바꾸지 말 것.
+   ══════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════════
+   STRAND TRACING — 결 필드를 따라가는 가닥 경로 생성
+   traceStrandPath: 뿌리에서 출발해 결방향(orientation field)을 따라 전진하며
+   경로를 만든다. 결이 약한 구간은 중력으로 대체하고, 마스크 이탈점과 결 불연속
+   (겹 끝)을 실측해 기록한다. 스타일링은 여기 없다 — 3D 연산자 전담.
+   ════════════════════════════════════════════════════════════════ */
+  /**
+   * traceStrand: 시작점(ix,sy_img)에서 목표 길이(targetLen)만큼
+   * 결방향 필드를 따라 작은 스텝으로 전진하며 경로를 추적한다.
+   * 결방향 데이터가 없거나 coherence가 낮은 구간에서는 자연스러운
+   * 약한 흔들림(curlAmt 기반)으로 보강하여 완전히 끊기지 않게 한다.
+   * @returns canvas 좌표계 점 배열 [{x,y}, ...] (길이 steps+1, steps는 목표 길이에 따라 가변)
+   * Canvas API를 쓰지 않고 좌표 배열만 반환하는 순수 함수라(ctx 인자가
+   * 아예 없음) drawHairStrands에서 분리해도 Node에서 독립 검증 가능함 —
+   * env는 호출부(drawHairStrands)가 한 번만 만들어 넘겨주는 고정값 묶음.
+   */
+// ── (7차) 결 불연속 종결 튜닝 상수 ──
+// 겹층 커트에서 "위 겹이 끝나는 선(헴)"은 사진의 결 필드에 방향 급변/신뢰도
+// 급락으로 남는다. 추적 중 그 증거를 점수로 누적해 임계(가닥별 랜덤 스태거)를
+// 넘으면 실측 겹 끝으로 종결 — 관통 가닥(꼭대기 뿌리→마스크 끝 한 가닥) 문제의
+// 실측 기반 해법. 긴 생머리는 결이 연속이라 점수가 안 쌓여 안 끊김.
+const FLOW_DISC = {
+  dirJump: 0.7,   // 방향 급변 판정(rad, ≈40°) — 웨이브의 완만한 회전은 미달
+  dipRatio: 0.45, // 신뢰도 급락 판정: 현재 신뢰도 < EMA×이 비율
+  dipMin: 0.2,    // EMA가 이보다 강했을 때만 "급락"으로 침(원래 약한 결은 무시)
+  // 하네스 튜닝(겹 헴 폭이 2~3스텝으로 짧은 케이스): 급락 2회면 대부분 임계 도달,
+  // 1회 단독(고립 노이즈)으론 미달하도록 — wDip×2 > thrMin+thrSpan, wDip < thrMin.
+  wDir: 0.6, wDip: 0.65, // 이벤트당 점수
+  thrMin: 0.75, thrSpan: 0.55, // 가닥별 임계 = thrMin + rand×thrSpan (끝선 스태거)
+};
+function traceStrandPath(ix, sy_img, targetLen_img, jitterSeed, env, rootSec, stopAtExit){
+  /* (2026-07-26 조정 경로 단일화) styling(넘김·볼륨·결흐름·가르마)은 더 이상
+     받지 않는다. 스타일링은 3D 연산자가 전담하고(computeAdjustedHair3DStrands),
+     이 함수는 "사진에 찍힌 결을 그대로 따라가는" 역할만 남는다:
+       ① 중립 가닥 캡처(3D로 올릴 소스)  ② 원본 결 보기  ③ 투영 실패 폴백
+     예전엔 여기서 이미지 평면 각도 바이어스로 스타일링을 흉내 냈는데, 그건
+     원리적으로 틀린 표현이었다(하네스 styling-test.html에서 확인 — 화면 가로
+     밀기로는 가르마가 갈라지지도, 넘김이 뒤로 가지도 않는다). */
+  const { hasOrientation, orientation, orientMaskW, ox, oy, STRAND_STEP_LEN, frontDirBiasFor, curlAmtFor, waveWidthFor, maskAt } = env;
+    const stepLen = STRAND_STEP_LEN; // 고정 보폭 — targetLen_img에서 역산하지 않음
+    const steps = Math.max(2, Math.round(targetLen_img / stepLen));
+    const pts = [{x:ix, y:sy_img}]; // 마스크 좌표계(maskW,maskH 기준)로 누적
+    // ── (6차) 실측 길이: 마스크 이탈 지점 추적 ──
+    // env.maskAt(헤어 마스크 알파 샘플러)이 있으면, 경로가 실제 인식된 머리카락
+    // 영역을 벗어나는 지점(연속 3스텝 이탈 — 마스크 노이즈 관용)을 기록한다.
+    // pts.maskExitIdx = "사진이 말하는 이 가닥의 실측 끝" 인덱스. stopAtExit이면
+    // 이탈 확정 즉시 추적 중단(줄이는 조정에선 그 뒤가 필요 없음 — 성능).
+    let _offRun = 0, _exitIdx = null;
+    // (7차) 결 불연속 점수 — pts.flowEndIdx = 실측 "겹 끝"(없으면 null)
+    let _cohEma = null, _discScore = 0, _flowEndIdx = null;
+    const _discThr = FLOW_DISC.thrMin + hashFract((jitterSeed + ix) * 12.9898) * FLOW_DISC.thrSpan;
+    // 뿌리(시작 컬럼) 기준으로 딱 한 번만 조회 — 가닥이 진행하며 컬럼이 옆으로
+    // 흘러가도 "이 가닥이 어디서 자라났는지"는 뿌리 위치로 고정하는 게 맞음.
+    // (2026-07-22) rootSec: 호출부(drawStrand)가 뿌리 실좌표로 판정한 섹션 —
+    // 컬/웨이브/프론트 바이어스가 전부 "그 가닥이 심긴 섹션"의 값을 쓴다.
+    const frontBias = frontDirBiasFor(ix, rootSec);
+    const curlAmt = curlAmtFor(ix, rootSec);         // gyeol 섹션별 컬 세기(절대 0~100)
+    const curlStrength = curlAmt / 100;              // 0~1 (9차: 결 추종 약화·진폭에 공용)
+    const waveT   = (waveWidthFor(ix, rootSec)) / 100; // gyeol 섹션별 웨이브 폭(0~1)
+    // baseDir: curl/wiggle을 얹기 전, "결방향만" 반영한 순수 진행방향.
+    // 다음 스텝의 orientation 블렌딩 기준(연속성 유지)으로 이것만 이어받는다.
+    // → curl 보정을 여기 포함시켜 이어받으면 매 스텝 같은 방향으로 계속
+    //   꺾이는 게 누적되어(부호가 안 바뀌는 sideDir 특성상) 긴 가닥일수록
+    //   결국 옆으로 거의 수평이 되어 뻗어나가는 문제가 있었음.
+    let baseDir = Math.PI/2;
+    /* ── 시작 방향 (2026-08-01) ────────────────────────────────────────
+       예전엔 무조건 π/2(아래)였다. 아래 주석이 설명하듯 처음 2스텝은 결 필드를
+       안 보는데(경계 픽셀이 structure tensor를 오염시킨다), 그 대신 쓰던 값이
+       "그냥 아래"였다는 뜻이다. 뿌리 흐름장은 <b>마스크 기하</b>에서 나오므로
+       그 오염이 없다 — 경계에서 오히려 가장 또렷하다(씨앗이 거기다).
+       그래서 모든 가닥이 아래로 출발하는 대신 <b>자기 뿌리에서 실제로 뻗는
+       쪽</b>으로 출발한다. 옆머리·정수리에서 특히 다르다. */
+    if(HAIR_FLOW.on && HAIR_FLOW.applyTo2D && hasOrientation){
+      const s0 = sampleOrientation(orientation, ix*ox, orientMaskW, sy_img*oy);
+      if(s0 && s0.fc >= HAIR_FLOW.minConf) baseDir = Math.atan2(s0.fy, s0.fx);
+    }
+
+    for(let s=0; s<steps; s++){
+      const cur = pts[pts.length-1];
+      let dir = baseDir;
+
+      // 처음 2스텝은 orientation 필드 참조를 건너뜀.
+      // 이유: 모든 가닥이 scalpY(두피 경계선) 바로 위에서 출발하는데,
+      // 그 경계 픽셀 자체가 "머리카락↔배경" 급격한 명암차 경계라
+      // Structure Tensor가 이 경계선 자체를 결로 착각해서 가로 방향을
+      // 결방향으로 잘못 계산함. 그 결과 모든 가닥이 시작하자마자
+      // 옆으로 꺾여서, 뷰 각도와 무관하게 두피 경계 높이에 가로
+      // "빗살 띠"가 생기는 근본 원인이었음.
+      // → 경계에서 살짝 벗어난 뒤(2스텝, 자연스러운 아래방향 진행)부터
+      //   결방향을 신뢰하고 따라가도록 함.
+      if(hasOrientation && s >= 2){
+        const sample = sampleOrientation(orientation, cur.x*ox, orientMaskW, cur.y*oy);
+        // 임계값을 0.12→0.05로 낮춤 — 기존엔 애매하게 낮은 coherence도 전부
+        // "못 믿는다"고 보고 중력으로 덮어버려서, 결이 약하게라도 있는 구간까지
+        // 필드 정보를 버리고 있었음. 결필드 원본 디버그로 실측한 결과 낮은
+        // coherence 지점도 완전 노이즈가 아니라 약하게나마 방향성이 있는
+        // 경우가 많았으므로, 진짜 노이즈(0.05 미만)만 중력으로 넘김.
+        if(sample.coherence > 0.05){
+          // sample.angle은 atan2 좌표계(0=+x축/가로, ±PI/2=+y축 방향/세로)로 계산된
+          // "결의 방향" 그 자체이며, cos/sin을 취하면 바로 진행 단위벡터가 된다.
+          // 단, 결방향은 선분이라 180도 모호성이 있음(angle과 angle+PI가 동일한 결)
+          // → 고정된 "아래쪽" 기준이 아니라 baseDir과 더 가까운 쪽을 선택해야
+          //   수평에 가까운 결(0도 경계)에서 지그재그 튐이 생기지 않음
+          let targetDir = sample.angle;
+          /* ── 180° 모호성 풀기 (2026-08-01) ──────────────────────────
+             예전: <b>가던 쪽</b>(baseDir)과 가까운 표현을 고른다.
+             문제: 그러면 필드가 잘못 튼 가닥을 교정하지 못하고 <b>굳힌다</b>.
+                   한번 안쪽(얼굴 쪽)으로 틀면 매 스텝 "네가 가던 쪽이 맞다"고
+                   답하고, 결과를 클립으로 잘라내도 조정하면 또 틀어진다.
+             지금: 뿌리→끝 흐름(측정값)과 같은 쪽을 고른다. 흐름이 애매한
+                   자리(거리장 능선, fc<minConf)에서만 예전 규칙으로 돌아간다.
+             ※ 측정한 <b>각도</b>(sample.angle)는 손대지 않는다. 정하는 건
+               부호 하나뿐이고, 그건 원래도 측정값이 아니라 추측이었다. */
+          const pol = HAIR_FLOW.applyTo2D ? flowPolarityFor(sample.angle, sample) : 0;
+          if(pol !== 0){
+            if(pol < 0) targetDir += Math.PI;               // 측정된 뿌리→끝 흐름
+          } else {
+            const dc = wrapPi(targetDir - baseDir);          // 모르는 자리 → 예전 규칙
+            if(Math.abs(dc) > Math.PI/2) targetDir += Math.PI;
+          }
+          if(env.flowAcc){ env.flowAcc.n++; if(pol !== 0) env.flowAcc.byFlow++; }
+          // coherence가 높을수록 결방향을 강하게 따름, 낮으면 이전 방향 유지 비중↑
+          // (9차) 컬이 셀수록 실측 직모 결의 추종을 약화 — 안 그러면 컬을 얹어도
+          // 사진의 직모 방향으로 계속 되돌아가 "직모 위 잔물결"에 그침. 컬 100%면
+          // 결 추종을 최대 65%까지 낮춰 아래 curl 웨이브가 형태를 주도하게 함.
+          let w = Math.min(1, sample.coherence * 1.3) * (1 - curlStrength * 0.65);
+          // 각도를 보간 (최단 회전 방향으로)
+          const delta = wrapPi(targetDir - baseDir);
+          /* 흐름이 "지금 반대로 가고 있다"고 하면 한 번에 되돌리지 않는다.
+             w가 1에 가까울 때 delta가 π 근처면 제자리에서 접혀 핀이 생긴다.
+             몇 스텝에 걸쳐 돌린다(스텝당 최대 45°). */
+          if(Math.abs(delta) > Math.PI/2) w = Math.min(w, HAIR_FLOW.maxTurn2D);
+          dir = baseDir + delta * w;
+          /* 겹 끝(결 불연속) 판정은 <b>선분</b> 기준으로 — 180° 접어서 본다.
+             안 접으면 극성 교정(큰 delta)을 결 불연속으로 오인해서, 방향을
+             바로잡는 순간 가닥을 종료시킨다. 질감의 끊김과 극성의 교정은
+             완전히 다른 사건이다. */
+          let deltaLine = delta;
+          if(deltaLine >  Math.PI/2) deltaLine -= Math.PI;
+          if(deltaLine < -Math.PI/2) deltaLine += Math.PI;
+          // (7차) 결 불연속 점수 — 마스크 안(_exitIdx 미확정)에서만, 초반 4스텝 제외
+          if(_flowEndIdx === null && _exitIdx === null && s >= 4){
+            if(Math.abs(deltaLine) > FLOW_DISC.dirJump && sample.coherence > 0.2) _discScore += FLOW_DISC.wDir;
+            if(_cohEma !== null && _cohEma > FLOW_DISC.dipMin && sample.coherence < _cohEma * FLOW_DISC.dipRatio) _discScore += FLOW_DISC.wDip;
+            if(_discScore >= _discThr) _flowEndIdx = pts.length - 1;
+          }
+          _cohEma = (_cohEma === null) ? sample.coherence : _cohEma * 0.7 + sample.coherence * 0.3;
+        } else {
+          // 결방향을 못 믿는 구간(coherence 낮음 — 대부분 마스크 밖 ext 구간에서 발생).
+          // "중력"으로 명명: 실제 머리카락도 뿌리 쪽은 결방향(웨이브·컬)을 유지하지만
+          // 끝으로 갈수록 자체 무게 때문에 점점 아래로 처짐. 그래서 이 복원력을
+          // 상수로 고정하지 않고 진행할수록(s/steps↑) 커지게 해서, 마스크를 막
+          // 벗어난 시점의 baseDir이 대각선이어도 끝에 가서는 결국 아래쪽으로
+          // 붙잡히도록 함. (예전엔 0.15 고정이라 대각선 방향을 거의 그대로
+          // 유지한 채 곧게 뻗어나가 눈썹을 가로지르는 등의 문제가 있었음)
+          const restore = wrapPi(Math.PI/2 - baseDir);
+          // TEST: 얼굴박스 사각 블록 원인 검증용 임시 스위치. true면 중력 복원력을 0으로 만들어
+          // ext 구간이 baseDir(결방향)을 그대로 유지하게 함. 블록이 옅어지면 중력이 증폭 원인 확정.
+          // → 검증 완료, 원인 아니었음(스위치는 제거, 기록만 남김). clamp만으로는 대각선 처짐을 못 막아 중력 복원.
+          const gravityPull = 0.15 + (s/steps) * 0.35; // 시작 0.15 → 끝 0.5
+          dir = baseDir + restore * gravityPull;
+          // (7차) 강한 결이 갑자기 사라짐(신뢰도 붕괴)도 겹 끝 증거 — 마스크 안에서만
+          if(_flowEndIdx === null && _exitIdx === null && s >= 4 && _cohEma !== null && _cohEma > 0.3){
+            _discScore += FLOW_DISC.wDip;
+            if(_discScore >= _discThr) _flowEndIdx = pts.length - 1;
+          }
+          if(_cohEma !== null) _cohEma *= 0.7; // 저신뢰 표본 → EMA 감쇠
+        }
+      }
+
+      // 방향 상한(clamp) 제거됨 — 기존엔 진행 방향이 아래(PI/2) 기준 ±60도를
+      // 못 넘게 강제해서, coherence가 높아 결방향이 뚜렷한 구간에서도 결이
+      // 실제로 옆으로 흐르거나 위로 말리면 그 형태를 못 그리고 억지로
+      // 아래쪽으로 눌러버리는 제한이었음. "결필드를 그대로 재현한다"는
+      // 방향과 정면으로 충돌하는 규칙이라 제거. base(마스크 안) 구간은
+      // destination-in clip이 최종적으로 실제 머리 모양 밖을 걸러주므로
+      // 안전장치 역할은 clip이 대신한다.
+
+      // ── (8차) 연장(마스크 이탈 후) 구간 방향 수렴 ──
+      // 마스크 밖은 실측 결 데이터가 없는 구간 — 길이를 늘렸을 때 위/옆으로
+      // 이탈한 가닥이 그 방향 그대로 뻗쳐 실루엣 밖 "삐죽 가닥"이 되던 문제
+      // (실기기 스크린샷: 정수리 위 스파이크·관자놀이 낙수). 이탈 확정 후엔
+      // 매 스텝 아래(중력) 방향으로 강하게 수렴시켜 자연스럽게 늘어지게 함.
+      if(_exitIdx !== null){
+        const _rest = wrapPi(Math.PI/2 - dir);
+        dir += _rest * 0.45;
+      }
+
+      baseDir = dir; // 다음 스텝 기준은 curl 적용 전 방향으로 저장 (누적 방지)
+
+      // curl 슬라이더 + 자연스러운 미세 흔들림 추가 (완전 직선 방지)
+      // — 이번 스텝의 "이동"에만 적용하고 baseDir에는 반영하지 않으므로 누적되지 않음
+      // wiggleGrowth: 진행할수록(s/steps) 흔들림 폭을 키운다. 가닥 개수(numSections/numMid/numFine)는
+      // 길이와 무관하게 고정인데, 가닥이 길어질수록(scaledLen↑) 같은 개수가 더 넓은 영역에 퍼져서
+      // 가닥 사이 간격이 벌어지고 "세로줄"처럼 분리되어 보이는 문제가 있었음. 시작 지점 근처는
+      // 기존과 거의 동일하게 촘촘히 유지하고, 끝으로 갈수록 좌우로 더 크게 흔들리게 해서
+      // 인접 가닥끼리 자연스럽게 겹치도록(overlap) 만들어 그 틈을 시각적으로 메운다.
+      const wiggleGrowth = 1 + (s/steps) * 1.8;
+      const wiggle = (Math.sin((s+jitterSeed)*0.9) * 0.12 + (Math.random()-0.5)*0.10) * wiggleGrowth;
+      // curl: 기존엔 가닥 전체에 걸쳐 한 번만 크게 휘는 반원(sin 반 주기) 형태라, 결방향(orientation)과
+      // 충돌하면 갑자기 옆으로 삐져나가는 모양이 생겼음. 파마머리/라면 면발처럼 일정한 파장으로
+      // 완만하게 반복되는 웨이브로 변경 — curl 슬라이더는 진폭(구불거림 정도)만 조절.
+      // 웨이브 폭(펌 로드 사이즈, state.waveWidth 0~100): 로드가 작을수록(값↓)
+      // 파장이 짧아져 촘촘한 스파이럴, 클수록(값↑) 파장이 길어져 느슨한 웨이브.
+      // 실제 기법 그대로 — 로드 사이즈가 진폭이 아니라 "몇 번 감기느냐(파장)"를 결정.
+      const CURL_WAVELENGTH_STEPS = 3 + waveT * 15; // 3(촘촘)~18(느슨) — gyeol 섹션별 웨이브 폭
+      const curlPhase = (s / CURL_WAVELENGTH_STEPS) * Math.PI * 2;
+      // ── 펌 진폭/위상 보정(2026-07-22) — "펌 조정이 안 먹힌다" 수정 ──
+      // ① 진폭 계수 0.07→0.45: 예전 값은 컬 100%여도 방향 흔들림이 최대 ±4°
+      //    (횡편차로 환산하면 마스크폭 768px 기준 약 2px)라 화면에서 식별 자체가
+      //    불가능했음. 0.45면 컬 100%에서 ±26° 스윙(횡편차 약 12px) — 확실히
+      //    보이면서 기본값 30%에선 ±7.7°로 여전히 은은함.
+      // ② 위상을 뿌리 컬럼(ix) 기준으로 정렬: 예전엔 jitterSeed(가닥 인덱스 기반,
+      //    사실상 무작위)만 써서 이웃 가닥끼리 파형이 전부 어긋나 서로 상쇄돼
+      //    보였음. 실제 펌은 이웃 모발이 같은 로드에 감겨 파형이 나란함 —
+      //    인접 컬럼(Δix≈3)이면 위상차 0.15rad 수준으로 결이 맞고, jitterSeed는
+      //    약하게만 섞어 완전히 기계적인 줄무늬는 피함.
+      // (9차) 진폭 0.45→0.85: 실측 직모 추종을 위에서 약화한 만큼 웨이브가 실제
+      // 형태를 만들도록 진폭을 키움(컬 100%면 ±49° 스윙). 컬 30%(기본)에선 ±14°.
+      const curlComponent = Math.sin(curlPhase + ix*0.05 + jitterSeed*0.15) * curlStrength * 0.85;
+      // front.line 바이어스: 뿌리 근처(s=0)에서 가장 강하고 끝으로 갈수록 약해짐
+      // (실제로도 앞머리 스타일링은 뿌리 쪽 방향이 인상을 좌우하고, 끝쪽은 결방향·
+      // 중력에 자연스럽게 맡기는 게 더 사실적) — frontBias가 0(front 섹션 아님/
+      // line=50)이면 곱해도 0이라 기존 동작과 완전히 동일.
+      const frontBiasDecay = 1 - (s/steps) * 0.6;
+      const travelDir = dir + curlComponent + wiggle + frontBias * frontBiasDecay;
+
+      // 실제 전진: travelDir은 "이미지 평면에서의 각도"이며 y축 기준 아래가 양수
+      const dx = Math.cos(travelDir) * stepLen;
+      const dy = Math.sin(travelDir) * stepLen;
+      pts.push({x: cur.x + dx, y: cur.y + dy});
+
+      // (6차) 마스크 이탈 실측 — 시작 2스텝은 경계 노이즈라 검사 생략(orientation과 동일)
+      if(maskAt && _exitIdx === null && s >= 2){
+        const np = pts[pts.length-1];
+        if(maskAt(np.x, np.y)){ _offRun = 0; }
+        else {
+          _offRun++;
+          if(_offRun >= 3){
+            _exitIdx = pts.length - 1 - _offRun; // 마지막으로 마스크 안이었던 점
+            if(stopAtExit) break;
+          }
+        }
+      }
+      // (7차) 줄이는 조정에선 결 불연속(겹 끝) 확정 시에도 추적 조기 중단
+      if(stopAtExit && _flowEndIdx !== null) break;
+    }
+
+    pts.maskExitIdx = (_exitIdx !== null) ? Math.max(1, _exitIdx) : (pts.length - 1);
+    pts.flowEndIdx = (_flowEndIdx !== null) ? Math.max(1, _flowEndIdx) : null;
+    return pts;
+}
+
+/* ════════════════════════════════════════
+   LINE CLEANUP (정돈층) — 1D 라인 정돈 단일 출처 (설계문서 §6)
+   대상: hairEndY/scalpY 처럼 "컬럼(x)별 y픽셀"인 1D 라인(-1 = 결측).
+   기존에 STEP10(computeScalpAndEndLines)과 가닥뿌리 보간 두 곳에 forward/
+   backward 보간이 복제돼 있던 것을 여기로 흡수(단일 출처, 복제 금지).
+   ⚠ 좌표계 경계: 이 헬퍼는 1D 라인 전용이다. 목/두상 밴드(phi·frac별 반경
+     배열: fillBandsWithNearestNeighbor / NECK_STEP_MAX)와 두상 세로반경
+     5퍼센타일 픽은 좌표계·자료구조·목적이 달라 여기로 묶지 않는다. 겉보기만
+     "라인 정돈"이라고 억지로 합치는 것은 colorForSection 통합 실수의 재현이다
+     (2단계 클램프는 NECK_STEP_MAX의 "개념"만 계승하고 코드는 공유 안 함).
+   4단계(설계문서): ①빈곳 보간 ②이상치 클램프 ③스무딩 ④(약)대칭.
+════════════════════════════════════════ */
+// ① 빈 곳 보간: -1 열을 인접 유효값으로 forward/backward 채움.
+//    (기존 두 곳의 보간 loop과 값이 완전히 동일함을 Node 교차검증으로 확인.)
+function fillLine1D(arr){
+  const n = arr.length;
+  let last = -1;
+  for(let i=0;i<n;i++){ if(arr[i]>=0) last=arr[i]; else if(last>=0) arr[i]=last; }
+  let first = -1;
+  for(let i=n-1;i>=0;i--){ if(arr[i]>=0) first=arr[i]; else if(first>=0) arr[i]=first; }
+  return arr;
+}
+// ② 이상치 클램프: 좌우 window 이웃 median 대비 maxDev 이상 튀면 눌러줌.
+//    median 기반이라 스파이크 하나에 안 휩쓸림. maxDev는 유효값 (p90-p10)*k로
+//    자동 스케일(해상도별 하드코딩 픽셀값 회피). 유효값<5면 손대지 않음(보수적).
+function clampLineOutliers1D(arr, opts){
+  const win = (opts&&opts.window)||3;
+  const k   = (opts&&opts.k)||0.35;
+  const n = arr.length;
+  const valid = [];
+  for(let i=0;i<n;i++) if(arr[i]>=0) valid.push(arr[i]);
+  if(valid.length < 5) return arr;
+  const sorted = valid.slice().sort((a,b)=>a-b);
+  const p10 = sorted[Math.floor(sorted.length*0.10)];
+  const p90 = sorted[Math.floor(sorted.length*0.90)];
+  const maxDev = Math.max(1e-6, (p90 - p10) * k);
+  const out = arr.slice();
+  const w = [];
+  for(let i=0;i<n;i++){
+    if(arr[i]<0) continue;
+    w.length=0;
+    for(let j=Math.max(0,i-win); j<=Math.min(n-1,i+win); j++){
+      if(j!==i && arr[j]>=0) w.push(arr[j]);
+    }
+    if(w.length<2) continue;
+    w.sort((a,b)=>a-b);
+    const med = w[Math.floor(w.length/2)];
+    const dev = arr[i]-med;
+    if(dev >  maxDev) out[i] = med + maxDev;
+    else if(dev < -maxDev) out[i] = med - maxDev;
+  }
+  for(let i=0;i<n;i++) arr[i]=out[i];
+  return arr;
+}
+// ③ 스무딩: 유효값 구간 가우시안 가중 이동평균(결측 -1은 제외해 경계로 안 끌어들임).
+//    선형 구간은 편향 없이 보존됨(Node 검증).
+function smoothLine1D(arr, opts){
+  const radius = (opts&&opts.radius)||2;
+  const n = arr.length;
+  const sigma = Math.max(0.5, radius/2);
+  const wts = [];
+  for(let d=-radius; d<=radius; d++) wts.push(Math.exp(-(d*d)/(2*sigma*sigma)));
+  const out = arr.slice();
+  for(let i=0;i<n;i++){
+    if(arr[i]<0) continue;
+    let acc=0, wsum=0;
+    for(let d=-radius; d<=radius; d++){
+      const j=i+d; if(j<0||j>=n) continue;
+      if(arr[j]<0) continue;
+      const wt=wts[d+radius]; acc+=arr[j]*wt; wsum+=wt;
+    }
+    if(wsum>0) out[i]=acc/wsum;
+  }
+  for(let i=0;i<n;i++) arr[i]=out[i];
+  return arr;
+}
+// ④ 좌우 대칭 보정(약): 대칭 뷰에서 한쪽만 튀면 반대쪽 미러값과 약하게 평균.
+//    개성 뭉갤 위험 커서 기본 비활성(blend=0). MVP 단계 호출부에선 켜지 않는다.
+function symmetrize1D(arr, opts){
+  const blend = (opts&&opts.blend)||0;
+  if(blend<=0) return arr;
+  const n=arr.length;
+  const out=arr.slice();
+  for(let i=0;i<n;i++){
+    const m=n-1-i;
+    if(arr[i]>=0 && arr[m]>=0) out[i]=arr[i]*(1-blend)+arr[m]*blend;
+  }
+  for(let i=0;i<n;i++) arr[i]=out[i];
+  return arr;
+}
+// 편의 래퍼: 4단계 파이프라인. opts로 단계 on/off(기본 fill+clamp+smooth, 대칭 off).
+//   예) cleanupLine1D(arr)                       → 보간+클램프+스무딩
+//       cleanupLine1D(arr,{clamp:false,smooth:false}) → 보간만(기존 동작과 동일)
+function cleanupLine1D(arr, opts){
+  opts = opts || {};
+  if(opts.fill  !== false) fillLine1D(arr);
+  if(opts.clamp !== false) clampLineOutliers1D(arr, opts.clampOpts);
+  if(opts.smooth!== false) smoothLine1D(arr, opts.smoothOpts);
+  if(opts.symmetryBlend) symmetrize1D(arr, {blend:opts.symmetryBlend});
+  return arr;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   가닥 성질 — <b>단일 출처</b> (2026-08-02)
+   ─────────────────────────────────────────────────────────────────
+   사용자: "원본 결 보기의 헤어가닥으로 통일해줘 — 레이어 개별 가닥 ~2000개,
+            그거 말하는 거야."
+   두 화면이 <b>같은 3D 가닥을 다른 규칙으로</b> 그리고 있었다:
+     · 원본 결 보기(drawHairStrands) — 굵기·개수·틴트가 다른 4레이어를 겹쳐
+       가닥 <b>하나당 선 하나</b>로 ~2,830개.
+     · 스타일 적용 후(projectHair3DToView) — 가닥 하나를 <b>다발</b>(서브라인 4개,
+       폭 고정 0.7 CSS px)로 그려 1,400다발. 기하는 같은데 그리는 규칙이 달라
+       가닥 성질(굵기·밀도·명암 분포)이 서로 달라 보였다.
+   고침: 가닥 성질을 여기 <b>한 곳</b>에 두고 두 경로가 같이 읽는다.
+   값은 지금까지 drawHairStrands 안에 하드코딩돼 있던 것 그대로다 — 원본 결
+   보기의 그림은 바뀌지 않고, 3D 투영 쪽이 이 규칙으로 끌려온다.
+
+   layers[] — 원본 결 보기의 레이어 0~3(루트확산·굵은섹션·중간·잔가닥)
+     base/gain/src : 굵기 = (base + (src슬라이더/100)×gain) × widthScale
+     c0/c1         : 개수 = c0 + (volume/100)×c1   (개수는 4레이어 모두 볼륨 연동)
+     tint          : [하한, 폭] — 가닥 밝기 = 하한 + rand×폭
+   ══════════════════════════════════════════════════════════════════ */
+const HAIR_STRAND_LOOK = {
+  resBase: 705,        // 굵기 튜닝 기준 캔버스 폭(fit.dw가 이보다 작으면 비례 축소)
+  minSafeWidth: 0.9,   // sub-pixel 방지 하한(해상도 무관 — 캔버스 렌더링의 물리 제약)
+  thin: 0.48,          // 전역 가닥 굵기 배율(가늘게/굵게는 이 값 하나로)
+  undercoatMul: 2.2,   // 가닥 경로를 따라 까는 두피색 바탕의 굵기 배수
+  layers: [
+    // id,          굵기 base/gain/슬라이더,      개수 c0/c1,   틴트[하한, 폭]
+    { id:'root',    base:0.5,  gain:0.28, src:'thickness', c0:830, c1:590, tint:[0.68,0.55] },
+    { id:'section', base:0.65, gain:0.6,  src:'volume',    c0:85,  c1:49,  tint:[0.70,0.55] },
+    { id:'mid',     base:0.48, gain:0.33, src:'thickness', c0:460, c1:490, tint:[0.72,0.60] },
+    { id:'fine',    base:0.5,  gain:0.28, src:'thickness', c0:595, c1:595, tint:[0.65,0.75] },
+  ],
+};
+/* ══════════════════════════════════════════════════════════════════
+   가닥 색 — <b>가닥마다 자기 경로 위의 원본 픽셀</b> (2026-08-17)
+   ─────────────────────────────────────────────────────────────────
+   사용자: "난 가닥마다 저 픽셀을 다 대입시키길 바랬는데, 헤어가 너무 많으니까
+            슬라이스 단위로 헤어간격을 두면서 하니까 이상해졌어."
+
+   ── 지금까지 무엇이 빠져 있었나 ──────────────────────────────────
+   캡처가 저장하는 건 가닥당 색 <b>하나</b>였다(capturedStrands의 color).
+   pts는 수십 개인데 색은 스칼라 하나라, <b>한 가닥 안에서 뿌리부터 끝까지
+   색이 안 변한다</b>. 실제 머리는 뿌리가 어둡고 중간에 광택 띠가 지나가고
+   끝이 밝다 — 그 세로 변화가 통째로 없었다. 가닥 2,830개가 서로 다른 색이어도
+   각각은 색연필처럼 균일해서, 기하를 아무리 맞춰도 합성처럼 보인 이유가 이것.
+
+   ── 픽셀 이식(hairQuilt)이 왜 이걸 못 고쳤나 ──────────────────────
+   색이 안 되니 사진 조각을 통째로 붙이는 우회로였다. 그래서 <b>띠 단위</b>가
+   됐고, 띠 경계와 간격이 남았다(증상을 쫓은 것). 가닥은 이미 자기 경로를 갖고
+   있으므로 사진을 자를 필요가 없다 — 그 길 위의 픽셀을 읽으면 된다. 가닥이
+   두상을 촘촘히 덮고 있어서 정의상 틈이 생기지 않는다.
+
+   ── 한계(정직하게) ───────────────────────────────────────────────
+   · 길이를 <b>늘리면</b> 원본에 없는 구간이라 가져올 픽셀이 없다 → 끝 색을 이어 쓴다.
+     자르는 쪽은 문제없다(앞부분만 쓰면 되므로).
+   · 사진의 조명이 색에 구워진다. 지금도 그렇지만, 조명을 새로 만들어 주진 않는다.
+
+   segments — 가닥 하나를 몇 조각으로 나눠 칠할지. 1이면 예전과 완전히 같다.
+     캔버스는 선 하나에 색 하나뿐이라 조각을 나눠야 색이 변한다. 조각을 늘릴수록
+     충실하지만 stroke 횟수가 비례해 는다(가닥 ~2,830개 × segments).
+   blend  — 실측 픽셀색 비중. 나머지는 기존 계산색이라, 레이어별 틴트(굵은 가닥은
+     밝게 등)가 완전히 사라지지 않고 남는다.
+   ══════════════════════════════════════════════════════════════════ */
+const HAIR_PIXEL_COLOR = {
+  on: true,
+  segments: 6,     // 1 = 예전 동작(가닥당 단색)
+  blend: 0.85,
+  /* (2026-08-17 b) 3D 투영도 <b>원본 결 보기와 같은 방식</b>으로 색을 정한다.
+     true  = 되쏜 가닥이 지나는 <b>지금 이 뷰</b>의 원본 픽셀을 읽는다(권장).
+     false = 중립 캡처 때 구운 조각색을 그대로 쓴다(되쏘기 전 좌표에서 읽은 색). */
+  reproject: true,
+  /* 실측 픽셀색에 가닥별 밝기 지터(strandTint)를 섞을지. 사진이 이미 자기
+     명암을 갖고 있으므로 기본 false — 켜면 사진 위에 지어낸 명암이 한 겹 더
+     얹혀 "색연필" 느낌이 돌아온다. 마무리 질감(윤기/매트)의 전체 밝기(baseMul)는
+     false여도 그대로 적용된다. */
+  jitter: false,
+};
+
+/* ══════════════════════════════════════════════════════════════════════
+   염색(HAIR_DYE) — <b>사진의 명암은 남기고 색만 바꾼다</b> (2026-09-02)
+   ─────────────────────────────────────────────────────────────────────
+   사용자: "최종 품질을 고품질로 갈 거야. 모질은 머리카락 픽셀을 잘라서 하니까
+   어느 정도 보장되고 … <b>염색 색깔을 고품질로</b> 구현하려고 해. 시스템 부하에
+   문제가 안 되는 범위에서 최고 품질로. 색상은 뭐든 다 가능하게."
+
+   ── 지금까지 왜 나빴나 (코드로 확인한 것) ────────────────────────────
+   ① _adjApplyFilter ⑩이 염색이 걸리면 <b>조각색을 버렸다</b>
+      (colors: sec.color ? null : srcColors). 즉 뿌리 어두움·광택 띠·끝 밝음 —
+      2026-08-17에 애써 넣은 그 실측 명암이 염색하는 순간 통째로 사라졌다.
+   ② 그래도 화면이 아주 단색은 아니었는데, sampleProjectedStrandColors가
+      <b>photo 0.85 + 염색 0.15</b>로 섞고 있었기 때문이다. 그래서 검은 머리에
+      금발을 얹으면 여전히 검고(85%가 사진), 색은 15%만 비친다.
+      두 증상이 반대 방향이라 서로를 가려 왔다.
+   ③ 섞는 자리가 <b>sRGB 선형 보간</b>이다. sRGB는 지각 균등이 아니라, 중간색이
+      실제보다 어둡고 <b>채도가 빠진다</b>(회색 쪽으로 가로지른다).
+
+   ── 무엇이 옳은 모델인가 ──────────────────────────────────────────────
+   실제 염색은 색소를 <b>얹는</b> 것이지 사진을 덮는 것이 아니다. 그 사람 머리의
+   <b>명암 구조</b>(어디가 밝고 어디가 어두운가)는 조명·모발 굵기·큐티클이 정한
+   그 사람의 성질이고 염색 뒤에도 그대로 남는다. 바뀌는 것은 <b>색상과 채도</b>다.
+   그래서 <b>밝기 구조는 사진에서 · 색은 염색에서</b> 가져온다.
+
+   자는 OKLab을 쓴다. 지각 균등이라 L을 곱해도 색상이 안 틀어지고, 채도 조작이
+   눈에 보이는 만큼과 맞는다. HSL은 안 된다 — L이 밝기가 아니라 그냥 (max+min)/2라
+   노랑과 파랑이 같은 L에서 밝기가 두 배 차이 난다.
+
+   ── 하는 일 (조각 하나당) ────────────────────────────────────────────
+     Lp = 사진 픽셀의 OKLab L
+     s  = Lp / Lref            ← 이 뷰 평균 헤어색 대비 <b>상대</b> 밝기 = 명암 구조
+     L' = Ld × s^shadingGamma  ← 염색색의 밝기에 그 구조를 곱한다
+     하이라이트 탈색: L'가 Ld보다 밝은 만큼 채도를 뺀다. 실제 모발 하이라이트는
+       정반사라 <b>무채색</b>이다 — 이걸 안 하면 광택 띠가 형광 색으로 뜬다.
+   lift(탈색)는 Lref를 낮춰 잡는 것과 같으므로 별도 항으로 두지 않고
+   liftTo로 <b>목표 밝기를 직접</b> 지정할 수 있게만 열어 둔다(0이면 안 씀).
+
+   ── 부하: <b>사실상 0</b> ────────────────────────────────────────────
+   위 식은 결과가 오직 Lp(0~255)에만 달려 있다 — 염색색과 Lref가 고정이면
+   나머지는 상수다. 그래서 <b>256칸 LUT 한 벌</b>을 만들어 두고 조각마다
+   배열 인덱싱 한 번만 한다. 만드는 비용은 색을 바꿀 때 256회뿐이고, 그리는
+   비용은 프레임당 0이다(4천 가닥 × 6조각 = 2만4천 회가 전부 인덱싱).
+   LUT는 (염색색, Lref, 설정) 서명으로 캐시한다 — 이 파일의 다른 캐시와 같은 규약.
+   ⚠ 서명에 안 들어간 값이 결과를 바꾸면 색을 바꿔도 화면이 안 바뀐다.
+     그래서 서명은 <b>손으로</b> 적지 않고 DYE_KEYS를 순회해서 만든다.
+   되돌리기: HAIR_DYE.on = false → 예전 blend 경로 그대로.
+   ══════════════════════════════════════════════════════════════════════ */
+const HAIR_DYE = {
+  on: true,
+  /* 사진 명암 구조를 얼마나 살릴지. 1=그대로, 0=완전 단색(예전 염색과 같아짐).
+     1보다 크면 대비가 과장된다(비추천, 사진에 없는 명암을 지어내는 것). */
+  shading: 1.0,
+  /* s = Lp/Lref 에 걸리는 감마. 1이면 비율 그대로. 1보다 작으면 어두운 쪽이
+     덜 어두워진다 — 검은 머리에 밝은 색을 얹을 때 뿌리가 새까맣게 남는 것을
+     완화한다. 0.85는 실측이 아니라 <b>초안</b>이다(tipAt과 같은 자격). */
+  shadingGamma: 0.85,
+  /* 하이라이트가 무채색으로 빠지는 정도(0=색 그대로, 1=완전 흰색까지).
+     실제 모발 정반사는 조명색이라 무채색에 가깝다. */
+  glossDesat: 0.55,
+  /* 명암 구조의 아래·위 한계. 사진 노이즈가 s를 극단으로 끌고 가는 것을 막는다. */
+  sMin: 0.35, sMax: 1.85,
+  /* 0이 아니면 <b>목표 밝기를 직접</b> 지정(0~1, OKLab L). 탈색·하이라이트용.
+     0이면 염색색 자신의 L을 목표로 쓴다. */
+  liftTo: 0,
+  /* 채도 배율. 1이면 염색색 그대로. 실제 발색이 모자라면 여기서 올린다. */
+  chroma: 1.0,
+  /* 밝은 쪽 포화 세기. 클수록 하이라이트가 빨리 1에 붙는다. 위 매핑 주석 참고. */
+  highlightK: 1.1,
+};
+const DYE_KEYS = ['shading','shadingGamma','glossDesat','sMin','sMax','liftTo','chroma','highlightK'];
+
+/* ── sRGB ↔ 선형 ↔ OKLab (Björn Ottosson) ────────────────────────────
+   상수를 여기 한 번만 적는다. 두 벌이 되면 갈라진다. */
+/* 0~255 → 선형. <b>256칸 표</b>로 미리 굽는다 — 조각마다 pow()를 세 번 부르면
+   하네스 실측으로 2.4만 조각에 36ms가 나왔다(프레임 예산을 통째로 먹는다).
+   표로 바꾸면 같은 일이 1ms대다. 값은 아래 식과 <b>같은 식</b>으로 굽는다. */
+function _srgbToLinRaw(c){ c/=255; return c<=0.04045 ? c/12.92 : Math.pow((c+0.055)/1.055, 2.4); }
+const _SRGB_LIN = (()=>{ const t = new Float64Array(256);
+  for(let i=0;i<256;i++) t[i] = _srgbToLinRaw(i); return t; })();
+function _srgbToLin(c){ return _SRGB_LIN[c & 255]; }
+function _linToSrgb(c){
+  const v = c<=0.0031308 ? c*12.92 : 1.055*Math.pow(Math.max(0,c), 1/2.4) - 0.055;
+  return Math.max(0, Math.min(255, Math.round(v*255)));
+}
+function rgbToOklab(r,g,b){
+  /* 표를 쓰므로 정수 채널이어야 한다. 호출부가 소수를 줄 수 있어 여기서 접는다. */
+  const R=_SRGB_LIN[Math.max(0,Math.min(255,Math.round(r)))],
+        G=_SRGB_LIN[Math.max(0,Math.min(255,Math.round(g)))],
+        B=_SRGB_LIN[Math.max(0,Math.min(255,Math.round(b)))];
+  const l=Math.cbrt(0.4122214708*R + 0.5363325363*G + 0.0514459929*B);
+  const m=Math.cbrt(0.2119034982*R + 0.6806995451*G + 0.1073969566*B);
+  const s=Math.cbrt(0.0883024619*R + 0.2817188376*G + 0.6299787005*B);
+  return { L:0.2104542553*l + 0.7936177850*m - 0.0040720468*s,
+           a:1.9779984951*l - 2.4285922050*m + 0.4505937099*s,
+           b:0.0259040371*l + 0.7827717662*m - 0.8086757660*s };
+}
+function oklabToRgb(L,a,b){
+  const l_=L + 0.3963377774*a + 0.2158037573*b;
+  const m_=L - 0.1055613458*a - 0.0638541728*b;
+  const s_=L - 0.0894841775*a - 1.2914855480*b;
+  const l=l_*l_*l_, m=m_*m_*m_, s=s_*s_*s_;
+  return [ _linToSrgb( 4.0767416621*l - 3.3077115913*m + 0.2309699292*s),
+           _linToSrgb(-1.2684380046*l + 2.6097574011*m - 0.3413193965*s),
+           _linToSrgb(-0.0041960863*l - 0.7034186147*m + 1.7076147010*s) ];
+}
+
+/* 어떤 CSS 색이든 {r,g,b}로. '#rgb'/'#rrggbb'/'rgb()'/'rgba()'/색이름 전부.
+   색이름은 브라우저에게 물어본다(1회 캐시) — "색상은 뭐든 다 가능하게". */
+const _cssColorCache = new Map();
+function cssToRGB(css){
+  if(!css) return null;
+  if(_cssColorCache.has(css)) return _cssColorCache.get(css);
+  let out = null;
+  const s = String(css).trim();
+  let m = /^#([0-9a-f]{3})$/i.exec(s);
+  if(m){ const h=m[1]; out={ r:parseInt(h[0]+h[0],16), g:parseInt(h[1]+h[1],16), b:parseInt(h[2]+h[2],16) }; }
+  if(!out && (m = /^#([0-9a-f]{6})$/i.exec(s))){
+    const n=parseInt(m[1],16); out={ r:(n>>16)&255, g:(n>>8)&255, b:n&255 };
+  }
+  if(!out && (m = /^rgba?\(([^)]+)\)$/i.exec(s))){
+    const p=m[1].split(',').map(x=>parseFloat(x));
+    if(p.length>=3 && p.every(v=>isFinite(v))) out={ r:p[0]|0, g:p[1]|0, b:p[2]|0 };
+  }
+  if(!out && typeof document !== 'undefined'){
+    /* 색이름·hsl()·oklch() 등은 브라우저가 이미 파서를 갖고 있다. 새로 만들지 않는다.
+       ⚠ 실패해도 예외를 내지 않는다 — 색 하나 때문에 렌더가 죽으면 안 된다. */
+    try{
+      const c = document.createElement('canvas'); c.width=c.height=1;
+      const x = c.getContext('2d');
+      x.fillStyle = '#000'; x.fillStyle = s;
+      if(x.fillStyle !== '#000' || /^(black|#000000|#000)$/i.test(s)){
+        x.fillRect(0,0,1,1);
+        const p = x.getImageData(0,0,1,1).data;
+        out = { r:p[0], g:p[1], b:p[2] };
+      }
+    }catch(e){}
+  }
+  /* (2026-09-03) 상한을 둔다 — 자유 색상 <b>텍스트 입력</b>이 생기면서 타이핑
+     도중의 미완성 문자열("#ff2", "oklch(0.7 0.")이 전부 키가 된다. 예전엔
+     스와치·프리셋뿐이라 키가 열 몇 개로 끝났고 상한이 필요 없었다.
+     LRU까지는 필요 없다(만드는 비용이 캔버스 1픽셀이다) — 넘치면 비운다. */
+  if(_cssColorCache.size > 512) _cssColorCache.clear();
+  _cssColorCache.set(css, out);
+  return out;
+}
+/* 어떤 CSS 색이든 <b>#rrggbb</b>로 접는다. 못 읽는 문자열이면 null.
+   왜 접는가: ① 스와치·<input type=color>·캐시 서명이 전부 같은 표기를 봐야
+   "같은 색인데 다르게 적힌" 두 값이 캐시 미스를 내지 않는다 ② cssToRGB가
+   어차피 8비트 RGB로 내려주므로(캔버스 1픽셀) 접어서 잃는 것이 없다.
+   ⚠ 그래서 입력은 뭐든 받되(hsl·oklch·색이름) 저장은 hex 한 벌이다. */
+function gyNormalizeColor(css){
+  const c = cssToRGB(css);
+  if(!c) return null;
+  const h = n => ('0' + Math.max(0, Math.min(255, Math.round(n))).toString(16)).slice(-2);
+  return '#' + h(c.r) + h(c.g) + h(c.b);
+}
+
+/* ── OKLCH 좌표 ↔ 색 (2026-09-03) ──────────────────────────────────────
+   드래그 손잡이가 서는 축이다. <b>엔진과 같은 자</b>를 쓴다 — HAIR_DYE가
+   OKLab에서 L(밝기)·C(채도)·hue로 일하므로(dyeLUTFor), 손잡이도 그 축이어야
+   "밝기를 올린 만큼 밝아진다"가 화면과 맞는다.
+   ⚠ HSL로 만들면 안 된다. 9/2 배너에 적은 그대로 — HSL의 L은 밝기가 아니라
+     (max+min)/2라 노랑과 파랑이 같은 L에서 밝기가 두 배 차이 난다. 채도
+     손잡이를 돌렸을 때 눈에 보이는 만큼과 안 맞는다.
+   ⚠ 새 변환식을 만들지 않는다 — rgbToOklab/oklabToRgb를 그대로 부른다.
+     여기에 행렬을 또 적으면 그게 두 번째 벌이다(작업원칙 3). */
+function gyToOklch(css){
+  const c = cssToRGB(css);
+  if(!c) return null;
+  const o = rgbToOklab(c.r, c.g, c.b);
+  let h = Math.atan2(o.b, o.a) * 180 / Math.PI;
+  if(h < 0) h += 360;
+  return { L: o.L, C: Math.hypot(o.a, o.b), h };
+}
+/* OKLCH → hex + <b>모니터가 실제로 낸 좌표</b>.
+   OKLCH는 sRGB 밖의 색도 가리킬 수 있다(채도를 끝까지 올리면 대부분 밖이다).
+   그 몫은 화면에서 잘려 나가는데, 그러면 <b>슬라이더는 올라가는데 화면은
+   안 변하는</b> 구간이 생긴다 — 사용자가 말한 "모니터와 실제 차이"가 화면
+   안에서 먼저 나타나는 자리다. 그래서 잘렸으면 잘렸다고 돌려준다.
+   ⚠ 판정에 새 식을 쓰지 않는다. 접힌 hex를 <b>다시 읽어</b>(왕복) 요청한
+     좌표와 벌어진 만큼이 못 낸 몫이다 — 두 함수가 같은 값을 내야 하는
+     관계를 그대로 시험에 쓰는 것과 같은 방식(작업원칙 2). */
+function gyFromOklch(L, C, hDeg){
+  const r = hDeg * Math.PI / 180;
+  const rgb = oklabToRgb(L, Math.cos(r) * C, Math.sin(r) * C);
+  const back = rgbToOklab(rgb[0], rgb[1], rgb[2]);
+  const gotC = Math.hypot(back.a, back.b);
+  const hx = n => ('0' + n.toString(16)).slice(-2);
+  return { hex: '#' + hx(rgb[0]) + hx(rgb[1]) + hx(rgb[2]),
+           gotL: back.L, gotC,
+           /* 0.01은 눈금이다 — 채도 슬라이더 한 칸(0.005)보다 크게 잡아
+              반올림 잡음으로 경고가 깜빡이지 않게 한다. */
+           clipped: (Math.abs(back.L - L) > 0.01) || (Math.abs(gotC - C) > 0.01) };
+}
+/* 화면에 적을 <b>색 넘버</b>. hex는 저장되는 값이고, oklch는 지금 슬라이더가
+   서 있는 좌표다 — 둘 다 적는다(hex만 적으면 어느 축을 얼마나 돌렸는지 못 옮긴다). */
+function gyColorNumbers(css){
+  const o = gyToOklch(css);
+  const hex = gyNormalizeColor(css);
+  if(!o || !hex) return null;
+  return { hex: hex.toUpperCase(),
+           oklch: 'oklch(' + (o.L * 100).toFixed(1) + '% ' + o.C.toFixed(3) + ' ' + o.h.toFixed(0) + ')',
+           L: o.L, C: o.C, h: o.h };
+}
+
+/* (염색색, 기준 밝기) → 256칸 LUT. 인덱스는 사진 픽셀의 <b>OKLab L × 255</b>.
+   값은 'rgb(r,g,b)' 문자열 — 그리는 쪽이 그대로 fillStyle에 넣는다. */
+const DYE_LUT = { map: new Map(), max: 24, hits: 0, misses: 0 };
+function dyeLUTFor(dyeCss, refCss){
+  const D = HAIR_DYE;
+  const sig = dyeCss + '|' + (refCss || '-') + '|' + DYE_KEYS.map(k=>D[k]).join(',');
+  const hit = DYE_LUT.map.get(sig);
+  if(hit){ DYE_LUT.hits++; return hit; }
+  DYE_LUT.misses++;
+  const dc = cssToRGB(dyeCss);
+  if(!dc) return null;
+  const dye = rgbToOklab(dc.r, dc.g, dc.b);
+  const rc  = cssToRGB(refCss);
+  /* 기준 밝기 — 이 뷰에서 <b>실측한</b> 평균 헤어색의 L. 없으면 염색색 자신의 L을
+     쓴다(그러면 s=1 근처가 되어 사진 대비만 남는다, 안전한 폴백). */
+  let Lref = rc ? rgbToOklab(rc.r, rc.g, rc.b).L : dye.L;
+  if(!(Lref > 0.02)) Lref = 0.02;              // 새까만 머리에서 0으로 나누지 않는다
+  const Ltarget = (D.liftTo > 0) ? D.liftTo : dye.L;
+  const C = Math.hypot(dye.a, dye.b) * D.chroma;
+  const hue = Math.atan2(dye.b, dye.a);
+  const ca = Math.cos(hue), cb = Math.sin(hue);
+  const lut = new Array(256);
+  for(let i=0;i<256;i++){
+    const Lp = i/255;
+    let s = Lp / Lref;
+    s = 1 + (s - 1) * D.shading;                       // 명암 구조 세기
+    s = Math.max(D.sMin, Math.min(D.sMax, s));
+    if(D.shadingGamma !== 1) s = Math.pow(s, D.shadingGamma);
+    /* ── 어두운 쪽은 곱하고, 밝은 쪽은 <b>눌러서</b> 1에 수렴시킨다 ──────────
+       처음엔 L = Ltarget × s 하나로 썼다가 하네스가 잡았다 — Ltarget이 0.72인
+       밝은 염색색에서는 s가 1.4만 돼도 L이 1을 넘어 <b>중간톤부터 흰색으로
+       포화</b>했고, 그러면 하이라이트 탈색이 걸릴 자리 자체가 없어진다
+       (시험 두 개가 같은 값 0.034로 나온 게 그 증거였다).
+       밝은 쪽을 지수 포화로 바꾸면 s가 아무리 커도 1을 안 넘고, Ltarget과 1
+       사이의 여유가 <b>하이라이트가 살 자리</b>로 남는다. 어두운 쪽은 바닥이
+       0이라 그런 문제가 없어 곱셈 그대로 둔다(뿌리 어두움이 그대로 산다). */
+    let L;
+    if(s <= 1){
+      L = Ltarget * s;
+    } else {
+      L = Ltarget + (1 - Ltarget) * (1 - Math.exp(-D.highlightK * (s - 1)));
+    }
+    L = Math.max(0, Math.min(1, L));
+    /* 하이라이트 탈색 — 목표보다 밝아진 만큼 채도를 뺀다(정반사는 무채색). */
+    let k = 1;
+    if(L > Ltarget && Ltarget < 1){
+      k = 1 - D.glossDesat * Math.min(1, (L - Ltarget) / (1 - Ltarget));
+    }
+    const c = C * k;
+    const [r,g,b] = oklabToRgb(L, ca*c, cb*c);
+    lut[i] = 'rgb(' + r + ',' + g + ',' + b + ')';
+  }
+  DYE_LUT.map.set(sig, lut);
+  while(DYE_LUT.map.size > DYE_LUT.max) DYE_LUT.map.delete(DYE_LUT.map.keys().next().value);
+  return lut;
+}
+/* 사진 RGB → LUT 인덱스(OKLab L). 조각마다 도는 자리라 여기만 실제 계산이다. */
+function dyeIndexOf(r,g,b){
+  const L = rgbToOklab(r,g,b).L;
+  return Math.max(0, Math.min(255, Math.round(L*255)));
+}
+
+/* srcPixels(RGBA)에서 알파를 버리고 RGB만 담는다. maskW×maskH×3. */
+function packPhotoRGB(srcPixels, w, h){
+  const n = w*h, out = new Uint8Array(n*3);
+  for(let i=0, j=0, p=0; i<n; i++, j+=3, p+=4){
+    out[j] = srcPixels[p]; out[j+1] = srcPixels[p+1]; out[j+2] = srcPixels[p+2];
+  }
+  return out;
+}
+
+/* <b>이미지 좌표</b>(x,y — 가닥 경로·되쏜 점이 쓰는 그 좌표계)의 원본 색.
+   범위 밖이면 null(호출부가 기존 색으로 폴백).
+   ⚠ 2026-08-17 b 고침 — photoRGB는 <b>축소 해상도</b>(maskW×maskH, 긴 변 1200
+   상한)에 담겨 있는데 여기서 이미지 좌표를 그대로 인덱스로 썼다. 사진이
+   1200px보다 크면(요즘 폰 사진은 거의 다) 좌표가 어긋나 왼쪽 위 일부만 읽히고
+   나머지는 범위 밖 → null → sampleStrandColors가 통째로 null을 돌려
+   <b>단색 경로로 조용히 되돌아가고 있었다</b>. 결방향 필드가 ox/oy로 환산해
+   쓰는 것과 같은 환산을 여기서도 한다(orientMaskW 주석 참조). */
+function photoRGBAt(maskInf, x, y){
+  const buf = maskInf && maskInf.photoRGB;
+  if(!buf) return null;
+  const w = maskInf.maskW, h = maskInf.maskH;
+  const sx = w / Math.max(1, maskInf.w || w), sy = h / Math.max(1, maskInf.h || h);
+  const xi = (x * sx) | 0, yi = (y * sy) | 0;
+  if(xi < 0 || yi < 0 || xi >= w || yi >= h) return null;
+  const j = (yi*w + xi)*3;
+  return [buf[j], buf[j+1], buf[j+2]];
+}
+
+/* 이 <b>이미지 좌표</b>가 원본 사진에서 실제로 머리카락으로 판정된 자리인가.
+   reasonMask(1=최종 머리카락)를 그대로 본다 — 되쏜 가닥이 얼굴·배경 위로 넘어간
+   구간에서 피부색·배경색을 머리색으로 퍼오는 것을 막는 유일한 장치다.
+   마스크가 없으면(마네킹 등) true — 새 실패 모드를 만들지 않는다. */
+function isHairPixelAt(maskInf, x, y){
+  const rm = maskInf && maskInf.reasonMask;
+  if(!rm) return true;
+  const w = maskInf.maskW, h = maskInf.maskH;
+  const sx = w / Math.max(1, maskInf.w || w), sy = h / Math.max(1, maskInf.h || h);
+  const xi = (x * sx) | 0, yi = (y * sy) | 0;
+  if(xi < 0 || yi < 0 || xi >= w || yi >= h) return false;
+  return rm[yi*w + xi] === 1;
+}
+
+/* 가닥 경로를 따라 색을 읽어 segments개로 묶는다.
+   반환: css 색 문자열 배열(길이 = segments). 실측이 하나도 없으면 null을 돌려
+   호출부가 예전 경로(단색)를 그대로 타게 한다 — 새 실패 모드를 만들지 않기 위함. */
+function sampleStrandColors(maskInf, pts, fallbackCss){
+  if(!HAIR_PIXEL_COLOR.on || !maskInf || !maskInf.photoRGB) return null;
+  const K = Math.max(1, HAIR_PIXEL_COLOR.segments|0);
+  if(K < 2 || !pts || pts.length < 2) return null;
+  const fb = parseRGBTriple(fallbackCss);
+  const out = new Array(K);
+  let hit = 0, lastCss = fallbackCss;
+  for(let k=0; k<K; k++){
+    // 조각 한가운데의 픽셀을 대표색으로. 양 끝만 읽으면 조각 안 변화를 놓친다.
+    const t = (k + 0.5) / K;
+    const i = Math.min(pts.length-1, Math.max(0, Math.round(t * (pts.length-1))));
+    const c = photoRGBAt(maskInf, pts[i].x, pts[i].y);
+    if(!c){ out[k] = lastCss; continue; }   // 마스크 밖(연장 구간) → 직전 색 유지
+    hit++;
+    let r = c[0], g = c[1], b = c[2];
+    if(fb){
+      const m = HAIR_PIXEL_COLOR.blend;
+      r = r*m + fb.r*(1-m); g = g*m + fb.g*(1-m); b = b*m + fb.b*(1-m);
+    }
+    lastCss = out[k] = `rgb(${r|0},${g|0},${b|0})`;
+  }
+  if(!hit) return null;
+  /* 뿌리 쪽 조각이 마스크 밖이면(세그멘테이션이 두피선 위를 놓친 경우) 그 조각들이
+     폴백색으로 남는다 — 뿌리만 딴 색으로 뜬다. 첫 실측색으로 거꾸로 메운다.
+     끝 쪽은 위 루프의 lastCss가 이미 이어 주므로 여기선 앞쪽만 본다. */
+  let first = -1;
+  for(let k=0; k<K; k++){ if(out[k] !== fallbackCss){ first = k; break; } }
+  for(let k=0; k<first; k++) out[k] = out[first];
+  return out;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   3D 투영에 <b>원본 결 보기와 같은 색 규칙</b>을 적용 (2026-08-17 b)
+   ─────────────────────────────────────────────────────────────────
+   사용자: "원본 결 헤어에 원본 헤어 픽셀 잘라서 썼지? 그 방식을 3D 투영
+            이미지에도 적용해줘."
+   맞다. 그런데 코드는 그러지 않고 있었다 — 이유가 셋이었다.
+     ① computeAdjustedHair3DStrands가 조각색(colors)을 <b>안 실어 보냈다</b>.
+        중립 모델에는 있는데 조정 결과에 안 담겨서, projectHair3DToView의
+        `st.colors || null`이 <b>항상 null</b>이었다(=가닥당 단색).
+     ② photoRGBAt의 좌표계가 어긋나 있었다(위 고침) — 1200px 넘는 사진에서는
+        2D 원본 결 보기조차 단색으로 되돌아가고 있었다.
+     ③ 조각색이 있었더라도 가닥별 밝기 지터가 그 위에 덧칠됐다.
+   여기서 하는 일: 2D가 "가닥이 지나는 자리"를 읽듯, 3D는 <b>되쏜 가닥이
+   지나는 자리</b>를 읽는다. 규칙(조각 수·중앙 표본·blend·앞쪽 메움)은
+   sampleStrandColors와 글자 그대로 같다 — 다른 건 좌표의 출처뿐이다.
+   길이를 늘려 원본에 머리가 없는 구간으로 나간 조각은 <b>굽힌 색(baked)</b>
+   → 직전 실측색 → 가닥 단색 순으로 폴백한다. */
+function sampleProjectedStrandColors(maskInf, ipts, baked, fallbackCss, dyeCss){
+  if(!HAIR_PIXEL_COLOR.on || !maskInf || !maskInf.photoRGB) return baked;
+  const K = Math.max(1, HAIR_PIXEL_COLOR.segments|0);
+  if(K < 2 || !ipts || ipts.length < 2) return baked;
+  /* ── 염색(2026-09-02) ──────────────────────────────────────────────
+     dyeCss가 오면 <b>섞지 않는다</b>. 사진 픽셀의 밝기만 읽어 LUT로 바꾼다 —
+     명암 구조는 사진에서, 색은 염색에서(위 HAIR_DYE 배너). 예전 blend 경로는
+     HAIR_DYE.on=false면 그대로 돈다. */
+  const lut = (HAIR_DYE.on && dyeCss) ? dyeLUTFor(dyeCss, maskInf.avgHairColor) : null;
+  const fb = parseRGBTriple(lut ? null : fallbackCss);
+  const out = new Array(K);
+  const got = new Array(K).fill(false);   // 그 조각을 <b>실측</b>했는가(폴백과 구분)
+  let hit = 0, lastCss = null;
+  for(let k=0; k<K; k++){
+    // 조각 한가운데 점을 대표로 — 2D와 같은 규약(양 끝만 읽으면 조각 안 변화를 놓친다)
+    const t = (k + 0.5) / K;
+    const i = Math.min(ipts.length-1, Math.max(0, Math.round(t * (ipts.length-1))));
+    const q = ipts[i];
+    const c = isHairPixelAt(maskInf, q.x, q.y) ? photoRGBAt(maskInf, q.x, q.y) : null;
+    if(!c){
+      // 원본에 머리가 없는 자리(늘린 구간·얼굴 위로 넘어간 구간)
+      /* 염색 중이면 굽힌 색(=사진 색)으로 메우면 그 자리만 원래 머리색이 뜬다.
+         직전 실측색(이미 염색된 값) → 염색색 순으로 메운다. */
+      out[k] = lut ? (lastCss || dyeCss) : ((baked && baked[k]) || lastCss || fallbackCss);
+      continue;
+    }
+    hit++; got[k] = true;
+    let r = c[0], g = c[1], b = c[2];
+    if(lut){ lastCss = out[k] = lut[dyeIndexOf(r,g,b)]; continue; }
+    if(fb){
+      const m = HAIR_PIXEL_COLOR.blend;
+      r = r*m + fb.r*(1-m); g = g*m + fb.g*(1-m); b = b*m + fb.b*(1-m);
+    }
+    lastCss = out[k] = `rgb(${r|0},${g|0},${b|0})`;
+  }
+  // 한 조각도 못 읽었으면 굽힌 색을 그대로(그것도 없으면 null = 예전 단색 경로)
+  if(!hit) return baked;
+  /* 뿌리 쪽 조각이 못 읽힌 채 남아 있고 굽힌 색도 없으면 첫 실측색으로 거꾸로
+     메운다 — 2D의 sampleStrandColors와 같은 처리(뿌리만 딴 색으로 뜨는 것 방지). */
+  let first = 0;
+  while(first < K && !got[first]) first++;
+  for(let k=0; k<first; k++){ if(!(baked && baked[k])) out[k] = out[first]; }
+  return out;
+}
+
+/* ── <b>3D 가닥</b>에 조각색을 굽는다 — 2D와 같은 규칙, 좌표만 3D (2026-08-18 i) ──
+   사용자: "원본결보기와 마네킹 모드 적용 안 한 스타일 보기에서는 헤어결이
+   원본 헤어에서 채취한 픽셀로 가닥을 렌더링한 건데, <b>마네킹 모드에서는 그게
+   적용이 안 돼</b>. 적용해야 돼." / "3D는 모든 결과를 앞에서 조정한 거에 따르는 거야."
+
+   왜 안 됐나 — 조각색(colors)은 <b>촬영 가닥</b>이 2D 캡처 때 자기 경로 위에서
+   읽어 온 값이다. 마네킹 가닥은 사진에서 온 게 아니라 격자에 새로 심은 것이라
+   읽어 올 경로가 애초에 없었다(그래서 [3D] 로그가 "원본 픽셀색 0개(=0%)").
+   2D 투영 화면만 멀쩡해 보였던 이유도 여기 있다 — 그쪽은 매 프레임
+   sampleProjectedStrandColors로 <b>되쏘아 다시 읽으니</b> 마네킹이든 아니든 같다.
+   색이 갈라진 자리는 되쏘기가 없는 곳, 즉 <b>최종 3D 화면</b>이었다.
+
+   그래서 되쏘기를 3D 쪽에도 준다: 가닥을 자기 뷰로 투영해 그 자리 원본 픽셀을
+   읽는다. 규칙(조각 수·중앙 표본·blend·마스크 밖 폴백)은 sampleProjectedStrandColors
+   <b>그대로</b>다 — 다른 건 "어느 뷰로 되쏘는가"뿐이라 여기서 정한다.
+   뷰 선택은 viewOfRoot(뿌리가 제일 크게 보이는 뷰) — 스타일링·역산이 이미 쓰는
+   판정이라 새로 만들지 않는다. 마스크·캘리브레이션이 없으면 baked를 그대로
+   돌려준다(새 실패 모드를 만들지 않는다). */
+function bakeStrandColors3DBase(pts, model, angle, fallbackCss, baked, dyeCss){
+  if(!HAIR_PIXEL_COLOR.on || !pts || pts.length < 2 || !model) return baked || null;
+  const cal = model.viewCal && model.viewCal[angle];
+  const mi  = state.hairMasks && state.hairMasks[angle];
+  if(!cal || !mi || !mi.photoRGB) return baked || null;
+  const ipts = new Array(pts.length);
+  for(let i=0;i<pts.length;i++){
+    const pr = project3DPointToView(pts[i], cal, model.yTop, model.CY);
+    ipts[i] = { x: pr.ix, y: pr.iy };
+  }
+  /* (2026-09-05) dyeCss를 <b>같이 넘긴다</b> — 사용자: "전체염색을 넣으면 2D 조정
+     화면은 변하는데 3D 결과보기에서 뒤쪽이랑 정수리는 안 바뀐다."
+     원인이 여기 인자 하나였다. 이 함수는 되쏘아 읽은 <b>사진 픽셀</b>을 돌려주는데,
+     염색은 그 픽셀을 LUT로 바꾸는 단계(sampleProjectedStrandColors의 5번째 인자)에서
+     걸린다. 그 인자를 안 넘기니 LUT가 안 만들어지고 사진색이 그대로 나왔다.
+     그래서 <b>사진에 머리가 있는 자리</b>(뒤통수·정수리)만 원래 색으로 남고,
+     머리가 없는 자리(이마 앞머리·늘린 구간)는 폴백이 염색색이라 바뀌어 보였다 —
+     "앞은 되는데 뒤는 안 된다"의 정체가 이 갈림이다.
+     2D 투영은 처음부터 st.dye를 넘기고 있었다(15-project-3d.js). 두 경로가 같은
+     함수를 부르면서 인자만 달랐던 것이라, 규칙을 하나로 되돌리는 수정이다. */
+  return sampleProjectedStrandColors(mi, ipts, baked || null, fallbackCss, dyeCss);
+}
+function bakeStrandColors3D(pts, model, angle, fallbackCss, baked, dyeCss){
+  const cols = bakeStrandColors3DBase(pts, model, angle, fallbackCss, baked, dyeCss);
+  /* (옛 36 GLOSS_WAVE) 촬영 사진에서 다시 굽는 색(재투영)도 가닥을 따라 고르게 — gloss 있는 스타일에서만.
+     ⚠ 28-perf-probe의 색 기억(bakeMemo)이 이 결과를 기억하므로 기억 열쇠에 gloss 설정을 같이 넣는다(28). */
+  const gcfg = glossWaveCfg();
+  if(!gcfg || !Array.isArray(cols)) return cols;
+  try{ return glossWaveSmoothColors(cols, gcfg); }catch(e){ return cols; }
+}
+
+/* 이 뷰에서 "원본 결 보기가 그리는 가닥 묶음"을 그대로 계산해 준다.
+   → 레이어별 굵기 w · 개수 n · 틴트 범위. 두 렌더러가 이 함수 하나만 본다. */
+function hairStrandRoles(fitDw, volume, thickness){
+  const L = HAIR_STRAND_LOOK;
+  const widthScale = (fitDw / L.resBase) * L.thin;
+  return L.layers.map(x=>({
+    id: x.id,
+    w: Math.max(L.minSafeWidth, (x.base + (((x.src==='volume') ? volume : thickness)/100) * x.gain) * widthScale),
+    n: x.c0 + (volume/100) * x.c1,
+    tint: x.tint,
+  }));
+}
+
+/* ══ 광택·웨이브 마감 — GLOSS_WAVE (2026-10 · 옛 36-gloss-wave.js) ══
+   스타일 완성 단계의 "매끈·광택·찰랑" 마감 (Glossy finish)
+
+   문제: 촬영 결(원본 픽셀 경로)을 그대로 쓰다 보니 가닥마다 1~2cm 단위의 잔굴곡(부스스함)이
+         남고, 그 위에 스타일 웨이브가 얹혀서 결과가 "곱슬·부스스"하게 보였다.
+         또 결이 들쭉날쭉하니 결 하이라이트(Kajiya-Kay)도 점점이 흩어져 광택 띠가 안 생겼다.
+
+   해결(스타일 프로필에 gloss 가 있을 때만 동작):
+     1) 가닥 모양 — 두 스케일 필터
+          잔결  = 가닥 - G(σ_fine)          → 버림 (부스스·잔굴곡)
+          웨이브 = G(σ_fine) - G(σ_flow)    → 살림 ×(1+waveBoost)  (굵은 S 웨이브)
+          흐름  = G(σ_flow)                 → 그대로
+        뿌리 rootCm 구간은 원래 모양 유지(가르마·볼륨 보존), 마디 길이는 원래 값으로 되돌려
+        커트 기장이 변하지 않게 한다.
+     2) 가닥 색 — 가닥을 따라 색을 고르게(colorSmooth) → 픽셀 노이즈 대신 매끈한 결 색.
+     3) 광택 — 프로필의 shade(spec/specPow)를 올려 넓고 또렷한 하이라이트 띠.
+
+   2D 조정 화면과 3D 화면이 같은 소스(computeAdjustedHair3DStrands)를 쓰므로 둘 다 적용된다.
+   끄기: GLOSS_WAVE.on=false  ·  세기: GLOSS_WAVE.set({ waveBoost:0.3, fineCm:0.8 })
+   붙는 자리: computeAdjustedHair3DStrands(17b) 끝(glossWaveAll) · bakeStrandColors3D(아래) 끝(색 고르게). */
+var GLOSS_WAVE = { on: true };
+// 기본값 — 프로필의 gloss 객체가 덮어씀
+GLOSS_WAVE.defaults = {
+  shape: true,      // false면 가닥 모양은 안 건드리고 코팅(색·광택)만
+  fineCm: 1.2,      // 이보다 짧은 파장의 굴곡(잔결)은 지움
+  flowCm: 3.2,      // 이보다 긴 흐름은 그대로 둠
+  waveBoost: 0.3,   // 그 사이(웨이브) 진폭을 이만큼 키움
+  rootCm: 2.0,      // 뿌리에서 이 길이까지는 원래 모양 → 점점 매끈
+  keepLen: false,   // true면 마디 길이 보존(잔결 길이가 남아 다시 꼬일 수 있음)
+  colorSmooth: 0.7, // 가닥 색 고르게 (0=원본, 1=완전 평균)
+  colorWin: 4,      // 색 평균 창(점 개수, 한쪽)
+  maxMoveCm: 1.2,   // 한 점이 움직일 수 있는 최대 거리(컬 진폭만 지우고 큰 형태는 못 바꾸게)
+  skullPad: 1.06    // 두상 타원체 ×이 값 안으로 들어간 점은 껍질 위로 되밀기
+};
+GLOSS_WAVE.set = function (o) { Object.assign(GLOSS_WAVE.defaults, o || {}); glossWaveBump(); };
+
+function glossWaveCfg() {
+  if (!GLOSS_WAVE.on) return null;
+  var sb = window.STYLE_BASE;
+  var p = sb && sb.on !== false && sb.active;
+  if (!p || !p.gloss) return null;
+  return Object.assign({}, GLOSS_WAVE.defaults, p.gloss === true ? {} : p.gloss);
+}
+
+function glossWaveCpu() {
+  try { var v = typeof modelCmPerUnit === 'function' ? modelCmPerUnit() : null; if (v > 0) return v; } catch (e) {}
+  return 19.3;
+}
+
+// ── 가닥 모양 ───────────────────────────────────────────
+function glossWaveArcLen(pts) {
+  var s = new Float64Array(pts.length);
+  for (var i = 1; i < pts.length; i++) {
+    var a = pts[i - 1], b = pts[i];
+    s[i] = s[i - 1] + Math.hypot(b.x - a.x, b.y - a.y, b.z - a.z);
+  }
+  return s;
+}
+
+// 호길이 기반 가우시안 (점 간격이 고르지 않아도 됨). 끝은 반사 없이 정규화.
+function glossWaveGauss(pts, s, sigma, out) {
+  var n = pts.length, r = 3 * sigma, inv = 1 / (2 * sigma * sigma), lo = 0;
+  for (var i = 0; i < n; i++) {
+    while (s[i] - s[lo] > r) lo++;
+    var sx = 0, sy = 0, sz = 0, sw = 0;
+    for (var j = lo; j < n; j++) {
+      var d = s[j] - s[i];
+      if (d > r) break;
+      var w = Math.exp(-d * d * inv);
+      sx += pts[j].x * w; sy += pts[j].y * w; sz += pts[j].z * w; sw += w;
+    }
+    out[i * 3] = sx / sw; out[i * 3 + 1] = sy / sw; out[i * 3 + 2] = sz / sw;
+  }
+  return out;
+}
+
+// 매끈하게 하면서 두상 안으로 파고든 점 → 타원체 껍질 위로(충돌 처리가 튕겨내 머리가 폭발하던 원인 차단)
+function glossWavePushOut(q, E, cy, pad) {
+  if (!E || !(E.a > 0)) return;
+  var ux = q.x / (E.a * pad), uy = (q.y - cy) / (E.b * pad), uz = q.z / (E.c * pad);
+  var r = Math.sqrt(ux * ux + uy * uy + uz * uz);
+  if (r >= 1 || r < 1e-6) return;
+  q.x /= r; q.y = cy + (q.y - cy) / r; q.z /= r;
+}
+
+function glossWaveSmoothPts(pts, cfg, cpu, st) {
+  var n = pts.length;
+  if (n < 5) return pts;
+  var s = glossWaveArcLen(pts), L = s[n - 1];
+  if (!(L > 0)) return pts;
+  var sf = (cfg.fineCm / cpu) / 2.5, sl = (cfg.flowCm / cpu) / 2.5; // 파장→σ 대략 변환
+  var A = glossWaveGauss(pts, s, sf, new Float64Array(n * 3));
+  // 잔결이 심하면 호길이가 부풀어 σ가 실제보다 좁게 먹으므로, 매끈해진 경로로 한 번 더
+  var P2 = new Array(n);
+  for (var a2 = 0; a2 < n; a2++) P2[a2] = { x: A[a2 * 3], y: A[a2 * 3 + 1], z: A[a2 * 3 + 2] };
+  A = glossWaveGauss(P2, glossWaveArcLen(P2), sf, new Float64Array(n * 3));
+  var B = glossWaveGauss(pts, s, sl, new Float64Array(n * 3));
+  var k = 1 + cfg.waveBoost, root = cfg.rootCm / cpu, maxMove = (cfg.maxMoveCm || 1e9) / cpu;
+  var E = null, cy = 0;
+  try { E = getHeadEllipsoid(); cy = typeof SCALP_CENTER_Y !== 'undefined' ? SCALP_CENTER_Y : 0.15; } catch (e) { E = null; }
+  var out = new Array(n);
+  var dev = 0;
+  for (var i = 0; i < n; i++) {
+    var t = root > 0 ? Math.min(1, s[i] / root) : 1;
+    t = t * t * (3 - 2 * t); // smoothstep
+    var x = B[i * 3] + (A[i * 3] - B[i * 3]) * k,
+        y = B[i * 3 + 1] + (A[i * 3 + 1] - B[i * 3 + 1]) * k,
+        z = B[i * 3 + 2] + (A[i * 3 + 2] - B[i * 3 + 2]) * k;
+    var p = pts[i];
+    var q = Object.assign({}, p);
+    var mx = (x - p.x) * t, my = (y - p.y) * t, mz = (z - p.z) * t, md = Math.hypot(mx, my, mz);
+    if (md > maxMove) { var f = maxMove / md; mx *= f; my *= f; mz *= f; }
+    q.x = p.x + mx; q.y = p.y + my; q.z = p.z + mz;
+    if (E) glossWavePushOut(q, E, cy, cfg.skullPad);
+    dev += Math.hypot(q.x - p.x, q.y - p.y, q.z - p.z);
+    out[i] = q;
+  }
+  out[0] = Object.assign({}, pts[0]);
+  if (cfg.keepLen) {
+    // 방향은 매끈한 것, 마디 길이는 원래 것 → 기장 그대로
+    var px = out[0].x, py = out[0].y, pz = out[0].z;
+    for (var m = 1; m < n; m++) {
+      var dx = out[m].x - out[m - 1].x, dy = out[m].y - out[m - 1].y, dz = out[m].z - out[m - 1].z;
+      var dl = Math.hypot(dx, dy, dz) || 1e-9, seg = s[m] - s[m - 1];
+      px += dx / dl * seg; py += dy / dl * seg; pz += dz / dl * seg;
+      out[m].__nx = px; out[m].__ny = py; out[m].__nz = pz;
+    }
+    for (var r2 = 1; r2 < n; r2++) {
+      out[r2].x = out[r2].__nx; out[r2].y = out[r2].__ny; out[r2].z = out[r2].__nz;
+      delete out[r2].__nx; delete out[r2].__ny; delete out[r2].__nz;
+    }
+  }
+  if (st) { st.n++; st.dev += dev / n * cpu; }
+  return out;
+}
+
+// ── 가닥 색 ─────────────────────────────────────────────
+function glossWaveParseCol(c) {
+  if (typeof c === 'number') return [(c >> 16) & 255, (c >> 8) & 255, c & 255, 'n'];
+  if (typeof c !== 'string') return null;
+  if (c[0] === '#' && c.length === 7) return [parseInt(c.substr(1, 2), 16), parseInt(c.substr(3, 2), 16), parseInt(c.substr(5, 2), 16), 'h'];
+  var m = /^rgba?\(([^)]+)\)/.exec(c);
+  if (m) { var a = m[1].split(',').map(parseFloat); return [a[0], a[1], a[2], 'h']; }
+  return null;
+}
+function glossWaveFmtCol(r, g, b, kind) {
+  r = Math.max(0, Math.min(255, Math.round(r))); g = Math.max(0, Math.min(255, Math.round(g))); b = Math.max(0, Math.min(255, Math.round(b)));
+  if (kind === 'n') return (r << 16) | (g << 8) | b;
+  return '#' + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
+}
+function glossWaveSmoothColors(cols, cfg) {
+  if (!cols || !cols.length || cols.length < 3 || !(cfg.colorSmooth > 0)) return cols;
+  var P = new Array(cols.length);
+  for (var i = 0; i < cols.length; i++) { P[i] = glossWaveParseCol(cols[i]); if (!P[i]) return cols; }
+  var w = Math.max(1, cfg.colorWin | 0), a = cfg.colorSmooth, out = new Array(cols.length);
+  for (var j = 0; j < cols.length; j++) {
+    var r = 0, g = 0, b = 0, c = 0;
+    for (var k = Math.max(0, j - w); k <= Math.min(cols.length - 1, j + w); k++) { r += P[k][0]; g += P[k][1]; b += P[k][2]; c++; }
+    out[j] = glossWaveFmtCol(P[j][0] + (r / c - P[j][0]) * a, P[j][1] + (g / c - P[j][1]) * a, P[j][2] + (b / c - P[j][2]) * a, P[j][3]);
+  }
+  return out;
+}
+
+// ── 훅 ──────────────────────────────────────────────────
+var _glossWaveMemo = new WeakMap(), _glossWaveVer = 0;
+function glossWaveBump() { _glossWaveVer++; try { if (typeof ADJ_CACHE !== 'undefined' && ADJ_CACHE.bump) ADJ_CACHE.bump(); } catch (e) {} }
+GLOSS_WAVE.bump = glossWaveBump;
+
+
+// 가닥 하나 다듬기 (입력은 안 바꿈). 37번(3D 미리 만들기)이 가닥 단위로 나눠 부를 때도 이 함수를 씀.
+function glossWaveStrand(sd, cfg, cpu, st) {
+  if (!sd || !sd.pts || sd.pts.length < 5) return sd;
+  var c = Object.assign({}, sd);
+  try {
+    if (cfg.shape !== false) c.pts = glossWaveSmoothPts(sd.pts, cfg, cpu, st);
+    if (sd.colors) c.colors = glossWaveSmoothColors(sd.colors, cfg);
+  } catch (e) { c = sd; }
+  return c;
+}
+GLOSS_WAVE.strand = glossWaveStrand;   // 37(폰 다이어트 · 3D 미리 만들기)이 가닥 단위로 나눠 부를 때
+GLOSS_WAVE.cfg = glossWaveCfg;
+GLOSS_WAVE.cpu = glossWaveCpu;
+
+/* 스타일 완성 마감 — computeAdjustedHair3DStrands(17b) 끝 단계. gloss 있는 프로필에서만 · 결과 배열마다 기억 */
+/* ══ 마감 결 정리 — FINISH3D (2026-10-18) ══════════════════════════════
+   사용자: "직모일 경우 마지막에 결정리 작업" · "헤어 꺾임이 있을 때 곡선처리.
+   컬이 걸음을 걷다 보면 각형으로 고리가 만들어지는데, 머리가닥에 그런 게 없잖아."
+
+   붙는 자리: computeAdjustedHair3DStrands(17b) → _adjComputeCore → glossWaveAll <b>맨 앞</b>.
+   그래서 2D 조정 화면 · 3D · 37번(폰 다이어트, 가닥 단위 분할) 모두 이 결과를 받는다.
+   ⚠ 37번은 GLOSS_WAVE._defer일 때 가닥 수·점 수로 버퍼를 먼저 잡으므로, 점을 늘리는
+     곡선 처리는 반드시 _defer 검사 <b>전에</b> 한다(여기서 늘린 점 수가 그대로 버퍼 크기가 된다).
+
+   ① 직모 결 정리 (straight)
+      사진에서 잰 컬(ORIG_MQ.spec.perm.curl)이 PHOTO_CURL.shapeMinCurl(10) 미만이거나
+      못 쟀으면 직모로 본다. 직모면 SLEEK3D(sleekStrand3D — 뿌리 껍질 위로 눕히고
+      꺾임을 누적·정착시키는 정돈 연산)를 <b>straightSleek</b> 세기로 한 번 더 건다.
+      스타일링에서 이미 sleek을 줬으면 모자란 만큼만(straightSleek − styling.sleek) 건다.
+      → 마디 길이 보존(커트 기장 그대로) · 뿌리 ramp 구간은 안 건드림(볼륨 유지).
+   ② 꺾임 곡선 처리 (round) — 직모·웨이브·컬 모두
+      마디와 마디가 minDeg보다 크게 꺾이는 자리에 Catmull-Rom(centripetal) 곡선으로
+      점을 끼워 넣는다. <b>원래 점은 그대로 지나가므로</b> 컬 지름·웨이브 진폭·기장은
+      바뀌지 않고, 꺾인 모서리만 둥근 곡선이 된다(각진 고리 → 둥근 고리).
+      꺾임이 클수록 더 많이(stepDeg마다 1점, 마디당 최대 maxIns점) 끼운다.
+      가닥 하나에 끼우는 점은 원래 점 수의 maxGrow배까지 — 폰 메모리 상한.
+      ⚠ 직모에서 한 점만 뾰족하게 접힌 자리(spikeDeg 이상)는 곡선만으론 뾰족한
+        끝이 남으므로, 그 점을 이웃 쪽으로 spikeRelax만큼 먼저 편다(두 번 · 직모일 때만).
+      점마다 달린 배열(colors 등, pts와 길이가 같은 것)은 같이 보간한다.
+
+   끄기: FINISH3D.on=false · 직모 정리만 끄기 FINISH3D.straight=false
+         곡선만 끄기 FINISH3D.round=false · 세기 FINISH3D.set({ straightSleek:50 })
+══════════════════════════════════════════════════════════════════ */
+var FINISH3D = {
+  on: true,
+  straight: true,
+  straightSleek: 35,  // 직모일 때 마감 sleek 세기(0~100, SLEEK3D 슬라이더와 같은 척도)
+  round: true,
+  minDeg: 18,         // 이보다 덜 꺾인 자리는 그대로(이미 매끈)
+  stepDeg: 22,        // 꺾임 이만큼마다 끼울 점 1개
+  maxIns: 3,          // 마디 하나에 끼울 최대 점 수
+  maxGrow: 2.0,       // 가닥 하나에 늘릴 수 있는 점 수 = 원래 점 수 × 이 값
+  spikeDeg: 75,       // 직모에서 이 이상 접힌 한 점은 먼저 편다
+  spikeRelax: 0.6,
+  _ver: 0
+};
+FINISH3D.set = function (o) { Object.assign(FINISH3D, o || {}); FINISH3D._ver++; try { if (typeof ADJ_CACHE !== 'undefined' && ADJ_CACHE.bump) ADJ_CACHE.bump(); } catch (e) {} };
+
+function finish3DIsStraight() {
+  try {
+    var mq = window.ORIG_MQ, perm = mq && mq.spec && mq.spec.perm;
+    var c = perm && typeof perm.curl === 'number' ? perm.curl : null;
+    var lim = (window.PHOTO_CURL && typeof PHOTO_CURL.shapeMinCurl === 'number') ? PHOTO_CURL.shapeMinCurl : 10;
+    return c === null || c < lim;
+  } catch (e) { return false; }
+}
+
+function _f3Angle(a, b, c) {
+  var ux = b.x - a.x, uy = b.y - a.y, uz = b.z - a.z, vx = c.x - b.x, vy = c.y - b.y, vz = c.z - b.z;
+  var lu = Math.hypot(ux, uy, uz), lv = Math.hypot(vx, vy, vz);
+  if (!(lu > 1e-12 && lv > 1e-12)) return 0;
+  var d = (ux * vx + uy * vy + uz * vz) / (lu * lv);
+  return Math.acos(d > 1 ? 1 : d < -1 ? -1 : d) * 180 / Math.PI;
+}
+
+// centripetal Catmull-Rom: p1→p2 사이 t(0~1) 지점
+function _f3CR(p0, p1, p2, p3, t) {
+  function tj(ti, a, b) { var d = Math.hypot(b.x - a.x, b.y - a.y, b.z - a.z); return ti + Math.sqrt(d > 1e-12 ? d : 1e-12); }
+  var t0 = 0, t1 = tj(t0, p0, p1), t2 = tj(t1, p1, p2), t3 = tj(t2, p2, p3);
+  var tt = t1 + (t2 - t1) * t;
+  function L(a, b, ta, tb) { var k = (tt - ta) / (tb - ta); return { x: a.x + (b.x - a.x) * k, y: a.y + (b.y - a.y) * k, z: a.z + (b.z - a.z) * k }; }
+  var A1 = L(p0, p1, t0, t1), A2 = L(p1, p2, t1, t2), A3 = L(p2, p3, t2, t3);
+  var B1 = L(A1, A2, t0, t2), B2 = L(A2, A3, t1, t3);
+  return L(B1, B2, t1, t2);
+}
+
+function _f3LerpVal(a, b, k) {
+  if (typeof a === 'number' && typeof b === 'number') return a + (b - a) * k;
+  if (typeof glossWaveParseCol === 'function' && (typeof a === 'string' || typeof a === 'number')) {
+    var A = glossWaveParseCol(a), B = glossWaveParseCol(b);
+    if (A && B) return glossWaveFmtCol(A[0] + (B[0] - A[0]) * k, A[1] + (B[1] - A[1]) * k, A[2] + (B[2] - A[2]) * k, A[3]);
+  }
+  return k < 0.5 ? a : b;
+}
+
+function finish3DRoundPts(pts, straight, st) {
+  var n = pts.length;
+  if (n < 3) return null;
+  var C = FINISH3D, P = pts;
+  // 직모의 한 점 접힘 먼저 펴기
+  if (straight && C.spikeRelax > 0) {
+    var cp = null;
+    for (var pass = 0; pass < 2; pass++)
+    for (var i = 1; i < n - 1; i++) {
+      var src = cp || P;
+      if (_f3Angle(src[i - 1], src[i], src[i + 1]) >= C.spikeDeg) {
+        if (!cp) cp = P.slice();
+        var a = cp[i - 1], b = cp[i + 1], q = Object.assign({}, cp[i]), k = C.spikeRelax;
+        q.x += ((a.x + b.x) / 2 - q.x) * k; q.y += ((a.y + b.y) / 2 - q.y) * k; q.z += ((a.z + b.z) / 2 - q.z) * k;
+        cp[i] = q; if (st) st.spikes++;
+      }
+    }
+    if (cp) P = cp;
+  }
+  // 점마다 꺾임 → 마디마다 끼울 점 수
+  var ang = new Float32Array(n), any = false;
+  for (var j = 1; j < n - 1; j++) { ang[j] = _f3Angle(P[j - 1], P[j], P[j + 1]); if (ang[j] > C.minDeg) any = true; }
+  if (!any) return P === pts ? null : { pts: P, ins: null };
+  var ins = new Int8Array(n - 1), want = new Float32Array(n - 1), budget = Math.max(0, Math.floor(n * C.maxGrow)), tot = 0, used = 0;
+  for (var s = 0; s < n - 1; s++) {
+    var m = Math.max(ang[s], ang[s + 1]);
+    want[s] = m > C.minDeg ? Math.min(C.maxIns, Math.ceil(m / C.stepDeg)) : 0; tot += want[s];
+  }
+  // 예산이 모자라면 가닥 전체에 <b>고르게</b> 줄여 나눈다(앞쪽 마디가 다 먹고 뒤가 각진 채 남지 않게)
+  var sc = tot > budget ? budget / tot : 1, acc = 0;
+  for (var s1 = 0; s1 < n - 1; s1++) {
+    if (!want[s1]) continue;
+    acc += want[s1] * sc; var c = Math.floor(acc + 1e-9) - used;
+    if (c < 0) c = 0; ins[s1] = c; used += c;
+  }
+  if (!used) return P === pts ? null : { pts: P, ins: null };
+  var out = [];
+  for (var s2 = 0; s2 < n - 1; s2++) {
+    out.push(P[s2]);
+    var cnt = ins[s2];
+    if (!cnt) continue;
+    var p0 = P[s2 > 0 ? s2 - 1 : 0], p1 = P[s2], p2 = P[s2 + 1], p3 = P[s2 + 2 < n ? s2 + 2 : n - 1];
+    if (s2 === 0) p0 = { x: 2 * p1.x - p2.x, y: 2 * p1.y - p2.y, z: 2 * p1.z - p2.z };
+    if (s2 + 2 >= n) p3 = { x: 2 * p2.x - p1.x, y: 2 * p2.y - p1.y, z: 2 * p2.z - p1.z };
+    for (var r = 1; r <= cnt; r++) {
+      var t = r / (cnt + 1), v = _f3CR(p0, p1, p2, p3, t);
+      var q2 = Object.assign({}, t < 0.5 ? p1 : p2); q2.x = v.x; q2.y = v.y; q2.z = v.z;
+      out.push(q2);
+    }
+  }
+  out.push(P[n - 1]);
+  if (st) st.added += used;
+  return { pts: out, ins: ins };
+}
+
+function finish3DStrand(sd, straight, extraSleek, st) {
+  if (!sd || !sd.pts || sd.pts.length < 3) return sd;
+  var pts = sd.pts, c = null;
+  try {
+    if (straight && extraSleek > 0 && typeof sleekStrand3D === 'function') {
+      var sp = sleekStrand3D(pts, extraSleek);
+      if (sp && sp !== pts && sp.length === pts.length) {
+        // sleekStrand3D는 x·y·z만 돌려준다 — 점에 달린 다른 값은 원래 점에서 가져온다
+        var mp = new Array(sp.length);
+        for (var i = 0; i < sp.length; i++) { var q = Object.assign({}, pts[i]); q.x = sp[i].x; q.y = sp[i].y; q.z = sp[i].z; mp[i] = q; }
+        c = Object.assign({}, sd); c.pts = mp; pts = mp; if (st) st.sleek++;
+      }
+    }
+    if (FINISH3D.round) {
+      var R = finish3DRoundPts(pts, straight, st);
+      if (R) {
+        if (!c) c = Object.assign({}, sd);
+        var n0 = sd.pts.length;
+        c.pts = R.pts;
+        if (R.ins) {
+          // 점마다 달린 배열(colors 등) 같이 늘리기
+          Object.keys(sd).forEach(function (key) {
+            var arr = sd[key];
+            if (key === 'pts' || !Array.isArray(arr) || arr.length !== n0) return;
+            var o = [];
+            for (var s = 0; s < n0 - 1; s++) {
+              o.push(arr[s]);
+              for (var r = 1; r <= R.ins[s]; r++) o.push(_f3LerpVal(arr[s], arr[s + 1], r / (R.ins[s] + 1)));
+            }
+            o.push(arr[n0 - 1]);
+            c[key] = o;
+          });
+          if (st) st.n++;
+        }
+      }
+    }
+  } catch (e) { if (st && !st.err) st.err = e && e.message || String(e); return sd; }
+  return c || sd;
+}
+
+var _finish3DMemo = new WeakMap();
+function finish3DAll(res) {
+  var C = FINISH3D;
+  if (!C.on || !Array.isArray(res) || !res.length || (!C.straight && !C.round)) return res;
+  var straight = C.straight && finish3DIsStraight();
+  var styl = (typeof state !== 'undefined' && state && state.styling) || {};
+  var have = typeof styl.sleek === 'number' ? styl.sleek : 0;
+  var extra = straight ? Math.max(0, C.straightSleek - have) : 0;
+  var key = [C._ver, straight ? 1 : 0, extra, C.round ? 1 : 0, C.minDeg, C.stepDeg, C.maxIns, C.maxGrow, C.spikeDeg, C.spikeRelax].join('|');
+  var hit = _finish3DMemo.get(res);
+  if (hit && hit.key === key) return hit.out;
+  var t0 = performance.now(), st = { n: 0, added: 0, sleek: 0, spikes: 0, err: null }, out = new Array(res.length);
+  for (var i = 0; i < res.length; i++) out[i] = finish3DStrand(res[i], straight, extra, st);
+  _finish3DMemo.set(res, { key: key, out: out });
+  if (C._logged !== key) {
+    C._logged = key;
+    console.log('[마감 결 정리] ' + (straight ? '직모 — sleek +' + extra + ' (' + st.sleek + '가닥)' + (st.spikes ? ' · 접힌 점 ' + st.spikes + '개 폄' : '') : '컬·웨이브 — 직모 정리 안 함') +
+      ' · 꺾임 곡선 ' + st.n + '가닥 · 점 +' + st.added + ' · ' + Math.round(performance.now() - t0) + 'ms' + (st.err ? ' · ⚠ ' + st.err : '') + ' · 끄기 FINISH3D.on=false');
+  }
+  return out;
+}
+
+function glossWaveAll(res) {
+  res = finish3DAll(res);   // (2026-10-18) 마감 결 정리 — _defer 전에(37번 버퍼 크기가 늘어난 점 수를 따르게)
+  if (GLOSS_WAVE._defer) return res;   // 37번이 가닥 단위로 직접 다듬을 때 — 여기서 통째 복사본을 만들지 않음
+  var cfg = glossWaveCfg();
+  if (!cfg || !Array.isArray(res) || !res.length) return res;
+  var key = JSON.stringify(cfg) + '|' + _glossWaveVer;
+  var hit = _glossWaveMemo.get(res);
+  if (hit && hit.key === key) return hit.out;
+  var t0 = performance.now(), cpu = glossWaveCpu(), st = { n: 0, dev: 0 };
+  var out = new Array(res.length);
+  for (var i = 0; i < res.length; i++) {
+    out[i] = glossWaveStrand(res[i], cfg, cpu, st);
+  }
+  _glossWaveMemo.set(res, { key: key, out: out });
+  if (!GLOSS_WAVE._logged || GLOSS_WAVE._logged !== key) {
+    GLOSS_WAVE._logged = key;
+    console.log('[광택·웨이브]' + (cfg.shape === false ? ' 코팅만(모양 그대로) · 가닥 ' + res.length + '개 · 끄기 GLOSS_WAVE.on=false' : ' 가닥 ' + st.n + '개 매끈하게') + ' — 잔결(<' + cfg.fineCm + 'cm) 제거 · 웨이브(' + cfg.fineCm + '~' + cfg.flowCm +
+      'cm) ×' + (1 + cfg.waveBoost).toFixed(2) + ' · 평균 이동 ' + (st.dev / Math.max(1, st.n)).toFixed(2) + 'cm · ' +
+      Math.round(performance.now() - t0) + 'ms · 끄기 GLOSS_WAVE.on=false');
+  }
+  return out;
+}
+
+console.log('[광택·웨이브] 설치 — gloss 있는 스타일에서 잔결 제거·웨이브 살림·색 고르게 · 끄기 GLOSS_WAVE.on=false');
