@@ -1,1 +1,312 @@
-const SALON_BRIDGE={'on':!![],'path':'/salons','closeAfterApply':!![],'maxBytes':0x200*0x400};function salonL(_0x17e366,_0x416dde){try{return typeof uiLang!=='undefined'&&uiLang==='en'?_0x416dde:_0x17e366;}catch(_0x5a0852){return _0x17e366;}}(function(){if(typeof window==='undefined'||typeof BODY_SHOP==='undefined')return;let _0x321cf2='',_0x876237='';try{const _0x5a8120=new URL(BODY_SHOP['pageUrl'],location['href']);_0x321cf2=_0x5a8120['origin'],_0x876237=_0x5a8120['href'];}catch(_0x8177e9){return;}const _0x17b7f7=_0x321cf2+SALON_BRIDGE['path'];let _0x9a178a=![];const _0x19331b=new Set(['__proto__','prototype','constructor']);function _0x1cdb03(_0xe38f52,_0x43a481){if(_0x43a481>0xa)throw new Error('too\x20deep');if(_0xe38f52===null||typeof _0xe38f52==='boolean')return _0xe38f52;if(typeof _0xe38f52==='number'){if(!isFinite(_0xe38f52))throw new Error('bad\x20number');return _0xe38f52;}if(typeof _0xe38f52==='string'){if(_0xe38f52['length']>0x190)throw new Error('long\x20string');return _0xe38f52;}if(Array['isArray'](_0xe38f52)){if(_0xe38f52['length']>0x4e20)throw new Error('long\x20array');return _0xe38f52['map'](_0xf4c610=>_0x1cdb03(_0xf4c610,_0x43a481+0x1));}if(typeof _0xe38f52==='object'){const _0x3acd2b={};for(const _0x254845 of Object['keys'](_0xe38f52)){if(_0x19331b['has'](_0x254845)||!/^[A-Za-z][A-Za-z0-9_]{0,40}$/['test'](_0x254845))throw new Error('bad\x20key\x20'+_0x254845);_0x3acd2b[_0x254845]=_0x1cdb03(_0xe38f52[_0x254845],_0x43a481+0x1);}return _0x3acd2b;}throw new Error('not\x20data');}const _0x12416c=/^[A-Za-z0-9+/]*={0,2}$/;function _0xdd02ce(_0x87509){if(!_0x87509||typeof _0x87509!=='object'||Array['isArray'](_0x87509))return undefined;const _0xa13c60={'v':typeof _0x87509['v']==='number'?_0x87509['v']:0x1};if(typeof _0x87509['comb']==='string'&&_0x87509['comb']['length']<=0x3f7a0&&_0x12416c['test'](_0x87509['comb']))_0xa13c60['comb']=_0x87509['comb'];if(typeof _0x87509['erase']==='string'&&_0x87509['erase']['length']<=0xfa0&&_0x12416c['test'](_0x87509['erase']))_0xa13c60['erase']=_0x87509['erase'];return _0xa13c60['comb']||_0xa13c60['erase']?_0xa13c60:undefined;}function _0x3de603(_0x4efe04){let _0x114c1c;_0x4efe04&&typeof _0x4efe04==='object'&&!Array['isArray'](_0x4efe04)&&'groom'in _0x4efe04&&(_0x114c1c=_0xdd02ce(_0x4efe04['groom']),_0x4efe04=Object['assign']({},_0x4efe04),delete _0x4efe04['groom']);const _0x54d327=_0x1cdb03(_0x4efe04,0x0);if(!_0x54d327||typeof _0x54d327!=='object'||Array['isArray'](_0x54d327))throw new Error('스펙이\x20객체가\x20아닙니다');if(!_0x54d327['cut']||typeof _0x54d327['cut']!=='object')throw new Error('스펙에\x20cut\x20이\x20없습니다');if(_0x54d327['color']!==undefined&&!/^#[0-9A-Fa-f]{6}$/['test'](String(_0x54d327['color'])))delete _0x54d327['color'];if(JSON['stringify'](_0x54d327)['length']>SALON_BRIDGE['maxBytes'])throw new Error('스펙이\x20너무\x20큽니다');if(_0x114c1c)_0x54d327['groom']=_0x114c1c;return _0x54d327;}function _0x1459a9(_0x1d44be,_0x2aeaa9){try{if(_0x1d44be['source'])_0x1d44be['source']['postMessage'](Object['assign']({'type':'gyeol-style-result'},_0x2aeaa9),_0x1d44be['origin']);}catch(_0x4e54d0){}}function _0x4479cd(_0x18e2bd){if(typeof bodyToast==='function')bodyToast(_0x18e2bd);}window['addEventListener']('message',_0x456318=>{if(!SALON_BRIDGE['on']||_0x456318['origin']!==_0x321cf2)return;let _0x4cc9e7=_0x456318['data'];if(typeof _0x4cc9e7==='string')try{_0x4cc9e7=JSON['parse'](_0x4cc9e7);}catch(_0x200a63){return;}if(!_0x4cc9e7||_0x4cc9e7['type']!=='gyeol-style')return;const _0x392988=String(_0x4cc9e7['id']||'');if(!/^[A-Za-z0-9_-]{1,80}$/['test'](_0x392988))return _0x1459a9(_0x456318,{'id':_0x392988,'ok':![],'error':salonL('잘못된\x20스타일\x20id','Invalid\x20style\x20id')});let _0x1d8cd9;try{_0x1d8cd9=_0x3de603(_0x4cc9e7['spec']);}catch(_0x23cd23){return _0x1459a9(_0x456318,{'id':_0x392988,'ok':![],'error':salonL('스타일\x20스펙을\x20읽지\x20못했어요:\x20','Could\x20not\x20read\x20the\x20style:\x20')+_0x23cd23['message']});}const _0x3dd88b=_0x4cc9e7['salon']&&typeof _0x4cc9e7['salon']['name']==='string'?_0x4cc9e7['salon']['name']['slice'](0x0,0x50):'',_0xc71896=typeof _0x4cc9e7['name']==='string'?_0x4cc9e7['name']['slice'](0x0,0x50):_0x1d8cd9['name']||salonL('미용실\x20스타일','Salon\x20style');_0x1d8cd9['name']=_0x3dd88b?_0x3dd88b+'\x20·\x20'+_0xc71896:_0xc71896;const _0x121851='salon_'+_0x392988['replace'](/-/g,'_');if(typeof STYLE_SPECS==='undefined'||typeof applyStyleSpecAndRender!=='function')return _0x1459a9(_0x456318,{'id':_0x392988,'ok':![],'error':salonL('이\x20버전의\x20GYEOL\x20은\x20스타일\x20입어\x20보기를\x20지원하지\x20않아요','This\x20GYEOL\x20version\x20cannot\x20try\x20on\x20styles')});STYLE_SPECS[_0x121851]=_0x1d8cd9;if(SALON_BRIDGE['closeAfterApply'])closeShopPanel();try{const _0x11f2b6={'id':_0x121851,'specId':_0x121851,'spec':_0x1d8cd9,'name':_0xc71896,'tags':_0x3dd88b?salonL('미용실\x20·\x20','Salon\x20·\x20')+_0x3dd88b:salonL('미용실\x20스타일','Salon\x20style'),'isSalon':!![],'colorHex':_0x1d8cd9['color']||'#6B4A2E','length':0x32,'curl':_0x1d8cd9['perm']&&typeof _0x1d8cd9['perm']['curl']==='number'?_0x1d8cd9['perm']['curl']:0x0,'volume':0x32},_0x28d7ed=STYLES['findIndex'](_0xc03c3b=>_0xc03c3b&&_0xc03c3b['id']===_0x121851);if(_0x28d7ed>=0x0)STYLES[_0x28d7ed]=_0x11f2b6;else STYLES['push'](_0x11f2b6);if(typeof buildStyleGrid==='function')buildStyleGrid();selectStyle(_0x121851);const _0x1e4b4=state['pendingSpecId']||_0x121851;state['pendingSpecId']=null,state['specAppliedId']=null;let _0x49ce47=null;try{_0x49ce47=applyStyleSpecAndRender(_0x1e4b4);}catch(_0x4fc7f9){console['warn']('[미용실]\x20스펙\x20적용\x20실패',_0x4fc7f9);}const _0x56c7df=Date['now']();(function _0x4cd592(){if(state['specAppliedId']===_0x1e4b4){try{if(typeof currentScreen!=='undefined'&&currentScreen==='model3d')setupModel3DScreen();else navTo('model3d');}catch(_0x70b324){console['warn']('[미용실]\x203D\x20화면\x20열기\x20실패',_0x70b324);}_0x4479cd(salonL(_0x1d8cd9['name']+'\x20입혔어요','Applied\x20'+_0x1d8cd9['name']));return;}if(Date['now']()-_0x56c7df<0x4e20)return setTimeout(_0x4cd592,0x96);console['warn']('[미용실]\x20바로\x20입히지\x20못해\x20조정\x20화면으로\x20넘깁니다'),state['pendingSpecId']=_0x1e4b4;try{navTo('adjust');}catch(_0x4810db){}_0x4479cd(salonL('3D\x20머리를\x20먼저\x20준비해야\x20해요\x20—\x20조정\x20화면에서\x20입힐게요','The\x203D\x20head\x20needs\x20preparing\x20first\x20—\x20applying\x20in\x20Adjust'));}());if(!_0x49ce47)_0x4479cd(salonL(_0x1d8cd9['name']+'\x20을(를)\x20입히는\x20중…','Applying\x20'+_0x1d8cd9['name']+'…'));return _0x1459a9(_0x456318,{'id':_0x392988,'ok':!![],'pending':!![]});}catch(_0x128e14){return console['warn']('[미용실]\x20스타일\x20고르기\x20실패',_0x128e14),_0x1459a9(_0x456318,{'id':_0x392988,'ok':![],'error':salonL('스타일을\x20입히지\x20못했어요\x20—\x20먼저\x20사진을\x20찍거나\x20마네킹으로\x20시작해\x20주세요','Could\x20not\x20apply\x20—\x20take\x20a\x20photo\x20or\x20start\x20with\x20the\x20mannequin\x20first')});}});function _0x347296(){if(typeof openShopPanel!=='function')return![];if(document['getElementById']('bbShopPanel'))closeShopPanel();BODY_SHOP['pageUrl']=_0x17b7f7,_0x9a178a=!![];const _0x219ddc=openShopPanel(),_0xe80373=document['getElementById']('bbShopFrame');if(_0xe80373)_0xe80373['title']=salonL('미용실\x20지도','Salon\x20map');const _0x4a4117=document['querySelector']('#bbShopPanel\x20.bb-shop-bar\x20span');if(_0x4a4117)_0x4a4117['textContent']=salonL('미용실\x20지도','Salon\x20map');if(typeof buildBodyGarmentRack==='function')buildBodyGarmentRack();return _0x219ddc;}window['openSalonMap']=_0x347296;if(typeof closeShopPanel==='function'){const _0x2cd844=closeShopPanel;closeShopPanel=function(){return _0x9a178a=![],BODY_SHOP['pageUrl']=_0x876237,_0x2cd844['apply'](this,arguments);};}if(typeof buildBodyGarmentRack==='function'){const _0x3cdf53=buildBodyGarmentRack;buildBodyGarmentRack=function(){const _0x5ce13d=_0x3cdf53['apply'](this,arguments);try{const _0x28f83d=document['getElementById']('bodyGarmentRack');if(SALON_BRIDGE['on']&&_0x28f83d&&!_0x28f83d['querySelector']('.bb-salon-btn')){const _0x5ca9c0=document['createElement']('button');_0x5ca9c0['type']='button',_0x5ca9c0['className']='bb-salon-btn'+(_0x9a178a?'\x20on':''),_0x5ca9c0['textContent']=_0x9a178a?salonL('미용실\x20닫기','Close\x20salons'):salonL('미용실','Salons'),_0x5ca9c0['title']=salonL('근처\x20미용실\x20지도에서\x20헤어스타일을\x20골라\x20입어\x20봅니다','Find\x20salons\x20nearby\x20and\x20try\x20their\x20hairstyles'),_0x5ca9c0['addEventListener']('click',()=>_0x9a178a?closeShopPanel():_0x347296()),_0x28f83d['appendChild'](_0x5ca9c0);if(_0x9a178a)for(const _0x19c550 of _0x28f83d['querySelectorAll']('button')){if(_0x19c550===_0x5ca9c0||!/^(옷 닫기|Close clothes)$/['test'](_0x19c550['textContent']['trim']()))continue;const _0x1ca088=_0x19c550['cloneNode'](![]);_0x1ca088['textContent']=salonL('옷\x20고르기','Browse\x20clothes'),_0x1ca088['classList']['remove']('on'),_0x1ca088['addEventListener']('click',()=>{closeShopPanel(),openShopPanel();}),_0x19c550['replaceWith'](_0x1ca088);}}}catch(_0x276651){}return _0x5ce13d;};}}());const SALON_UPLOAD={'path':'/admin/salons/upload','thumbPx':0x140,'thumbQuality':0.72};function _salonUploadable(_0x2b0c48){return!!(_0x2b0c48&&_0x2b0c48['isCustom']&&_0x2b0c48['spec']&&typeof _0x2b0c48['spec']==='object'&&_0x2b0c48['spec']['cut']);}function syncSalonUploadBtn(){const _0x572ca4=document['getElementById']('salonUploadBtn');if(!_0x572ca4)return;const _0xf20135=typeof state!=='undefined'?state['selectedStyle']:null;_0x572ca4['disabled']=!_salonUploadable(_0xf20135),_0x572ca4['textContent']=salonL('✂\x20미용실에\x20올리기','✂\x20Upload\x20to\x20salon'),_0x572ca4['title']=_0xf20135&&!_0xf20135['isCustom']?salonL('앱\x20기본\x20스타일은\x20올릴\x20수\x20없어요\x20—\x20직접\x20만들어\x20등록한\x20스타일을\x20골라\x20주세요','Built-in\x20styles\x20cannot\x20be\x20uploaded\x20—\x20pick\x20a\x20style\x20you\x20made\x20and\x20saved'):_0xf20135&&!_0xf20135['spec']?salonL('3D\x20준비\x20전에\x20등록한\x20스타일이라\x20올릴\x20수\x20없어요\x20—\x203D\x20화면을\x20연\x20뒤\x20다시\x20등록해\x20주세요','This\x20style\x20was\x20saved\x20before\x203D\x20was\x20ready\x20—\x20open\x203D\x20and\x20save\x20it\x20again'):salonL('고른\x20내\x20스타일을\x20내\x20미용실\x20헤어스타일로\x20올립니다\x20(미용실\x20관리자\x20로그인\x20필요)','Upload\x20the\x20selected\x20style\x20to\x20your\x20salon\x20(salon\x20admin\x20login\x20needed)');}function _styleThumb(_0x2d5fcc){try{if(!_0x2d5fcc||!state['specAppliedId']||state['specAppliedId']!==_0x2d5fcc['specId'])return null;const _0x2db2f6=document['getElementById']('adjustCanvas');if(!_0x2db2f6||!_0x2db2f6['width']||!_0x2db2f6['height'])return null;const _0x1cfa67=SALON_UPLOAD['thumbPx'],_0x4d9d45=Math['min'](_0x2db2f6['width'],_0x2db2f6['height']),_0x1fdfd7=document['createElement']('canvas');_0x1fdfd7['width']=_0x1fdfd7['height']=_0x1cfa67;const _0x4df3c7=_0x1fdfd7['getContext']('2d');_0x4df3c7['fillStyle']='#1b1816',_0x4df3c7['fillRect'](0x0,0x0,_0x1cfa67,_0x1cfa67),_0x4df3c7['drawImage'](_0x2db2f6,(_0x2db2f6['width']-_0x4d9d45)/0x2,(_0x2db2f6['height']-_0x4d9d45)/0x2,_0x4d9d45,_0x4d9d45,0x0,0x0,_0x1cfa67,_0x1cfa67);const _0x89af1b=_0x1fdfd7['toDataURL']('image/jpeg',SALON_UPLOAD['thumbQuality']);return _0x89af1b['length']<0x1d4c0?_0x89af1b:null;}catch(_0x28e765){return null;}}function _b64url(_0x23bf9a){const _0x95ae7b=new TextEncoder()['encode'](_0x23bf9a);let _0x5a9143='';for(let _0x57d125=0x0;_0x57d125<_0x95ae7b['length'];_0x57d125+=0x8000)_0x5a9143+=String['fromCharCode']['apply'](null,_0x95ae7b['subarray'](_0x57d125,_0x57d125+0x8000));return btoa(_0x5a9143)['replace'](/\+/g,'-')['replace'](/\//g,'_')['replace'](/=+$/,'');}function _salonNotice(_0x2162e8){if(typeof showToast==='function')showToast(_0x2162e8);else alert(_0x2162e8);}function uploadStyleToSalon(){const _0x238218=typeof state!=='undefined'?state['selectedStyle']:null;if(!_salonUploadable(_0x238218))return _salonNotice(salonL('직접\x20만들어\x20등록한\x20스타일을\x20먼저\x20골라\x20주세요','Pick\x20a\x20style\x20you\x20made\x20and\x20saved\x20first')),![];const _0x312d47=JSON['parse'](JSON['stringify'](_0x238218['spec']));_0x312d47['name']=String(_0x238218['name']||_0x312d47['name']||'')['slice'](0x0,0x50);if(!_0x312d47['color']&&typeof _0x238218['colorHex']==='string'&&/^#[0-9A-Fa-f]{6}$/['test'](_0x238218['colorHex']))_0x312d47['color']=_0x238218['colorHex']['toUpperCase']();_0x312d47['gyeol']={'app':'gyeol','v':0x1,'at':new Date()['toISOString']()};const _0x1f0e8c=Object['assign']({},_0x312d47);delete _0x1f0e8c['groom'];if(JSON['stringify'](_0x1f0e8c)['length']>SALON_BRIDGE['maxBytes'])return _salonNotice(salonL('스타일\x20정보가\x20너무\x20커서\x20올릴\x20수\x20없어요','This\x20style\x20is\x20too\x20large\x20to\x20upload')),![];let _0x3503b7='';try{_0x3503b7=new URL(BODY_SHOP['pageUrl'],location['href'])['origin'];}catch(_0x59658e){return![];}const _0x50328d=typeof _0x238218['thumb']==='string'&&/^data:image\/jpeg;base64,/['test'](_0x238218['thumb'])?_0x238218['thumb']:_styleThumb(_0x238218),_0x39dfa0=_b64url(JSON['stringify']({'spec':_0x312d47,'thumb':_0x50328d})),_0x2818c3=window['open'](_0x3503b7+SALON_UPLOAD['path']+'#d='+_0x39dfa0,'_blank');if(!_0x2818c3)return _salonNotice(salonL('팝업이\x20막혔어요\x20—\x20팝업을\x20허용하고\x20다시\x20눌러\x20주세요','Pop-up\x20blocked\x20—\x20allow\x20pop-ups\x20and\x20try\x20again')),![];try{_0x2818c3['opener']=null;}catch(_0x33f745){}return!![];}window['uploadStyleToSalon']=uploadStyleToSalon,(function(){if(typeof syncStyleDeleteBtn==='function'){const _0x4c2883=syncStyleDeleteBtn;syncStyleDeleteBtn=function(){const _0xa191d1=_0x4c2883['apply'](this,arguments);try{syncSalonUploadBtn();}catch(_0x314912){}return _0xa191d1;};}if(typeof buildStyleGrid==='function'){const _0x5a573d=buildStyleGrid;buildStyleGrid=function(){const _0x19ff42=_0x5a573d['apply'](this,arguments);try{syncSalonUploadBtn();}catch(_0x51f46c){}return _0x19ff42;};}document['addEventListener']('click',_0x49b9fe=>{if(_0x49b9fe['target']&&_0x49b9fe['target']['closest']&&_0x49b9fe['target']['closest']('[onclick*=\x22setLang\x22],\x20[onclick*=\x22toggleLang\x22],\x20#langToggle,\x20.lang-btn'))setTimeout(()=>{syncSalonUploadBtn();if(document['getElementById']('bodyGarmentRack')&&typeof buildBodyGarmentRack==='function')buildBodyGarmentRack();},0x0);},!![]);if(document['readyState']==='loading')document['addEventListener']('DOMContentLoaded',syncSalonUploadBtn);else syncSalonUploadBtn();}());
+// ============================================================================
+// 35-salon-bridge.js (2026-11-01) — 마켓플레이스 "미용실 지도" ↔ GYEOL 헤어스타일 입어 보기
+// ============================================================================
+// · 3D 화면 아래 옷장 줄(bodyGarmentRack)에 「미용실」 버튼을 붙임 → 쇼핑몰 패널(iframe)을 /salons 로 엶
+// · 지도에서 미용실의 스타일을 고르면 마켓플레이스가 보냄:
+//     { type: "gyeol-style", id, name, gender, salon: { id, name }, spec }
+//   spec 은 STYLE_SPECS 와 같은 형식(cut·perm·styling·color …). 순수 데이터만 통과시킨 뒤
+//   STYLE_SPECS["salon_<id>"] 로 등록하고 applyStyleSpecAndRender 로 3D 머리에 입힘.
+// · 결과를 돌려줌: { type: "gyeol-style-result", id, ok, pending?, error? }  (보낸 창·출처로만)
+// · 끄기: SALON_BRIDGE.on = false
+// 21-body-base.js(BODY_SHOP·openShopPanel·closeShopPanel·buildBodyGarmentRack),
+// 16-style-spec-diag.js(STYLE_SPECS), 17a-mannequin.js(applyStyleSpecAndRender) 다음에 불러야 함.
+// ============================================================================
+const SALON_BRIDGE = { on: true, path: '/salons', closeAfterApply: true, maxBytes: 512 * 1024 }; // (2026-11-01) 앱이 원본을 재서 만든 스타일은 수십 KB — 넉넉히
+// 앱 언어(uiLang)를 따름 — 영어: en · 한국어: ko
+function salonL(ko, en) { try { return typeof uiLang !== 'undefined' && uiLang === 'en' ? en : ko; } catch (e) { return ko; } }
+
+(function () {
+  if (typeof window === 'undefined' || typeof BODY_SHOP === 'undefined') return;
+
+  let shopOrigin = '';
+  let shopUrl = '';
+  try {
+    const u = new URL(BODY_SHOP.pageUrl, location.href);
+    shopOrigin = u.origin;
+    shopUrl = u.href;
+  } catch (e) { return; }
+  const salonUrl = shopOrigin + SALON_BRIDGE.path;
+  let salonOpen = false;
+
+  // ---- 스펙 정리: 마켓플레이스 src/lib/salons-db.ts cleanSpec 과 같은 규칙 --------------------
+  const BAD = new Set(['__proto__', 'prototype', 'constructor']);
+  function clean(v, depth) {
+    if (depth > 10) throw new Error('too deep');
+    if (v === null || typeof v === 'boolean') return v;
+    if (typeof v === 'number') { if (!isFinite(v)) throw new Error('bad number'); return v; }
+    if (typeof v === 'string') { if (v.length > 500000) throw new Error('long string'); return v; }
+    if (Array.isArray(v)) { if (v.length > 20000) throw new Error('long array'); return v.map(x => clean(x, depth + 1)); }
+    if (typeof v === 'object') {
+      const out = {};
+      for (const k of Object.keys(v)) {
+        if (BAD.has(k) || !/^[A-Za-z][A-Za-z0-9_]{0,40}$/.test(k)) throw new Error('bad key ' + k);
+        out[k] = clean(v[k], depth + 1);
+      }
+      return out;
+    }
+    throw new Error('not data');
+  }
+  // spec.groom(빗질·지우기 명령, 37-groom-recipe.js)은 base64 덩어리라 일반 규칙(글자 120자) 대신 따로 검사
+  const B64 = /^[A-Za-z0-9+/]*={0,2}$/;
+  function cleanGroom(g) {
+    if (!g || typeof g !== 'object' || Array.isArray(g)) return undefined;
+    const out = { v: typeof g.v === 'number' ? g.v : 1 };
+    if (typeof g.comb === 'string' && g.comb.length <= 260000 && B64.test(g.comb)) out.comb = g.comb;
+    if (typeof g.erase === 'string' && g.erase.length <= 4000 && B64.test(g.erase)) out.erase = g.erase;
+    return out.comb || out.erase ? out : undefined;
+  }
+  function cleanSpec(raw) {
+    let groom;
+    if (raw && typeof raw === 'object' && !Array.isArray(raw) && 'groom' in raw) {
+      groom = cleanGroom(raw.groom);
+      raw = Object.assign({}, raw); delete raw.groom;
+    }
+    const spec = clean(raw, 0);
+    if (!spec || typeof spec !== 'object' || Array.isArray(spec)) throw new Error('스펙이 객체가 아닙니다');
+    if (!spec.cut || typeof spec.cut !== 'object') throw new Error('스펙에 cut 이 없습니다');
+    if (spec.color !== undefined && !/^#[0-9A-Fa-f]{6}$/.test(String(spec.color))) delete spec.color;
+    if (JSON.stringify(spec).length > SALON_BRIDGE.maxBytes) throw new Error('스펙이 너무 큽니다');
+    if (groom) spec.groom = groom;
+    return spec;
+  }
+
+  function reply(ev, msg) {
+    try { if (ev.source) ev.source.postMessage(Object.assign({ type: 'gyeol-style-result' }, msg), ev.origin); } catch (e) { /* 창이 닫힘 */ }
+  }
+
+  function toast(t) { if (typeof bodyToast === 'function') bodyToast(t); }
+
+  // ---- 메시지 받기 ----------------------------------------------------------------------------
+  window.addEventListener('message', ev => {
+    if (!SALON_BRIDGE.on || ev.origin !== shopOrigin) return;
+    let d = ev.data;
+    if (typeof d === 'string') { try { d = JSON.parse(d); } catch (e) { return; } }
+    if (!d || d.type !== 'gyeol-style') return;
+
+    const rawId = String(d.id || '');
+    if (!/^[A-Za-z0-9_-]{1,80}$/.test(rawId)) return reply(ev, { id: rawId, ok: false, error: salonL('잘못된 스타일 id', 'Invalid style id') });
+    let spec;
+    try { spec = cleanSpec(d.spec); } catch (e) { return reply(ev, { id: rawId, ok: false, error: salonL('스타일 스펙을 읽지 못했어요: ', 'Could not read the style: ') + e.message }); }
+
+    const salonName = d.salon && typeof d.salon.name === 'string' ? d.salon.name.slice(0, 80) : '';
+    const styleName = typeof d.name === 'string' ? d.name.slice(0, 80) : (spec.name || salonL('미용실 스타일', 'Salon style'));
+    spec.name = salonName ? salonName + ' · ' + styleName : styleName;
+
+    const key = 'salon_' + rawId.replace(/-/g, '_');
+    if (typeof STYLE_SPECS === 'undefined' || typeof applyStyleSpecAndRender !== 'function') {
+      return reply(ev, { id: rawId, ok: false, error: salonL('이 버전의 GYEOL 은 스타일 입어 보기를 지원하지 않아요', 'This GYEOL version cannot try on styles') });
+    }
+    STYLE_SPECS[key] = spec;
+    if (SALON_BRIDGE.closeAfterApply) closeShopPanel();
+
+    // 앱의 정석 순서를 그대로 타되, 중간 화면은 안 보이고 바로 3D 전신으로:
+    //   ① 미용실 스타일을 스타일 목록에 카드로 넣음(이번 실행 동안만 · 저장 안 함 · 「미용실에 올리기」 대상 아님)
+    //   ② selectStyle = 손님이 스타일 화면에서 카드를 누른 것과 같은 준비(섹션 초기화 · 마네킹 · 스펙 예약)
+    //   ③ 조정 화면 들어갈 때 하던 "예약 스펙 입히기"를 화면 이동 없이 실행
+    //   ④ 입혀지면 3D 화면(model3d)을 열어 전신을 새로 그림 → 조정 화면 · 3D 가 같은 머리
+    try {
+      const card = {
+        id: key, specId: key, spec: spec, name: styleName,
+        tags: salonName ? salonL('미용실 · ', 'Salon · ') + salonName : salonL('미용실 스타일', 'Salon style'),
+        isSalon: true,
+        colorHex: spec.color || '#6B4A2E',
+        length: 50, curl: spec.perm && typeof spec.perm.curl === 'number' ? spec.perm.curl : 0, volume: 50,
+      };
+      const at = STYLES.findIndex(x => x && x.id === key);
+      if (at >= 0) STYLES[at] = card; else STYLES.push(card);
+      if (typeof buildStyleGrid === 'function') buildStyleGrid();
+      selectStyle(key);            // 스타일 화면에서 카드를 누른 것과 같은 준비(화면은 안 바뀜) → pendingSpecId 예약
+      // 조정 화면에 들어갈 때 하던 "예약 스펙 입히기"를 화면 이동 없이 여기서 (05 navTo 와 같은 순서)
+      const pend = state.pendingSpecId || key;
+      state.pendingSpecId = null;
+      state.specAppliedId = null;  // 같은 id 면 적용 함수가 "벗기기"로 동작하므로 비움
+      let res = null;
+      try { res = applyStyleSpecAndRender(pend); } catch (e) { console.warn('[미용실] 스펙 적용 실패', e); }
+      // 바로 입혀졌거나(res), 3D 머리를 만드는 중이면(17a 가 다 만든 뒤 스스로 다시 입힘) 끝날 때까지 기다렸다가
+      // 3D 전신 화면을 새로 그림 — 중간 화면(스타일·조정)은 안 보임
+      const t0 = Date.now();
+      (function waitThen3D() {
+        if (state.specAppliedId === pend) {
+          try {
+            if (typeof currentScreen !== 'undefined' && currentScreen === 'model3d') setupModel3DScreen();
+            else navTo('model3d');
+          } catch (e) { console.warn('[미용실] 3D 화면 열기 실패', e); }
+          toast(salonL(spec.name + ' 입혔어요', 'Applied ' + spec.name));
+          return;
+        }
+        if (Date.now() - t0 < 20000) return setTimeout(waitThen3D, 150);
+        // 20초 안에 못 입혔으면(사진·3D 머리가 없는 경우 등) 원래 흐름으로 — 조정 화면에서 입힘
+        console.warn('[미용실] 바로 입히지 못해 조정 화면으로 넘깁니다');
+        state.pendingSpecId = pend;
+        try { navTo('adjust'); } catch (e) { /* 무시 */ }
+        toast(salonL('3D 머리를 먼저 준비해야 해요 — 조정 화면에서 입힐게요', 'The 3D head needs preparing first — applying in Adjust'));
+      })();
+      if (!res) toast(salonL(spec.name + ' 을(를) 입히는 중…', 'Applying ' + spec.name + '…'));
+      return reply(ev, { id: rawId, ok: true, pending: true });
+    } catch (e) {
+      console.warn('[미용실] 스타일 고르기 실패', e);
+      return reply(ev, { id: rawId, ok: false, error: salonL('스타일을 입히지 못했어요 — 먼저 사진을 찍거나 마네킹으로 시작해 주세요', 'Could not apply — take a photo or start with the mannequin first') });
+    }
+  });
+
+  // ---- 「미용실」 버튼 · 지도 패널 --------------------------------------------------------------
+  function openSalonMap() {
+    if (typeof openShopPanel !== 'function') return false;
+    if (document.getElementById('bbShopPanel')) closeShopPanel();
+    BODY_SHOP.pageUrl = salonUrl; // openShopPanel 이 iframe src 로 씀
+    salonOpen = true;
+    const ok = openShopPanel();
+    const fr = document.getElementById('bbShopFrame');
+    if (fr) fr.title = salonL('미용실 지도', 'Salon map');
+    const bar = document.querySelector('#bbShopPanel .bb-shop-bar span');
+    if (bar) bar.textContent = salonL('미용실 지도', 'Salon map');
+    if (typeof buildBodyGarmentRack === 'function') buildBodyGarmentRack();
+    return ok;
+  }
+  window.openSalonMap = openSalonMap;
+
+  if (typeof closeShopPanel === 'function') {
+    const _close = closeShopPanel;
+    closeShopPanel = function () { // eslint-disable-line no-global-assign
+      salonOpen = false;
+      BODY_SHOP.pageUrl = shopUrl; // 「옷 고르기」는 다시 /shop
+      return _close.apply(this, arguments);
+    };
+  }
+
+  if (typeof buildBodyGarmentRack === 'function') {
+    const _build = buildBodyGarmentRack;
+    buildBodyGarmentRack = function () { // eslint-disable-line no-global-assign
+      const r = _build.apply(this, arguments);
+      try {
+        const rack = document.getElementById('bodyGarmentRack');
+        if (SALON_BRIDGE.on && rack && !rack.querySelector('.bb-salon-btn')) {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'bb-salon-btn' + (salonOpen ? ' on' : '');
+          b.textContent = salonOpen ? salonL('미용실 닫기', 'Close salons') : salonL('미용실', 'Salons');
+          b.title = salonL('근처 미용실 지도에서 헤어스타일을 골라 입어 봅니다', 'Find salons nearby and try their hairstyles');
+          b.addEventListener('click', () => (salonOpen ? closeShopPanel() : openSalonMap()));
+          rack.appendChild(b);
+          // 지도가 열려 있을 땐 「옷 닫기」 대신 「옷 고르기」로 보이게
+          if (salonOpen) {
+            for (const x of rack.querySelectorAll('button')) {
+              if (x === b || !/^(옷 닫기|Close clothes)$/.test(x.textContent.trim())) continue;
+              const n = x.cloneNode(false); // 원래 「닫기」 동작을 떼어 내고 「옷 고르기」로 바꿈
+              n.textContent = salonL('옷 고르기', 'Browse clothes');
+              n.classList.remove('on');
+              n.addEventListener('click', () => { closeShopPanel(); openShopPanel(); });
+              x.replaceWith(n);
+            }
+          }
+        }
+      } catch (e) { /* 버튼만 못 붙임 */ }
+      return r;
+    };
+  }
+})();
+
+// ============================================================================
+// (2026-11-01) 「미용실에 올리기」 — 스타일 화면 아래쪽(← 촬영 · 삭제 · 조정하기 →) 줄의 버튼
+// ============================================================================
+// · 디자이너가 앱에서 등록한 스타일(isCustom · spec 있음)을 고르면 켜짐 → 누르면 마켓플레이스에 올림
+//   (스타일 등록은 원래 기능 registerCurrentAsStyle → buildSpecFromCurrent 가 cm 스펙을 만듦)
+// · 새 창: 마켓플레이스 /admin/salons/upload#d=<base64url JSON { spec, thumb }>
+//   (#뒤는 서버로 안 감 · 로그인 전이면 로그인 거쳐 그대로 돌아옴)
+// · spec.gyeol = { app:'gyeol', v:1, at } — 마켓플레이스는 이 표시가 있는 스펙만 받음
+// · 앱 기본 스타일(레이어드 보브 등)은 못 올림 — 디자이너가 직접 만든 것만
+// ============================================================================
+const SALON_UPLOAD = { path: '/admin/salons/upload', thumbPx: 320, thumbQuality: 0.72 };
+
+function _salonUploadable(st) {
+  return !!(st && st.isCustom && st.spec && typeof st.spec === 'object' && st.spec.cut);
+}
+
+function syncSalonUploadBtn() {
+  const btn = document.getElementById('salonUploadBtn');
+  if (!btn) return;
+  const st = typeof state !== 'undefined' ? state.selectedStyle : null;
+  btn.disabled = !_salonUploadable(st);
+  btn.textContent = salonL('✂ 미용실에 올리기', '✂ Upload to salon');
+  btn.title = st && !st.isCustom
+    ? salonL('앱 기본 스타일은 올릴 수 없어요 — 직접 만들어 등록한 스타일을 골라 주세요', 'Built-in styles cannot be uploaded — pick a style you made and saved')
+    : st && !st.spec
+      ? salonL('3D 준비 전에 등록한 스타일이라 올릴 수 없어요 — 3D 화면을 연 뒤 다시 등록해 주세요', 'This style was saved before 3D was ready — open 3D and save it again')
+      : salonL('고른 내 스타일을 내 미용실 헤어스타일로 올립니다 (미용실 관리자 로그인 필요)', 'Upload the selected style to your salon (salon admin login needed)');
+}
+
+// 손질 화면 캔버스를 작은 JPEG 로 — 지금 그 스타일이 걸려 있을 때만 (아니면 null → 머리색 견본으로 표시)
+function _styleThumb(st) {
+  try {
+    if (!st || !state.specAppliedId || state.specAppliedId !== st.specId) return null;
+    const src = document.getElementById('adjustCanvas');
+    if (!src || !src.width || !src.height) return null;
+    const px = SALON_UPLOAD.thumbPx, side = Math.min(src.width, src.height);
+    const c = document.createElement('canvas');
+    c.width = c.height = px;
+    const g = c.getContext('2d');
+    g.fillStyle = '#1b1816'; g.fillRect(0, 0, px, px);
+    g.drawImage(src, (src.width - side) / 2, (src.height - side) / 2, side, side, 0, 0, px, px);
+    const url = c.toDataURL('image/jpeg', SALON_UPLOAD.thumbQuality);
+    return url.length < 120000 ? url : null;
+  } catch (e) { return null; }
+}
+
+function _b64url(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function _salonNotice(msg) {
+  if (typeof showToast === 'function') showToast(msg); else alert(msg);
+}
+
+function uploadStyleToSalon() {
+  const st = typeof state !== 'undefined' ? state.selectedStyle : null;
+  if (!_salonUploadable(st)) { _salonNotice(salonL('직접 만들어 등록한 스타일을 먼저 골라 주세요', 'Pick a style you made and saved first')); return false; }
+  const spec = JSON.parse(JSON.stringify(st.spec));
+  spec.name = String(st.name || spec.name || '').slice(0, 80);
+  if (!spec.color && typeof st.colorHex === 'string' && /^#[0-9A-Fa-f]{6}$/.test(st.colorHex)) spec.color = st.colorHex.toUpperCase();
+  spec.gyeol = { app: 'gyeol', v: 1, at: new Date().toISOString() };
+  const _noGroom = Object.assign({}, spec); delete _noGroom.groom;
+  if (JSON.stringify(_noGroom).length > SALON_BRIDGE.maxBytes) { _salonNotice(salonL('스타일 정보가 너무 커서 올릴 수 없어요', 'This style is too large to upload')); return false; }
+  let origin = '';
+  try { origin = new URL(BODY_SHOP.pageUrl, location.href).origin; } catch (e) { return false; }
+  // 썸네일: 등록할 때 찍어 둔 다듬은 3D 화면(37) → 없으면 지금 손질 화면
+  const thumb = typeof st.thumb === 'string' && /^data:image\/jpeg;base64,/.test(st.thumb) ? st.thumb : _styleThumb(st);
+  const payload = _b64url(JSON.stringify({ spec: spec, thumb: thumb }));
+  const w = window.open(origin + SALON_UPLOAD.path + '#d=' + payload, '_blank');
+  if (!w) { _salonNotice(salonL('팝업이 막혔어요 — 팝업을 허용하고 다시 눌러 주세요', 'Pop-up blocked — allow pop-ups and try again')); return false; }
+  try { w.opener = null; } catch (e) { /* 무시 */ }
+  return true;
+}
+window.uploadStyleToSalon = uploadStyleToSalon;
+
+// 스타일을 고를 때마다(삭제 버튼과 같은 때) 같이 켜고 끔 · 언어를 바꿔도 다시 그림
+(function () {
+  if (typeof syncStyleDeleteBtn === 'function') {
+    const _sync = syncStyleDeleteBtn;
+    syncStyleDeleteBtn = function () { // eslint-disable-line no-global-assign
+      const r = _sync.apply(this, arguments);
+      try { syncSalonUploadBtn(); } catch (e) { /* 무시 */ }
+      return r;
+    };
+  }
+  if (typeof buildStyleGrid === 'function') {
+    const _grid = buildStyleGrid;
+    buildStyleGrid = function () { // eslint-disable-line no-global-assign
+      const r = _grid.apply(this, arguments);
+      try { syncSalonUploadBtn(); } catch (e) { /* 무시 */ }
+      return r;
+    };
+  }
+  document.addEventListener('click', e => {
+    if (e.target && e.target.closest && e.target.closest('[onclick*="setLang"], [onclick*="toggleLang"], #langToggle, .lang-btn')) setTimeout(() => {
+      syncSalonUploadBtn();
+      if (document.getElementById('bodyGarmentRack') && typeof buildBodyGarmentRack === 'function') buildBodyGarmentRack();
+    }, 0);
+  }, true);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', syncSalonUploadBtn); else syncSalonUploadBtn();
+})();
