@@ -24,6 +24,10 @@ function buildOutfitPlaceholderMesh(_0x1a1b13,_0x2ea528){const _0x4a2310=new THR
  * 원본 좌표를 보관해 몸·옷·머리가 바뀔 때마다 원본에서 다시 계산(누적 없음).
  * 끄기: BODY_DRAPE.on=false; BODY_DRAPE.refresh()   상태: BODY_DRAPE.lines()
  * ========================================================================== */
+// 17a의 잔머리 정리(FLY_TRIM)를 끔 — 17a보다 먼저 로드되므로 기본값을 미리 넣어 둠.
+// (결과 화면 '선분 거르기'가 렌더 때마다 머리 버퍼를 그 자리에서 고쳐 BODY_DRAPE와 엇갈리던 것)
+// 다시 켜기: 콘솔에서 FLY_TRIM.on=true; FLY_TRIM.refresh()
+window.FLY_TRIM = Object.assign({ on: false }, window.FLY_TRIM || {});
 var BODY_DRAPE = (function () {
   'use strict';
   var TAG = '[몸 위로 늘어뜨리기]';
@@ -291,10 +295,14 @@ var BODY_DRAPE = (function () {
   // 한 머리 객체를 작은 조각 시간(budgetMs)씩 나눠 처리 → 화면이 멈추지 않음. 끝나면 한 번에 반영.
   function startJob(obj, done) {
     var geo = obj.geometry, P = geo.attributes.position;
-    // 원본 찾기: 지금 버퍼가 "내가 전에 써 넣은 결과"와 같으면(같은 객체든, 다른 코드가 복사·교체한 것이든)
-    // 그때 보관한 원본을 쓰고, 처음 보는 내용이면 그게 새 원본. → 몸을 몇 번 바꿔도 누적되지 않음.
-    var cur = P.array, cs = checksum(cur), orig = outToOrig.get(cs);
-    if (!orig || orig.length !== cur.length) { orig = cur.slice(); S.newSrc++; } else S.reused++;
+    // 원본 찾기. 결과 화면의 '선분 거르기'(17a FLY_TRIM)가 내가 써 넣은 버퍼를 렌더 때마다 그 자리에서
+    // 다시 고치므로 내용 비교로는 원본을 못 알아봄 → 머리 객체에 원본을 묶어 둠.
+    // ① 같은 머리 객체 + 같은 길이 → 보관한 원본  ② 내 결과를 복사해 만든 새 객체 → 지문으로 찾음  ③ 그 밖 = 새 머리
+    var cur = P.array, rec = objOrig.get(obj), orig = null;
+    if (rec && rec.orig.length === cur.length) orig = rec.orig;
+    if (!orig) { var o2 = outToOrig.get(checksum(cur)); if (o2 && o2.length === cur.length) orig = o2; }
+    if (!orig) { orig = cur.slice(); S.newSrc++; } else S.reused++;
+    objOrig.set(obj, { orig: orig });
     var a = orig.slice();                                    // 원본에서 새로 계산
     var nSeg = (a.length / 6) | 0, g2 = C.joinGap * C.joinGap, s0 = 0, s = 1, myVer = ver;
     function flush(s1) {
@@ -343,14 +351,14 @@ var BODY_DRAPE = (function () {
     step();
   }
   // 버퍼 내용 지문(길이 + 고르게 뽑은 값들의 합). 같은 내용이면 같은 값.
-  var outToOrig = new Map();
+  var outToOrig = new Map(), objOrig = new WeakMap();
   function checksum(arr) {
     var n = arr.length, st = Math.max(1, (n / 4096) | 0), h1 = n, h2 = 0;
     for (var i = 0; i < n; i += st) { var v = arr[i]; h1 = (h1 * 31 + Math.round(v * 1e4)) | 0; h2 += v; }
     return n + ':' + h1 + ':' + h2.toFixed(3);
   }
   function restoreHair(obj) {
-    var geo = obj.geometry, orig = outToOrig.get(checksum(geo.attributes.position.array));
+    var geo = obj.geometry, rec = objOrig.get(obj), orig = rec ? rec.orig : outToOrig.get(checksum(geo.attributes.position.array));
     if (orig && orig.length === geo.attributes.position.array.length) { geo.attributes.position.array.set(orig); geo.attributes.position.needsUpdate = true; }
   }
 
