@@ -27,30 +27,34 @@
   const HAIR_RE = /hair|strand|braid|curl/i;
   const HAIR_EXCLUDE_RE = /hairpin|debug|mask/i;
   const GARMENT_RE = /^(bodyGarment|outfitLoadedOBJ)$/;
+  const SKIN_RE = /^bodyBaseSkin$/;   // 맨살(반팔·원피스 목선 아래)도 막음 — 목 밑동 아래만
 
   const _v = new THREE.Vector3();
   const _inv = new THREE.Matrix4();
 
   function collect(scene) {
     const hair = [], garment = [];
-    (function walk(o, inHair, inGarment) {
+    (function walk(o, inHair, inGarment, inSkin) {
       if (o.visible === false) return;
       const nm = o.name || '';
       if (HAIR_EXCLUDE_RE.test(nm)) inHair = false;
       else if (HAIR_RE.test(nm)) inHair = true;
       if (GARMENT_RE.test(nm)) inGarment = true;
+      if (SKIN_RE.test(nm)) inSkin = true;
       const g = o.geometry;
       if (g && g.attributes && g.attributes.position) {
-        if (inGarment && o.isMesh) {
+        if (inSkin && o.isMesh && !inGarment) {
+          o.userData._hgcSkin = true; garment.push(o);
+        } else if (inGarment && o.isMesh) {
           const mn = ((o.material && o.material.name) || '').toLowerCase();
           if (mn !== 'hair') garment.push(o);
-        } else if (inHair && !inGarment && (o.isLine || o.isLineSegments || o.isMesh || o.isPoints)) {
+        } else if (inHair && !inGarment && !inSkin && (o.isLine || o.isLineSegments || o.isMesh || o.isPoints)) {
           hair.push(o);
         }
       }
       const ch = o.children;
-      for (let i = 0; i < ch.length; i++) walk(ch[i], inHair, inGarment);
-    })(scene, false, false);
+      for (let i = 0; i < ch.length; i++) walk(ch[i], inHair, inGarment, inSkin);
+    })(scene, false, false, false);
     return { hair, garment };
   }
 
@@ -65,7 +69,11 @@
   }
 
   // ---- 옷 깊이 격자 만들기 ----
+  function neckCutY() {
+    try { const y = getNeckBottomY(); return isFinite(y) ? y : null; } catch (e) { return null; }
+  }
   function buildField(list) {
+    const neckY = neckCutY();
     // 월드 좌표 정점 배열 + 바운딩 박스
     const meshes = [];
     let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
@@ -75,10 +83,11 @@
       for (let i = 0; i < pos.count; i++) {
         _v.fromBufferAttribute(pos, i).applyMatrix4(m.matrixWorld);
         w[i * 3] = _v.x; w[i * 3 + 1] = _v.y; w[i * 3 + 2] = _v.z;
+        if (m.userData._hgcSkin && (neckY == null || _v.y > neckY)) continue;
         if (_v.x < x0) x0 = _v.x; if (_v.x > x1) x1 = _v.x;
         if (_v.y < y0) y0 = _v.y; if (_v.y > y1) y1 = _v.y;
       }
-      meshes.push({ w, index: m.geometry.index, count: pos.count });
+      meshes.push({ w, index: m.geometry.index, count: pos.count, skin: !!m.userData._hgcSkin });
     }
     if (!isFinite(x0) || y1 <= y0) return null;
     const H = y1 - y0;
@@ -95,7 +104,9 @@
       if (z < zMin[k]) zMin[k] = z;
       if (z > zMax[k]) zMax[k] = z;
     }
+    let skinCap = Infinity;
     function tri(w, a, b, c) {
+      if (Math.max(w[a * 3 + 1], w[b * 3 + 1], w[c * 3 + 1]) > skinCap) return;
       const ax = w[a * 3], ay = w[a * 3 + 1], az = w[a * 3 + 2];
       const bx = w[b * 3], by = w[b * 3 + 1], bz = w[b * 3 + 2];
       const cx = w[c * 3], cy = w[c * 3 + 1], cz = w[c * 3 + 2];
@@ -110,6 +121,8 @@
       }
     }
     for (const m of meshes) {
+      if (m.skin && neckY == null) continue;           // 목 높이를 모르면 맨살은 안 씀(머리 뿌리를 밀면 안 되니까)
+      skinCap = m.skin ? neckY - H * 0.01 : Infinity;
       if (m.index) {
         const ix = m.index.array;
         for (let i = 0; i + 2 < ix.length; i += 3) tri(m.w, ix[i], ix[i + 1], ix[i + 2]);
@@ -210,9 +223,43 @@
     }
   }
 
-  const origRender = THREE.WebGLRenderer.prototype.render;
-  THREE.WebGLRenderer.prototype.render = function (scene, camera) {
-    try { update(scene); } catch (e) { if (CFG.log) console.warn('[머리-옷 충돌] 실패', e); }
-    return origRender.call(this, scene, camera);
+  /* three r128 은 render 를 prototype 이 아니라 생성자 안에서 인스턴스마다(this.render = …) 만든다.
+     (v20261115a 는 prototype 만 고쳐서 한 번도 안 불렸음 — 그래서 아무 효과가 없었다.)
+     → 생성자를 감싸 새로 만드는 렌더러마다 render 를 감싼다. */
+  function hookRenderer(r) {
+    if (!r || r.__hgcHooked || typeof r.render !== 'function') return r;
+    const orig = r.render;
+    r.render = function (scene, camera) {
+      try { update(scene); } catch (e) { CFG.err = String(e && e.message || e); if (CFG.log) console.warn('[머리-옷 충돌] 실패', e); }
+      return orig.apply(this, arguments);
+    };
+    r.__hgcHooked = true;
+    CFG.renderers = (CFG.renderers || 0) + 1;
+    return r;
+  }
+  CFG.hookRenderer = hookRenderer;
+  const OrigWGL = THREE.WebGLRenderer;
+  function WrappedWGL(params) {
+    const r = new OrigWGL(params);
+    return hookRenderer(r);
+  }
+  WrappedWGL.prototype = OrigWGL.prototype;
+  try { THREE.WebGLRenderer = WrappedWGL; }
+  catch (e) { console.warn('[머리-옷 충돌] THREE.WebGLRenderer 를 감쌀 수 없음', e); }
+  if (THREE.WebGLRenderer !== WrappedWGL) {
+    // 네임스페이스가 고정돼 있으면 prototype 쪽(신버전 three 대비)
+    const pr = OrigWGL.prototype.render;
+    if (typeof pr === 'function') OrigWGL.prototype.render = function (scene) {
+      try { update(scene); } catch (e) { CFG.err = String(e && e.message || e); }
+      return pr.apply(this, arguments);
+    };
+  }
+
+  CFG.lines = function () {
+    const s = CFG.stats;
+    return ['[머리-옷 충돌] ' + (CFG.on ? '켜짐' : '꺼짐') + ' · 감싼 렌더러 ' + (CFG.renderers || 0) +
+      (s ? ' · 직전: 머리 오브젝트 ' + s.hairObjects + ' · 밀어낸 정점 ' + s.pushedVerts + ' · 옷/몸 메시 ' + s.garments : ' · 아직 적용 안 됨') +
+      (CFG.err ? ' ⚠ ' + CFG.err : '')];
   };
+  console.log('[머리-옷 충돌] 설치(v20261115b) — 옷·몸 안에 든 머리 정점을 겉면 밖으로. 상태 HAIR_GARMENT_COLLIDE.lines() · 끄기 HAIR_GARMENT_COLLIDE.on=false');
 })();
