@@ -43,7 +43,7 @@ var BODY_DRAPE = (function () {
     sideDamp: 0.35,     // 옆(x)으로 미는 몫 줄임 — 어깨에서 팔 쪽으로 미끄러지지 않고 앞/뒤로
     sideBias: 0.8,      // 어깨 윗면에서 정해진 쪽(앞/뒤)으로 기울이는 세기
     centerBand: 0.3,
-    frontMin: 0.18,     // 목 밑동에서 몸통 가운데보다 이만큼(≈3.5cm) 앞이어야 앞으로 늘어뜨림    // |x|가 이보다 크면 옆머리 — 사진에서 앞으로 넘긴 쪽이면 앞      // 끊긴 조각 다시 잇기 거리
+    frontMin: 0.0,      // 원래 늘어지던 자리(목 아래 평균)가 몸통 가운데보다 이만큼 앞이면 앞으로    // |x|가 이보다 크면 옆머리 — 사진에서 앞으로 넘긴 쪽이면 앞      // 끊긴 조각 다시 잇기 거리
     replaceBodyOut: true,
     pollMs: 300,
     budgetMs: 12,       // 한 번에 쓰는 시간(ms) — 넘으면 다음 틈에 이어서
@@ -131,8 +131,9 @@ var BODY_DRAPE = (function () {
     for (var km = 0; km < NX * NY; km++) if (spans.ZF[km] > -Infinity) mid[km] = (spans.ZF[km] + spans.ZB[km]) / 2;
     var dOut = chamfer(inside, 1, g), dIn = chamfer(inside, 0, g), sdf = new Float32Array(N), cnt = 0;
     for (var i = 0; i < N; i++) { sdf[i] = (inside[i] ? -(dIn[i] - 0.5) : (dOut[i] - 0.5)) * v; if (inside[i]) cnt++; }
+    var raw = sdf;
     for (var bI = 0; bI < C.blur; bI++) sdf = boxBlur(sdf, g);
-    return { g: g, sdf: sdf, inside: cnt, mid: mid };
+    return { g: g, sdf: sdf, raw: raw, inside: cnt, mid: mid };
   }
   // 3D 챔퍼 거리(3-4-5 근사, 칸 단위). target=1이면 "안 칸까지 거리", 0이면 "밖 칸까지 거리"
   function chamfer(inside, target, g) {
@@ -174,13 +175,13 @@ var BODY_DRAPE = (function () {
     return src;
   }
   // 거리·기울기(삼선형 보간). 범위 밖이면 null
-  var _gr = [0, 0, 0];
+  var _gr = [0, 0, 0], _useRaw = false;
   function sample(x, y, z) {
     var g = F.g, v = g.vox;
     var fx = (x - g.x0) / v - 0.5, fy = (y - g.y0) / v - 0.5, fz = (z - g.z0) / v - 0.5;
     if (fx < 0 || fy < 0 || fz < 0 || fx >= g.NX - 1 || fy >= g.NY - 1 || fz >= g.NZ - 1) return null;
     var ix = fx | 0, iy = fy | 0, iz = fz | 0, tx = fx - ix, ty = fy - iy, tz = fz - iz;
-    var NX = g.NX, NXY = NX * g.NY, s = F.sdf, i0 = (iz * g.NY + iy) * NX + ix;
+    var NX = g.NX, NXY = NX * g.NY, s = _useRaw ? F.raw : F.sdf, i0 = (iz * g.NY + iy) * NX + ix;
     var c000 = s[i0], c100 = s[i0 + 1], c010 = s[i0 + NX], c110 = s[i0 + NX + 1];
     var c001 = s[i0 + NXY], c101 = s[i0 + NXY + 1], c011 = s[i0 + NXY + NX], c111 = s[i0 + NXY + NX + 1];
     var x00 = c000 + (c100 - c000) * tx, x10 = c010 + (c110 - c010) * tx, x01 = c001 + (c101 - c001) * tx, x11 = c011 + (c111 - c011) * tx;
@@ -206,6 +207,7 @@ var BODY_DRAPE = (function () {
     var side = strandSide(px, py, pz, n);                     // +1 앞 · −1 뒤
     for (it = 0; it <= C.iters + 1; it++) {              // 마지막 두 회 = 마무리
       var last = it >= C.iters, need = 0;
+      _useRaw = last;                                     // 마무리는 흐리지 않은 실제 겉면 기준 — 볼록한 어깨·라펠에서 묻히지 않게
       // ① 점마다 필요한 이동량
       for (i = 1; i < n; i++) {
         dx[i] = dy[i] = dz[i] = 0;
@@ -235,7 +237,9 @@ var BODY_DRAPE = (function () {
         var f = L0[i] / l; px[i] = px[i - 1] + ex * f; py[i] = py[i - 1] + ey * f; pz[i] = pz[i - 1] + ez * f;
       }
     }
+    _useRaw = true;
     if (hit) for (i = 1; i < n; i++) if (py[i] < yTop) { var dd = sample(px[i], py[i], pz[i]); if (dd !== null && dd < 0) S.left++; }
+    _useRaw = false;
     return hit;
   }
   // 가닥이 앞/뒤 어느 쪽으로 갈지: 목 밑동 높이에서의 z가 그 자리 몸통 가운데보다 앞이면 앞.
@@ -253,12 +257,18 @@ var BODY_DRAPE = (function () {
         if (f) { var right = (x >= 0) === (drapeInfo.signX > 0), sd = right ? f.R : f.L; if (sd && sd.draped) return 1; }
       } catch (e) {}
     }
-    var ix = Math.max(0, Math.min(g.NX - 1, ((x - g.x0) / g.vox) | 0)), mz = NaN;
-    for (var iy = g.NY - 1; iy >= 0 && iy > g.NY - 30; iy--) { var mm = F.mid[iy * g.NX + ix]; if (mm === mm) { mz = mm; break; } }
-    if (mz !== mz) mz = 0;
-    // 확실히 앞(턱·가슴 쪽)에 있는 가닥만 앞으로. 애매한 띠는 전부 뒤로 — 같은 다발이 어깨 능선에서
-    // 앞/뒤로 갈라져 '말안장'처럼 벌어지는 것을 막음
-    return z >= mz + C.frontMin ? 1 : -1;
+    // 가닥이 원래 '어디로 늘어지려 했는지'로 정함: 목 밑동 아래 부분의 평균 z를 그 자리 몸통 가운데와 비교.
+    // 한 다발은 끝이 같은 쪽으로 모이므로 다발째 같은 쪽으로 감(말안장·앞머리 벌어짐 방지).
+    var sz = 0, sm = 0, cnt = 0;
+    for (i = 1; i < n; i++) {
+      if (py[i] >= g.y1) continue;
+      var jx = Math.max(0, Math.min(g.NX - 1, ((px[i] - g.x0) / g.vox) | 0)), jy = ((py[i] - g.y0) / g.vox) | 0;
+      if (jy < 0 || jy >= g.NY) continue;
+      var mm = F.mid[jy * g.NX + jx]; if (mm !== mm) continue;
+      sz += pz[i]; sm += mm; cnt++;
+    }
+    if (!cnt) return z >= 0 ? 1 : -1;
+    return (sz - sm) / cnt >= C.frontMin ? 1 : -1;
   }
   // 이동량을 이웃 점에 퍼뜨리되 큰 값은 지킴(줄어들면 다시 파고드니까) — 움직이는 구간만
   var _tmp = new Float32Array(4096);
