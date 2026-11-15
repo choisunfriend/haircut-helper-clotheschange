@@ -49,7 +49,7 @@ var BODY_DRAPE = (function () {
     budgetMs: 12,       // 한 번에 쓰는 시간(ms) — 넘으면 다음 틈에 이어서
     log: true
   }, window.BODY_DRAPE || {});
-  var S = C.stats = { strands: 0, joined: 0, touched: 0, pts: 0, left: 0, vox: 0, ms: 0, sdfMs: 0, err: null };
+  var S = C.stats = { newSrc: 0, reused: 0, strands: 0, joined: 0, touched: 0, pts: 0, left: 0, vox: 0, ms: 0, sdfMs: 0, err: null };
   var F = null, fieldSig = '', applied = new WeakMap(), ver = 1, busy = false;
 
   function screen() { try { return currentScreen; } catch (e) { return ''; } }
@@ -291,8 +291,10 @@ var BODY_DRAPE = (function () {
   // 한 머리 객체를 작은 조각 시간(budgetMs)씩 나눠 처리 → 화면이 멈추지 않음. 끝나면 한 번에 반영.
   function startJob(obj, done) {
     var geo = obj.geometry, P = geo.attributes.position;
-    var orig = geo.userData.__drapeOrig;
-    if (!orig || orig.length !== P.array.length) orig = geo.userData.__drapeOrig = P.array.slice();
+    // 원본 찾기: 지금 버퍼가 "내가 전에 써 넣은 결과"와 같으면(같은 객체든, 다른 코드가 복사·교체한 것이든)
+    // 그때 보관한 원본을 쓰고, 처음 보는 내용이면 그게 새 원본. → 몸을 몇 번 바꿔도 누적되지 않음.
+    var cur = P.array, cs = checksum(cur), orig = outToOrig.get(cs);
+    if (!orig || orig.length !== cur.length) { orig = cur.slice(); S.newSrc++; } else S.reused++;
     var a = orig.slice();                                    // 원본에서 새로 계산
     var nSeg = (a.length / 6) | 0, g2 = C.joinGap * C.joinGap, s0 = 0, s = 1, myVer = ver;
     function flush(s1) {
@@ -324,6 +326,8 @@ var BODY_DRAPE = (function () {
         if ((s & 255) === 0 && performance.now() - t0 > C.budgetMs) { setTimeout(step, 0); return; }
       }
       P.array.set(a); P.needsUpdate = true;
+      outToOrig.set(checksum(a), orig);                      // 이 결과 → 이 원본
+      if (outToOrig.size > 6) outToOrig.delete(outToOrig.keys().next().value);
       var T = geo.attributes.tng;                               // 머리 빛(HAIR_LOOK)의 결 방향
       if (T && T.itemSize === 3 && T.count === P.count) {
         var ta = T.array;
@@ -338,8 +342,15 @@ var BODY_DRAPE = (function () {
     }
     step();
   }
+  // 버퍼 내용 지문(길이 + 고르게 뽑은 값들의 합). 같은 내용이면 같은 값.
+  var outToOrig = new Map();
+  function checksum(arr) {
+    var n = arr.length, st = Math.max(1, (n / 4096) | 0), h1 = n, h2 = 0;
+    for (var i = 0; i < n; i += st) { var v = arr[i]; h1 = (h1 * 31 + Math.round(v * 1e4)) | 0; h2 += v; }
+    return n + ':' + h1 + ':' + h2.toFixed(3);
+  }
   function restoreHair(obj) {
-    var geo = obj.geometry, orig = geo.userData.__drapeOrig;
+    var geo = obj.geometry, orig = outToOrig.get(checksum(geo.attributes.position.array));
     if (orig && orig.length === geo.attributes.position.array.length) { geo.attributes.position.array.set(orig); geo.attributes.position.needsUpdate = true; }
   }
 
@@ -406,7 +417,7 @@ var BODY_DRAPE = (function () {
   C.lines = function () {
     return [TAG + ' ' + (C.on ? '켜짐' : '꺼짐') + ' — 거리장 몸 안 칸 ' + S.vox + '(' + Math.round(S.sdfMs) + 'ms · 흐리기 ' + C.blur + ') · 가닥 ' + S.strands +
       '(끊긴 데 이음 ' + S.joined + ') 중 몸에 닿은 ' + S.touched + ' · 밀어낸 점 ' + S.pts + ' · 끝내 몸 안에 남은 점 ' + S.left +
-      ' · 띄움 ' + (C.margin * 19.3).toFixed(1) + 'cm · ' + Math.round(S.ms) + 'ms' + (C.replaceBodyOut ? ' · BODY_OUT 대신 씀' : '') + (S.err ? ' ⚠ ' + S.err : '')];
+      ' · 원본 새로 ' + S.newSrc + '/다시 씀 ' + S.reused + ' · 띄움 ' + (C.margin * 19.3).toFixed(1) + 'cm · ' + Math.round(S.ms) + 'ms' + (C.replaceBodyOut ? ' · BODY_OUT 대신 씀' : '') + (S.err ? ' ⚠ ' + S.err : '')];
   };
   C._test = { startJob: startJob, gridFor: gridFor, buildField: buildField, drapeStrand: drapeStrand, set: function (f) { F = f; }, sample: sample };
   if (typeof setInterval === 'function') setInterval(tick, C.pollMs);
