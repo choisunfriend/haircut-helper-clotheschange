@@ -19,7 +19,13 @@
     on: true,
     gridN: 220,        // 옷 높이 방향 격자 칸 수
     marginFrac: 0.006, // 옷 높이 대비 겉면에서 띄울 거리
-    fillHoles: 2,      // 빈 칸 메우기 반복 횟수(얇은 틈 사이로 빠지는 것 방지)
+    fillHoles: 2,
+    restFrac: 0.01,     // 어깨 윗면에서 이보다 얕게 든 점은 위에 얹음(옷 높이 대비)
+    sweepK: 4,          // 닿은 자리 위로 휘는 길이 = 밀린 거리 × 이 값
+    sweepMaxFrac: 0.12, // 휘는 길이 상한(옷 높이 대비 · 넘어가면 이상한 가닥)
+    sweepIter: 40,      // 펴기 반복 횟수(많을수록 매끈한 곡선)
+    rootKeepPts: 3,     // 가닥 뿌리 쪽 이 점 수는 안 건드림
+    minJumpFrac: 0.008, // 이보다 크게 옮겨진 첫 점부터 다듬기      // 빈 칸 메우기 반복 횟수(얇은 틈 사이로 빠지는 것 방지)
     log: false,
     stats: null,
   });
@@ -97,10 +103,12 @@
     const zMin = new Float32Array(GW * GH).fill(Infinity);
     const zMax = new Float32Array(GW * GH).fill(-Infinity);
 
+    let zMinAll = Infinity, zMaxAll = -Infinity;
     function plot(x, y, z) {
       const cx = Math.round((x - x0) / cell), cy = Math.round((y - y0) / cell);
       if (cx < 0 || cy < 0 || cx >= GW || cy >= GH) return;
       const k = cy * GW + cx;
+      if (z < zMinAll) zMinAll = z; if (z > zMaxAll) zMaxAll = z;
       if (z < zMin[k]) zMin[k] = z;
       if (z > zMax[k]) zMax[k] = z;
     }
@@ -145,44 +153,138 @@
       }
       zMin.set(nMin); zMax.set(nMax);
     }
-    return { x0, y0, y1, cell, GW, GH, zMin, zMax, margin: H * CFG.marginFrac };
+    // 위에서 내려다본 윗면 높이(x·z 격자) — 어깨 위에 살짝 걸친 점은 위에 얹기 위함
+    const z0 = zMinAll, GD = Math.max(1, Math.ceil((zMaxAll - zMinAll) / cell) + 1);
+    const topY = new Float32Array(GW * GD).fill(-Infinity);
+    for (let y = 0; y < GH; y++) for (let x = 0; x < GW; x++) {
+      const k = y * GW + x; if (zMin[k] === Infinity) continue;
+      const yy = y0 + y * cell;
+      const a0 = Math.max(0, Math.round((zMin[k] - z0) / cell)), a1 = Math.min(GD - 1, Math.round((zMax[k] - z0) / cell));
+      for (let z = a0; z <= a1; z++) { const t = z * GW + x; if (topY[t] < yy) topY[t] = yy; }
+    }
+    return { x0, y0, y1, z0, GD, topY, cell, GW, GH, zMin, zMax, H, margin: H * CFG.marginFrac };
   }
 
   // ---- 머리카락 밀어내기 ----
+  /* 가닥 단위로 처리 —
+     ① 한 가닥이 몸 안에 처음 들어갈 때 그 직전 점이 몸 가운데보다 앞이었으면 앞면, 아니면 등면으로 정하고 그 가닥은 끝까지 같은 쪽
+        (점마다 따로 정하면 한 가닥이 앞뒤를 오가며 몸을 가로질러 가로줄·선반 모양이 생김)
+     ② 어깨 윗면에 얕게 걸친 점은 앞/뒤로 보내지 않고 윗면 위에 얹음
+     ③ 처음 크게 옮겨진 점부터 가닥을 거슬러 sweepFrac 길이만큼 z를 부드럽게 이어 꺾임을 없앰 */
+  function cellOf(F, x, y) {
+    if (y < F.y0 || y > F.y1) return -1;
+    const cx = Math.round((x - F.x0) / F.cell), cy = Math.round((y - F.y0) / F.cell);
+    if (cx < 0 || cy < 0 || cx >= F.GW || cy >= F.GH) return -1;
+    const k = cy * F.GW + cx;
+    return F.zMin[k] === Infinity ? -1 : k;
+  }
+  function topAt(F, x, z) {
+    const cx = Math.round((x - F.x0) / F.cell), cz = Math.round((z - F.z0) / F.cell);
+    if (cx < 0 || cz < 0 || cx >= F.GW || cz >= F.GD) return -Infinity;
+    return F.topY[cz * F.GW + cx];
+  }
+  function buildStrands(obj, Wp, n) {
+    const strands = [], alias = new Int32Array(n).fill(-1), eps2 = 1e-10;
+    if (obj.isLineSegments) {
+      let cur = null;
+      for (let a = 0; a + 1 < n; a += 2) {
+        const b = a + 1;
+        if (cur) {
+          const p = a - 1, dx = Wp[a * 3] - Wp[p * 3], dy = Wp[a * 3 + 1] - Wp[p * 3 + 1], dz = Wp[a * 3 + 2] - Wp[p * 3 + 2];
+          if (dx * dx + dy * dy + dz * dz < eps2) { alias[a] = p; cur.push(b); continue; }
+        }
+        cur = [a, b]; strands.push(cur);
+      }
+    } else if (obj.isLine) {
+      const all = new Array(n); for (let i = 0; i < n; i++) all[i] = i; strands.push(all);
+    } else {
+      for (let i = 0; i < n; i++) strands.push([i]);
+    }
+    return { strands, alias };
+  }
   function pushHair(obj, F) {
     const g = obj.geometry, pos = g.attributes.position;
     const ud = obj.userData;
-    // 앱이 새로 쓴 좌표면 원본으로 보관, 우리가 마지막으로 쓴 그대로면 보관본에서 복원
     if (!ud._hgcOrig || ud._hgcVer !== pos.version || ud._hgcOrig.length !== pos.array.length) {
       ud._hgcOrig = new Float32Array(pos.array);
     } else {
       pos.array.set(ud._hgcOrig);
     }
-    const arr = pos.array, orig = ud._hgcOrig;
+    const arr = pos.array, orig = ud._hgcOrig, isize = pos.itemSize || 3, n = pos.count;
     obj.updateMatrixWorld(true);
     const M = obj.matrixWorld;
     _inv.copy(M).invert();
-    let moved = 0;
-    const isize = pos.itemSize || 3;
-    for (let i = 0; i < pos.count; i++) {
-      const o = i * isize;
-      _v.set(orig[o], orig[o + 1], orig[o + 2]).applyMatrix4(M);
-      if (_v.y < F.y0 || _v.y > F.y1) continue;
-      const cx = Math.round((_v.x - F.x0) / F.cell), cy = Math.round((_v.y - F.y0) / F.cell);
-      if (cx < 0 || cy < 0 || cx >= F.GW || cy >= F.GH) continue;
-      const k = cy * F.GW + cx;
-      const lo = F.zMin[k], hi = F.zMax[k];
-      if (lo === Infinity) continue;
-      const a = lo - F.margin, b = hi + F.margin;
-      if (_v.z <= a || _v.z >= b) continue;
-      _v.z = (_v.z - a < b - _v.z) ? a : b; // 가까운 겉면 쪽으로
-      _v.applyMatrix4(_inv);
-      arr[o] = _v.x; arr[o + 1] = _v.y; arr[o + 2] = _v.z;
-      moved++;
+    const Wp = new Float32Array(n * 3);
+    for (let i = 0; i < n; i++) {
+      _v.set(orig[i * isize], orig[i * isize + 1], orig[i * isize + 2]).applyMatrix4(M);
+      Wp[i * 3] = _v.x; Wp[i * 3 + 1] = _v.y; Wp[i * 3 + 2] = _v.z;
+    }
+    const { strands, alias } = buildStrands(obj, Wp, n);
+    const m = F.margin, restMax = F.H * CFG.restFrac, minJump = F.H * CFG.minJumpFrac;
+    const NZ = new Float32Array(Wp), changed = new Uint8Array(n);
+    let moved = 0, nStr = 0, nFront = 0, nBack = 0, nRest = 0, nSmooth = 0;
+    for (const st of strands) {
+      let side = 0, k0 = -1;
+      for (let j = 0; j < st.length; j++) {
+        const v = st[j], x = Wp[v * 3], y = Wp[v * 3 + 1], z = Wp[v * 3 + 2];
+        const k = cellOf(F, x, y); if (k < 0) continue;
+        const lo = F.zMin[k], hi = F.zMax[k];
+        if (z <= lo - m || z >= hi + m) continue;
+        if (!side) {
+          const pv = j > 0 ? st[j - 1] : v;
+          side = Wp[pv * 3 + 2] >= (lo + hi) / 2 ? 1 : -1;
+          if (side > 0) nFront++; else nBack++;
+          nStr++;
+        }
+        const tz = side > 0 ? hi + m : lo - m, dZ = Math.abs(tz - z);
+        const top = topAt(F, x, z), dUp = top + m - y;
+        if (dUp >= 0 && dUp < restMax && dUp < dZ) { NZ[v * 3 + 1] = top + m; changed[v] = 1; nRest++; moved++; continue; }
+        NZ[v * 3 + 2] = tz; changed[v] = 1; moved++;
+        if (k0 < 0 && dZ > minJump) k0 = j;
+      }
+      /* ③ 닿은 자리 위를 곡선으로 — 먼저 몸 겉면에 붙인 다음(위 ①②), 닿은 점은 고정하고 그 위쪽 점들을
+         이웃 평균으로 여러 번 고르게 폄(라플라스 다듬기). 휘는 길이는 정해 둔 cm가 아니라 "얼마나 밀렸나(dZ)"에 비례:
+         조금 밀린 가닥은 짧게, 많이 밀린 가닥은 길게 휨(sweepK × dZ · 뿌리 쪽 rootKeepPts 점은 안 건드림). */
+      if (k0 > 0 && CFG.sweepK > 0) {
+        const v0 = st[k0], dz0 = Math.abs(NZ[v0 * 3 + 2] - Wp[v0 * 3 + 2]);
+        const L = Math.min(F.H * CFG.sweepMaxFrac, CFG.sweepK * dz0);
+        let acc = 0, j1 = k0;
+        const jMin = Math.max(1, CFG.rootKeepPts);   // 뿌리 몇 점은 고정(두피에 붙은 자리)
+        for (let j = k0 - 1; j >= jMin; j--) {
+          const a = st[j], b = st[j + 1];
+          acc += Math.hypot(Wp[a * 3] - Wp[b * 3], Wp[a * 3 + 1] - Wp[b * 3 + 1], Wp[a * 3 + 2] - Wp[b * 3 + 2]);
+          if (acc > L) break;
+          j1 = j;
+        }
+        if (j1 < k0) {
+          // j1-1(고정 · 원래 자리) ~ k0(고정 · 겉면) 사이를 펴기. 몸 안으로 다시 들어가면 겉면으로 되돌림
+          const lo = j1, hi = k0 - 1, it = CFG.sweepIter;
+          for (let r = 0; r < it; r++) {
+            for (let j = lo; j <= hi; j++) {
+              const a = st[j], pa = st[j - 1], na = st[j + 1];
+              let z = (NZ[pa * 3 + 2] + NZ[na * 3 + 2]) * 0.5;
+              const k = cellOf(F, NZ[a * 3], NZ[a * 3 + 1]);
+              if (k >= 0) { const lo2 = F.zMin[k] - m, hi2 = F.zMax[k] + m; if (z > lo2 && z < hi2) z = side > 0 ? hi2 : lo2; }
+              NZ[a * 3 + 2] = z; changed[a] = 1;
+            }
+          }
+          nSmooth++;
+        }
+      }
+    }
+    for (let v = 0; v < n; v++) {
+      const p = alias[v]; if (p < 0 || !changed[p]) continue;
+      NZ[v * 3] = NZ[p * 3]; NZ[v * 3 + 1] = NZ[p * 3 + 1]; NZ[v * 3 + 2] = NZ[p * 3 + 2]; changed[v] = 1;
+    }
+    for (let v = 0; v < n; v++) {
+      if (!changed[v]) continue;
+      _v.set(NZ[v * 3], NZ[v * 3 + 1], NZ[v * 3 + 2]).applyMatrix4(_inv);
+      const o = v * isize; arr[o] = _v.x; arr[o + 1] = _v.y; arr[o + 2] = _v.z;
     }
     pos.needsUpdate = true;
     ud._hgcVer = pos.version;
     if (g.boundingSphere) g.computeBoundingSphere();
+    CFG._last = { strands: strands.length, touched: nStr, front: nFront, back: nBack, rest: nRest, smooth: nSmooth };
     return moved;
   }
 
@@ -259,7 +361,8 @@
     const s = CFG.stats;
     return ['[머리-옷 충돌] ' + (CFG.on ? '켜짐' : '꺼짐') + ' · 감싼 렌더러 ' + (CFG.renderers || 0) +
       (s ? ' · 직전: 머리 오브젝트 ' + s.hairObjects + ' · 밀어낸 정점 ' + s.pushedVerts + ' · 옷/몸 메시 ' + s.garments : ' · 아직 적용 안 됨') +
+      (CFG._last ? ' · 가닥 ' + CFG._last.strands + ' 중 몸에 닿은 ' + CFG._last.touched + '(앞 ' + CFG._last.front + ' / 등 ' + CFG._last.back + ') · 어깨 위에 얹은 점 ' + CFG._last.rest + ' · 다듬은 가닥 ' + CFG._last.smooth : '') +
       (CFG.err ? ' ⚠ ' + CFG.err : '')];
   };
-  console.log('[머리-옷 충돌] 설치(v20261115b) — 옷·몸 안에 든 머리 정점을 겉면 밖으로. 상태 HAIR_GARMENT_COLLIDE.lines() · 끄기 HAIR_GARMENT_COLLIDE.on=false');
+  console.log('[머리-옷 충돌] 설치(v20261115d) — 옷·몸 안에 든 머리 정점을 겉면 밖으로. 상태 HAIR_GARMENT_COLLIDE.lines() · 끄기 HAIR_GARMENT_COLLIDE.on=false');
 })();
