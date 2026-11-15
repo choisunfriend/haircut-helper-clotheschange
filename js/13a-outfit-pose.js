@@ -42,7 +42,8 @@ var BODY_DRAPE = (function () {
     joinGap: 0.12,
     sideDamp: 0.35,     // 옆(x)으로 미는 몫 줄임 — 어깨에서 팔 쪽으로 미끄러지지 않고 앞/뒤로
     sideBias: 0.8,      // 어깨 윗면에서 정해진 쪽(앞/뒤)으로 기울이는 세기
-    centerBand: 0.3,    // |x|가 이보다 크면 옆머리 — 사진에서 앞으로 넘긴 쪽이면 앞      // 끊긴 조각 다시 잇기 거리
+    centerBand: 0.3,
+    frontMin: 0.18,     // 목 밑동에서 몸통 가운데보다 이만큼(≈3.5cm) 앞이어야 앞으로 늘어뜨림    // |x|가 이보다 크면 옆머리 — 사진에서 앞으로 넘긴 쪽이면 앞      // 끊긴 조각 다시 잇기 거리
     replaceBodyOut: true,
     pollMs: 300,
     budgetMs: 12,       // 한 번에 쓰는 시간(ms) — 넘으면 다음 틈에 이어서
@@ -243,7 +244,9 @@ var BODY_DRAPE = (function () {
   function strandSide(px, py, pz, n) {
     var g = F.g, i, x = px[0], z = pz[0], y = g.y1;
     for (i = 1; i < n; i++) if (py[i] < g.y1) { x = px[i]; z = pz[i]; y = py[i]; break; }
-    if (Math.abs(x) > C.centerBand) {
+    var own = true;                                           // 사진 인지는 손님 자기 머리일 때만 의미 있음
+    try { var sid = state.specAppliedId; own = !sid || sid === '__original__'; } catch (e) {}
+    if (own && Math.abs(x) > C.centerBand) {
       try {
         if (!drapeInfo) drapeInfo = SHOULDER.recognize();
         var f = drapeInfo && drapeInfo.front;
@@ -253,7 +256,9 @@ var BODY_DRAPE = (function () {
     var ix = Math.max(0, Math.min(g.NX - 1, ((x - g.x0) / g.vox) | 0)), mz = NaN;
     for (var iy = g.NY - 1; iy >= 0 && iy > g.NY - 30; iy--) { var mm = F.mid[iy * g.NX + ix]; if (mm === mm) { mz = mm; break; } }
     if (mz !== mz) mz = 0;
-    return z >= mz + 0.05 ? 1 : -1;
+    // 확실히 앞(턱·가슴 쪽)에 있는 가닥만 앞으로. 애매한 띠는 전부 뒤로 — 같은 다발이 어깨 능선에서
+    // 앞/뒤로 갈라져 '말안장'처럼 벌어지는 것을 막음
+    return z >= mz + C.frontMin ? 1 : -1;
   }
   // 이동량을 이웃 점에 퍼뜨리되 큰 값은 지킴(줄어들면 다시 파고드니까) — 움직이는 구간만
   var _tmp = new Float32Array(4096);
