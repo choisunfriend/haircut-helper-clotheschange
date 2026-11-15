@@ -24,7 +24,9 @@
     sweepK: 4,          // 닿은 자리 위로 휘는 길이 = 밀린 거리 × 이 값
     sweepMaxFrac: 0.12, // 휘는 길이 상한(옷 높이 대비 · 넘어가면 이상한 가닥)
     sweepIter: 40,      // 펴기 반복 횟수(많을수록 매끈한 곡선)
-    rootKeepPts: 3,     // 가닥 뿌리 쪽 이 점 수는 안 건드림
+    rootKeepPts: 3,
+    driftKeep: 0.3,     // 몸에 닿은 뒤 옆(x)으로 흘러가는 큰 흐름을 이 배로 줄임(1 = 그대로)
+    waveWin: 6,         // 큰 흐름 vs 웨이브를 가르는 이동 평균 반폭(점 수)     // 가닥 뿌리 쪽 이 점 수는 안 건드림
     minJumpFrac: 0.008, // 이보다 크게 옮겨진 첫 점부터 다듬기      // 빈 칸 메우기 반복 횟수(얇은 틈 사이로 빠지는 것 방지)
     log: false,
     stats: null,
@@ -222,11 +224,35 @@
     const { strands, alias } = buildStrands(obj, Wp, n);
     const m = F.margin, restMax = F.H * CFG.restFrac, minJump = F.H * CFG.minJumpFrac;
     const NZ = new Float32Array(Wp), changed = new Uint8Array(n);
-    let moved = 0, nStr = 0, nFront = 0, nBack = 0, nRest = 0, nSmooth = 0;
+    let moved = 0, nStr = 0, nFront = 0, nBack = 0, nRest = 0, nSmooth = 0, nDrift = 0;
     for (const st of strands) {
       let side = 0, k0 = -1;
+      /* ⓪ 몸에 처음 닿는 점(e0)부터 아래는 옆(x)으로 흘러가는 큰 흐름을 줄임.
+         머리를 만들 때 몸을 몰라서 몸 안을 지나던 구간은 옆으로 제멋대로 휘어 있음 — 그걸 겉면에 그대로 올리면
+         "가닥 자체가 옆으로 휜" 모양이 됨. 큰 흐름(이동 평균)만 driftKeep 배로 줄이고, 웨이브(잔결)는 그대로 둠. */
+      if (CFG.driftKeep < 1 && st.length > 2) {
+        let e0 = -1;
+        for (let j = 0; j < st.length; j++) {
+          const v = st[j], k = cellOf(F, Wp[v * 3], Wp[v * 3 + 1]); if (k < 0) continue;
+          const z = Wp[v * 3 + 2];
+          if (z > F.zMin[k] - m && z < F.zMax[k] + m) { e0 = j; break; }
+        }
+        if (e0 >= 0) {
+          const W = CFG.waveWin, n2 = st.length, sx = new Float32Array(n2);
+          for (let j = 0; j < n2; j++) {
+            let a = 0, c = 0;
+            for (let t = Math.max(0, j - W); t <= Math.min(n2 - 1, j + W); t++) { a += Wp[st[t] * 3]; c++; }
+            sx[j] = a / c;
+          }
+          for (let j = e0; j < n2; j++) {
+            const v = st[j], wave = Wp[v * 3] - sx[j];
+            NZ[v * 3] = sx[e0] + (sx[j] - sx[e0]) * CFG.driftKeep + wave; changed[v] = 1;
+          }
+          nDrift++;
+        }
+      }
       for (let j = 0; j < st.length; j++) {
-        const v = st[j], x = Wp[v * 3], y = Wp[v * 3 + 1], z = Wp[v * 3 + 2];
+        const v = st[j], x = NZ[v * 3], y = Wp[v * 3 + 1], z = Wp[v * 3 + 2];
         const k = cellOf(F, x, y); if (k < 0) continue;
         const lo = F.zMin[k], hi = F.zMax[k];
         if (z <= lo - m || z >= hi + m) continue;
@@ -284,7 +310,7 @@
     pos.needsUpdate = true;
     ud._hgcVer = pos.version;
     if (g.boundingSphere) g.computeBoundingSphere();
-    CFG._last = { strands: strands.length, touched: nStr, front: nFront, back: nBack, rest: nRest, smooth: nSmooth };
+    CFG._last = { strands: strands.length, touched: nStr, front: nFront, back: nBack, rest: nRest, smooth: nSmooth, drift: nDrift };
     return moved;
   }
 
@@ -361,8 +387,8 @@
     const s = CFG.stats;
     return ['[머리-옷 충돌] ' + (CFG.on ? '켜짐' : '꺼짐') + ' · 감싼 렌더러 ' + (CFG.renderers || 0) +
       (s ? ' · 직전: 머리 오브젝트 ' + s.hairObjects + ' · 밀어낸 정점 ' + s.pushedVerts + ' · 옷/몸 메시 ' + s.garments : ' · 아직 적용 안 됨') +
-      (CFG._last ? ' · 가닥 ' + CFG._last.strands + ' 중 몸에 닿은 ' + CFG._last.touched + '(앞 ' + CFG._last.front + ' / 등 ' + CFG._last.back + ') · 어깨 위에 얹은 점 ' + CFG._last.rest + ' · 다듬은 가닥 ' + CFG._last.smooth : '') +
+      (CFG._last ? ' · 가닥 ' + CFG._last.strands + ' 중 몸에 닿은 ' + CFG._last.touched + '(앞 ' + CFG._last.front + ' / 등 ' + CFG._last.back + ') · 어깨 위에 얹은 점 ' + CFG._last.rest + ' · 다듬은 가닥 ' + CFG._last.smooth + ' · 옆 흐름 줄인 가닥 ' + CFG._last.drift : '') +
       (CFG.err ? ' ⚠ ' + CFG.err : '')];
   };
-  console.log('[머리-옷 충돌] 설치(v20261115d) — 옷·몸 안에 든 머리 정점을 겉면 밖으로. 상태 HAIR_GARMENT_COLLIDE.lines() · 끄기 HAIR_GARMENT_COLLIDE.on=false');
+  console.log('[머리-옷 충돌] 설치(v20261115e) — 옷·몸 안에 든 머리 정점을 겉면 밖으로. 상태 HAIR_GARMENT_COLLIDE.lines() · 끄기 HAIR_GARMENT_COLLIDE.on=false');
 })();
