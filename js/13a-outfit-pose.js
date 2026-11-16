@@ -54,7 +54,7 @@ var BODY_DRAPE = (function () {
     log: true
   }, window.BODY_DRAPE || {});
   var S = C.stats = { newSrc: 0, reused: 0, strands: 0, joined: 0, touched: 0, pts: 0, left: 0, vox: 0, ms: 0, sdfMs: 0, err: null };
-  var F = null, fieldSig = '', applied = new WeakMap(), ver = 1, busy = false;
+  var F = null, fieldSig = '', pendSig = '', applied = new WeakMap(), ver = 1, busy = false;
 
   function screen() { try { return currentScreen; } catch (e) { return ''; } }
   function headGroup() { try { return model3D && model3D.headGroup; } catch (e) { return null; } }
@@ -83,7 +83,18 @@ var BODY_DRAPE = (function () {
 
   /* ---------------- 1) 거리장 ---------------- */
   // 삼각형을 x·y 칸 기둥으로 찍어 앞/뒤 z 범위를 얻음
-  function columnSpans(meshes, toLocal, g) {
+  // obj → hg 상대 행렬을 각 노드의 '로컬' 행렬만으로 곱해 만듦.
+  // matrixWorld는 마지막 렌더 때 값이라, 옷을 막 바꾼 뒤(새 몸/옷이 아직 한 번도 안 그려짐)에는
+  // 머리는 지금 돌려 본 각도, 몸은 회전 없는 자리로 서로 어긋나 거리장이 보는 각도마다 달라졌음.
+  function relTo(obj, hg) {
+    var M = new THREE.Matrix4(), T = new THREE.Matrix4();
+    for (var o = obj; o && o !== hg; o = o.parent) {
+      if (o.matrixAutoUpdate) o.updateMatrix();
+      T.copy(o.matrix); M.premultiply(T);
+    }
+    return M;
+  }
+  function columnSpans(meshes, toLocal, g, hg) {
     var NX = g.NX, NY = g.NY, v = g.vox;
     var ZF = new Float32Array(NX * NY).fill(-Infinity), ZB = new Float32Array(NX * NY).fill(Infinity);
     var M = new THREE.Matrix4(), q = [0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -93,8 +104,7 @@ var BODY_DRAPE = (function () {
       var k = iy * NX + ix; if (z > ZF[k]) ZF[k] = z; if (z < ZB[k]) ZB[k] = z;
     }
     meshes.forEach(function (mesh) {
-      mesh.updateMatrixWorld(true);
-      M.multiplyMatrices(toLocal, mesh.matrixWorld);
+      M.multiplyMatrices(toLocal, relTo(mesh, hg));
       var e = M.elements, G = mesh.geometry, P = G.attributes.position, I = G.index, n = I ? I.count : P.count;
       for (var t = 0; t + 2 < n; t += 3) {
         for (var j = 0; j < 3; j++) {
@@ -376,16 +386,19 @@ var BODY_DRAPE = (function () {
       if (!C.on) { hairs.forEach(function (h) { if (applied.has(h)) { restoreHair(h); applied.delete(h); wake(); } }); return; }
       var rig = hg.getObjectByName('bodyBaseRig'); if (!rig) return;
       var meshes = bodyMeshes(rig); if (!meshes.length) return;
-      var sig = rig.uuid + meshes.map(function (m) { return m.uuid + ':' + m.geometry.attributes.position.count; }).join('|') + '#' + ver;
+      // 몸·옷 자리(위치·배율)까지 지문에 넣고, 두 번 연속 같을 때만(=옷 조각 불러오기가 끝나 멈췄을 때) 계산
+      var rm = relTo(rig, hg).elements, rs = '';
+      for (var ri = 0; ri < 16; ri++) rs += Math.round(rm[ri] * 1e4) + ',';
+      var sig = rig.uuid + '@' + rs + meshes.map(function (m) { return m.uuid + ':' + m.geometry.attributes.position.count; }).join('|') + '#' + ver;
+      if (sig !== fieldSig) { if (sig !== pendSig) { pendSig = sig; return; } }
       var todo = hairs.filter(function (h) { return applied.get(h) !== sig + ':' + h.geometry.attributes.position.array.length; });
       if (!todo.length && sig === fieldSig) return;
       var yTop; try { yTop = getNeckBottomY() + 0.02; } catch (e) { return; }
       if (!isFinite(yTop)) return;
       var t0 = performance.now();
       if (sig !== fieldSig || !F) {
-        hairs[0].updateMatrixWorld(true);
-        var toLocal = new THREE.Matrix4().copy(hairs[0].matrixWorld).invert(), g = gridFor(yTop);
-        F = buildField(columnSpans(meshes, toLocal, g), g); fieldSig = sig; todo = hairs; drapeInfo = null;
+        var toLocal = relTo(hairs[0], hg).invert(), g = gridFor(yTop);
+        F = buildField(columnSpans(meshes, toLocal, g, hg), g); fieldSig = sig; todo = hairs; drapeInfo = null;
         S.sdfMs = performance.now() - t0; S.vox = F.inside;
         if (F.inside < 200) { S.err = '몸 겉면을 못 읽음(안 칸 ' + F.inside + ')'; F = null; fieldSig = ''; return; }
       }
@@ -421,7 +434,7 @@ var BODY_DRAPE = (function () {
     if (document.readyState === 'complete') takeOverBodyOut(); else window.addEventListener('load', takeOverBodyOut);
   }
 
-  C.refresh = function () { ver++; busy = false; fieldSig = ''; F = null; try { BODY_OUT.refresh(); } catch (e) {} tick(); return C.on; };
+  C.refresh = function () { ver++; busy = false; fieldSig = ''; pendSig = ''; F = null; try { BODY_OUT.refresh(); } catch (e) {} tick(); return C.on; };
   C.lines = function () {
     return [TAG + ' ' + (C.on ? '켜짐' : '꺼짐') + ' — 거리장 몸 안 칸 ' + S.vox + '(' + Math.round(S.sdfMs) + 'ms · 흐리기 ' + C.blur + ') · 가닥 ' + S.strands +
       '(끊긴 데 이음 ' + S.joined + ') 중 몸에 닿은 ' + S.touched + ' · 밀어낸 점 ' + S.pts + ' · 끝내 몸 안에 남은 점 ' + S.left +
